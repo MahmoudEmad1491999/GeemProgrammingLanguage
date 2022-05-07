@@ -1,0 +1,5 @@
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net5.0/Geem.csproj.AssemblyReference.cache
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net5.0/Geem.GeneratedMSBuildEditorConfig.editorconfig
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net5.0/Geem.AssemblyInfoInputs.cache
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net5.0/Geem.AssemblyInfo.cs
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net5.0/Geem.csproj.CoreCompileInputs.cache

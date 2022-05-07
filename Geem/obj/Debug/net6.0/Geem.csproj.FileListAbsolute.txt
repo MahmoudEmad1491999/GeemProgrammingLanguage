@@ -1,0 +1,17 @@
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/bin/Debug/net6.0/Geem
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/bin/Debug/net6.0/Geem.deps.json
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/bin/Debug/net6.0/Geem.runtimeconfig.json
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/bin/Debug/net6.0/Geem.dll
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/bin/Debug/net6.0/ref/Geem.dll
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/bin/Debug/net6.0/Geem.pdb
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/bin/Debug/net6.0/Antlr4.Runtime.Standard.dll
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/Geem.csproj.AssemblyReference.cache
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/Geem.GeneratedMSBuildEditorConfig.editorconfig
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/Geem.AssemblyInfoInputs.cache
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/Geem.AssemblyInfo.cs
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/Geem.csproj.CoreCompileInputs.cache
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/Geem.csproj.CopyComplete
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/Geem.dll
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/ref/Geem.dll
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/Geem.pdb
+/home/mahmoud/Home/projects/Graduation/Testing/Geem/obj/Debug/net6.0/Geem.genruntimeconfig.cache
