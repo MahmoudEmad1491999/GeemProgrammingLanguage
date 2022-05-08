@@ -50,6 +50,7 @@ public class GraphGeneratorTraverser
         {"DataTypeContext",0},
         {"CommandStatContext", 0},
         {"CommandContext", 0},
+        {"Command_StatContext", 0},
         {"TerminalNodeImpl", 0}
     };
 

@@ -4,14 +4,14 @@ using static Geem.Parser.GeemParser;
 using Antlr4.Runtime.Tree;
 using Geem.utilties;
 public class GenerateSymbolTableTraverser {
-    public static SymbolTable? GenerateSymbolTable(IParseTree node, SymbolTable? parent){
+    public static SymbolTable GenerateSymbolTable(IParseTree node, SymbolTable parent){
         if(node is ProgramContext){
             var program_node = (ProgramContext) node;
             SymbolTable result = new ProgramSymbolTable(null, "program");
             
             for(int index = 0; index < program_node.ChildCount; index++)
             {
-                SymbolTableEntry? entry = GetSymbolTableEntry(program_node.children[index], result);
+                SymbolTableEntry entry = GetSymbolTableEntry(program_node.children[index], result);
                 result.add_symbol(entry);
             }
 
@@ -32,14 +32,15 @@ public class GenerateSymbolTableTraverser {
 
             for(int index = 0; index < parameters.Length; index++)
             {
-                SymbolTableEntry? entry = GetSymbolTableEntry(parameters[index], result);
+                SymbolTableEntry entry = GetSymbolTableEntry(parameters[index], result);
                 result.add_symbol(entry);
             }
             for(int index = 0; index < statements.Length; index++)
             {
-                SymbolTableEntry? entry = GetSymbolTableEntry(statements[index], result);
+                SymbolTableEntry entry = GetSymbolTableEntry(statements[index], result);
                 result.add_symbol(entry);
             }
+            return result;
         }
         else if(node is OperationDeclContext){
             var operationdecl_node = (OperationDeclContext) node;
@@ -52,20 +53,21 @@ public class GenerateSymbolTableTraverser {
 
             for(int index = 0; index < parameters.Length; index++)
             {
-                SymbolTableEntry? entry = GetSymbolTableEntry(parameters[index], result);
+                SymbolTableEntry entry = GetSymbolTableEntry(parameters[index], result);
                 result.add_symbol(entry);
             }
             for(int index = 0; index < statements.Length; index++)
             {
-                SymbolTableEntry? entry = GetSymbolTableEntry(statements[index], result);
+                SymbolTableEntry entry = GetSymbolTableEntry(statements[index], result);
                 result.add_symbol(entry);
             }
+            return result;
         }
         
         return null;
     }
     
-    public static SymbolTableEntry? GetSymbolTableEntry(IParseTree node, SymbolTable parent){
+    public static SymbolTableEntry GetSymbolTableEntry(IParseTree node, SymbolTable parent){
         if(node is FunctionDeclContext)
         {
             var functiondecl_node = (FunctionDeclContext) node;
@@ -140,7 +142,7 @@ public class GenerateSymbolTableTraverser {
                 throw new Exception($"Type mismatch between variable and initial value: [{variable_datatype}, {initial_val_datatype}]");
             }
 
-            return new GlobalVarSymbolTableEntry(vardecl.ID().GetText(), vardecl.dataType().GetText(), new object());
+            return new LocalVarSymbolTableEntry(vardecl.ID().GetText(), vardecl.dataType().GetText(), new object());
         }
         else if(node is Assignment_StatContext)
         {

@@ -6,10 +6,15 @@ using Antlr4.Runtime.Tree;
 using System.Text;
 
 public class InterpreterTraverser {
+    public static ProgramSymbolTable program_symbol_table = null;
+    public static ProgramContext root = null;
+    public static Stack<Int64> function_call_results = new Stack<long>();
     public static void run(IParseTree node, SymbolTable parent)
     {
         if(node is ProgramContext)
         {
+            InterpreterTraverser.program_symbol_table = (ProgramSymbolTable) parent;
+            InterpreterTraverser.root = (ProgramContext)node;
             var program = (ProgramContext) node;
             // var program_symbol_table = new ProgramSymbolTable(null, "program");
             for(int index = 0; index < program.ChildCount; index++)
@@ -41,7 +46,7 @@ public class InterpreterTraverser {
             var function_name = function_decl.ID().GetText();
             if(function_name == "المدخل") {
                 var statements = function_decl.statementList().statement();
-                var symbol_table_for_function = parent.sub_tables.Find((SymbolTable table) => table.identifier == function_name);
+                var symbol_table_for_function = parent.get_sub_table_by_id(function_name);
                 for(int index = 0; index < statements.Length; index ++)
                 {
                     run(statements[index], symbol_table_for_function);
@@ -52,8 +57,8 @@ public class InterpreterTraverser {
             var l_var_decl = ((Var_Decl_StatContext) node).varDecl();
 
             var init_value = evalExpression(l_var_decl.inititalization().expression(), parent);
-
-            var l_var_symbol = (LocalVarSymbolTableEntry) parent.get_symbol_by_id(l_var_decl.ID().GetText());
+            var symbol = parent.get_symbol_by_id(l_var_decl.ID().GetText());
+            var l_var_symbol = (LocalVarSymbolTableEntry) symbol;
 
             l_var_symbol.value = init_value;
         }
@@ -80,9 +85,11 @@ public class InterpreterTraverser {
                 g_var_symbol.value = value;
             }
         }
-        else if(node is Return_StatContext)
+        else if(node is Result_StatContext)
         {
-
+            Int64 value = (Int64) evalExpression(((Result_StatContext) node).resultStat().expression(), parent);
+            
+            function_call_results.Push(value);
         }else if(node is Result_StatContext) {
 
         }
@@ -96,6 +103,70 @@ public class InterpreterTraverser {
                     run(statements[index], parent);
                 }
             }
+        }
+        else if(node is While_StatContext) 
+        {
+            var while_stat = ((While_StatContext) node).whileStat();
+
+            Int64 condition_value = (Int64) evalExpression(while_stat.expression(), parent);
+            var statements = while_stat.statementList().statement();
+
+            while(condition_value != 0)
+            {
+                for(int index = 0; index < statements.Length; index++) 
+                {
+                    run(statements[index], parent);
+                }    
+            }
+
+        }
+        else if(node is Operation_StatContext)
+        {
+            var operation_call = ((Operation_StatContext) node).operationStat();
+            // get the arguments of the operation call.
+            var arguments = operation_call.argumentList().argument();
+            var arguments_values = new List<Int64>();
+            // evaluate each argument expression.
+            for(int index = 0; index < arguments.Length; index ++) 
+            {
+                arguments_values.Add((Int64)evalExpression(arguments[index], parent));
+            }
+            // get the operation symbol table.
+            OperationSymbolTable operationSymbolTable = (OperationSymbolTable) program_symbol_table.sub_tables.Find(
+                (SymbolTable table) => table.identifier == operation_call.ID().GetText()
+            );
+
+            // initialize the parameters with the corresponding argument expressin value.
+            var parameter_arr = operationSymbolTable.get_parameters_entries();
+            for(int index = 0; index < parameter_arr.Length; index++) 
+            {
+                parameter_arr[index].value = arguments_values[index];
+            }
+            // get the operation node.
+            var operation_nodes = root.GetRuleContexts<OperationDeclContext>();
+            OperationDeclContext operation_node = null;
+            for(int index = 0; index < operation_nodes.Length; index++) 
+            {
+                if(operation_nodes[index].ID().GetText() == operation_call.ID().GetText()) {
+                    operation_node = operation_nodes[index];
+                }
+            }
+            // get the statetment list of the operation.
+            var statements = operation_node.statementList().statement();
+            
+            // run each statements.
+            for(int index = 0; index < statements.Length; index++) 
+            {
+                run(statements[index], operationSymbolTable);
+            }
+        }
+        else if(node is Command_StatContext)
+        {
+            // the only command supported command is print so no checking needed.
+            var command_stat = ((Command_StatContext) node).commandStat().command();
+
+            Int64 expression_value = (Int64)evalExpression(command_stat.expression(), parent);
+            Console.WriteLine(expression_value.ToString());
         }
     }
 
@@ -170,7 +241,129 @@ public class InterpreterTraverser {
             return operand1_value / operand2_value;
 
         }
-        
+        else if(expr is Parenthesis_exprContext) 
+        {
+            return evalExpression(((Parenthesis_exprContext) expr).expression(), parent);
+        }
+        else if(expr is Minus_exprContext)
+        {
+            return -1 * (Int64) evalExpression(((Minus_exprContext) expr).expression(), parent);
+        }
+        else if(expr is Lnot_exprContext)
+        {
+            var logical_expr = (Lnot_exprContext) expr;
+            Int64 logical_expr_value = (Int64) evalExpression(logical_expr.expression(), parent);
+            if(logical_expr_value != 0){
+                return 0;
+            }else {
+                return Int64.MaxValue;
+            }
+        }
+        else if(expr is Comparison_exprContext)
+        {
+            var comp_expr = ((Comparison_exprContext) expr);
+            var operand1 = (Int64) evalExpression(comp_expr.expression(0), parent);
+            var operand2 = (Int64) evalExpression(comp_expr.expression(1), parent);
+
+            if(comp_expr.comparison_op().GetText() == "<")
+            {
+                return (operand1 > operand2) ? Int64.MaxValue: 0;
+            }
+            else if(comp_expr.comparison_op().GetText() == ">")
+            {
+                return (operand1 < operand2) ? Int64.MaxValue: 0;
+            }
+            else if(comp_expr.comparison_op().GetText() == "<=")
+            {
+                return (operand1 >= operand2) ? Int64.MaxValue: 0;
+            }
+            else if(comp_expr.comparison_op().GetText() == ">=")
+            {
+                return (operand1 <= operand2) ? Int64.MaxValue: 0;
+            }
+            return 0;
+        }
+        else if(expr is Equality_exprContext)
+        {
+            var equality_expr = ((Equality_exprContext) expr);
+            var operand1 = (Int64) evalExpression(equality_expr.expression(0), parent);
+            var operand2 = (Int64) evalExpression(equality_expr.expression(1), parent);
+
+            if(equality_expr.equality_op().GetText() == "==")
+            {
+                return operand1 == operand2 ? Int64.MaxValue: 0;
+            }
+            else if(equality_expr.equality_op().GetText() == "!="){
+                return operand1 == operand2 ? 0: Int64.MaxValue;
+            }
+            else {
+                return 0;
+            }
+        }
+        else if(expr is Land_exprContext)
+        {
+            var land_expr = (Land_exprContext) expr;
+            
+            var operand1 = (Int64) evalExpression(land_expr.expression(0), parent);
+            var operand2 = (Int64) evalExpression(land_expr.expression(1), parent);
+
+            return (operand1 * operand2 != 0)? Int64.MaxValue: 0;
+        }
+        else if(expr is Lor_exprContext) {
+            var lor_expr = (Lor_exprContext) expr;
+
+            var operand1 = (Int64) evalExpression(lor_expr.expression(0), parent);
+            var operand2 = (Int64) evalExpression(lor_expr.expression(1), parent);
+
+            if(operand1 == Int64.MaxValue || operand2 == Int64.MaxValue) {
+                return Int64.MaxValue;
+            }
+            
+            else {
+                return 0;
+            }
+        }
+        else if(expr is Fun_call_exprContext) {
+            var func_call_expr = (Fun_call_exprContext) expr;
+
+            string function_name = func_call_expr.ID().GetText();
+
+            var arguments = func_call_expr.argumentList().argument();
+
+            var arguments_values = new List<Int64>();
+
+            for(int index = 0;index < arguments.Length; index++) 
+            {
+                arguments_values.Add((Int64)evalExpression(arguments[index].expression(), parent));
+            }
+
+            FunctionSymbolTable function_symbol_table = (FunctionSymbolTable) program_symbol_table.sub_tables.Find(
+                (SymbolTable table) => table.identifier == func_call_expr.ID().GetText()
+            );
+
+            var parameter_arr = function_symbol_table.get_parameters_entries();
+            for(int index = 0; index < parameter_arr.Length; index++) 
+            {
+                parameter_arr[index].value = arguments_values[index];
+            }
+
+            var function_nodes = root.GetRuleContexts<FunctionDeclContext>();
+            FunctionDeclContext function_node = null;
+            for(int index = 0; index < function_nodes.Length; index++) 
+            {
+                if(function_nodes[index].ID().GetText() == func_call_expr.ID().GetText()) {
+                    function_node = function_nodes[index];
+                }
+            }
+             var statements = function_node.statementList().statement();
+            
+            // run each statements.
+            for(int index = 0; index < statements.Length; index++) 
+            {
+                run(statements[index], function_symbol_table);
+            }
+            return function_call_results.Pop();
+        }
         return new object();
     }
     
@@ -233,4 +426,5 @@ public class InterpreterTraverser {
         }
         return result.ToString();  
     }
+    
 }

@@ -28,7 +28,7 @@ public abstract class SymbolTableEntry
 
         this.symbol_type = _symbol_type;
     }
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
     {
         if (obj is SymbolTableEntry)
         {
@@ -86,7 +86,7 @@ public class OperationSymbolTableEntry : SymbolTableEntry
 public class ParameterSymbolTableEntry : SymbolTableEntry
 {
     public string datatype{get;}
-    public Object value{get;}
+    public Object value{get; set;}
     public ParameterSymbolTableEntry(string _identifier, string _datatype, Object _value) : base(_identifier, SymbolType.PARAMETER)
     {
         if(_datatype == null)
@@ -161,9 +161,9 @@ public abstract class SymbolTable
 {
     public List<SymbolTableEntry> symbols;
     public List<SymbolTable> sub_tables;
-    public SymbolTable? parent;
+    public SymbolTable parent;
     public string identifier;
-    public SymbolTable(SymbolTable? parent, string identifier)
+    public SymbolTable(SymbolTable parent, string identifier)
     {
 
         this.symbols = new List<SymbolTableEntry>();
@@ -180,7 +180,7 @@ public abstract class SymbolTable
         }   
         this.sub_tables = new List<SymbolTable>();
     }
-    public void add_symbol(SymbolTableEntry? symbol_table_entry)
+    public void add_symbol(SymbolTableEntry symbol_table_entry)
     {
         if (symbol_table_entry != null)
         {
@@ -239,31 +239,56 @@ public abstract class SymbolTable
             }
         }
     }
-    public void add_sub_table(SymbolTable? sub_table)
+    public void add_sub_table(SymbolTable sub_table)
     {
         if(sub_table != null)
         {
             this.sub_tables.Add(sub_table);
         }
     }
+    public SymbolTable get_sub_table_by_id(string identifier)
+    {
+        return this.sub_tables.Find((SymbolTable table) => table.identifier == identifier);
+    }
 }
 
 public class FunctionSymbolTable : SymbolTable
 {
-    public FunctionSymbolTable(SymbolTable? parent, string identifier) : base(parent, identifier)
+    public FunctionSymbolTable(SymbolTable parent, string identifier) : base(parent, identifier)
     {
+    }
+
+    public ParameterSymbolTableEntry[] get_parameters_entries() {
+        List<ParameterSymbolTableEntry> result = new List<ParameterSymbolTableEntry>();
+        for(int index = 0; index < symbols.Count; index++)
+        {
+            if(symbols[index].symbol_type == SymbolType.PARAMETER){
+                result.Add((ParameterSymbolTableEntry)symbols[index]);
+            }
+        }
+        return result.ToArray() ;
     }
 }
 public class OperationSymbolTable : SymbolTable
 {
-    public OperationSymbolTable(SymbolTable? parent, string identifier) : base(parent, identifier)
+    public OperationSymbolTable(SymbolTable parent, string identifier) : base(parent, identifier)
     {
+    }
+    public ParameterSymbolTableEntry[] get_parameters_entries() {
+        List<ParameterSymbolTableEntry> result = new List<ParameterSymbolTableEntry>();
+        for(int index = 0; index < symbols.Count; index++)
+        {
+            if(symbols[index].symbol_type == SymbolType.PARAMETER){
+                result.Add((ParameterSymbolTableEntry)symbols[index]);
+            }
+        }
+        return result.ToArray() ;
     }
 }
 
 public class ProgramSymbolTable : SymbolTable
 {
-    public ProgramSymbolTable(SymbolTable? parent, string identifier) : base(parent, identifier)
+    public ProgramSymbolTable(SymbolTable parent, string identifier) : base(parent, identifier)
     {
     }
 }
