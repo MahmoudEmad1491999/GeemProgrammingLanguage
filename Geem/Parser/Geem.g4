@@ -25,6 +25,7 @@ argument: expression;
 argumentList: (argument (FASLA argument)*)?;
 
 expression:
+	
 	ID RP argumentList LP											# fun_call_expr
 	// | expression RSB expression LSB									# arr_subscrip_expr
 	| MINUS expression												# minus_expr
@@ -47,10 +48,10 @@ expression:
 	| expression (LAND) expression									# land_expr
 	| expression (LOR) expression									# lor_expr
 	| RP expression LP												# parenthesis_expr
-	| int_literal													# int_literal_expr
+	| Int_literal													# int_literal_expr
 	| ID															# variable_expr;
 
-int_literal: (
+Int_literal: (
 	'٠' |
 	'١' |
 	'٢' |
@@ -60,7 +61,20 @@ int_literal: (
 	'٦' |
 	'٧' |
 	'٨' |
-	'٩' )+ COLON PLUS? ('١' | '٢' | '٤' | '٨');
+	'٩' 
+)+;
+
+// int_literal: (
+// 	'٠' |
+// 	'١' |
+// 	'٢' |
+// 	'٣' |
+// 	'٤' |
+// 	'٥' |
+// 	'٦' |
+// 	'٧' |
+// 	'٨' |
+// 	'٩' )+ COLON PLUS? ('١' | '٢' | '٤' | '٨');
 
 comparison_op: (GTE_SYM | LTE_SYM | GT_SYM | LT_SYM);
 equality_op : (EQUAL_SYM | NOTEQ_SYM);
@@ -165,17 +179,17 @@ WHILE_KEYWORD: 'طالما';
 BREAK_KEYWORD: 'قطع';
 CONTINUE_KEYWORRD: 'تخظى' | 'تخطي';
 
-INT_DATA_TYPE: 'صحيح_٤';
-UINT_DATA_TYPE: 'طبيعي_٤';
+INT_DATA_TYPE: 'صحيح';
+UINT_DATA_TYPE: 'طبيعي';
 
-BYTE_DATA_TYPE: 'صحيح_١';
-UBYTE_DATA_TYPE: 'طبيعي_١';
+// BYTE_DATA_TYPE: 'صحيح_١';
+// UBYTE_DATA_TYPE: 'طبيعي_١';
 
-SHORT_DATA_TYPE: 'صحيح_٢';
-USHORT_DATA_TYPE: 'طبيعي_٢';
+// SHORT_DATA_TYPE: 'صحيح_٢';
+// USHORT_DATA_TYPE: 'طبيعي_٢';
 
-LONG_DATA_TYPE: 'صحيح_٨';
-ULONG_DATA_TYPE: 'طبيعي_٨';
+// LONG_DATA_TYPE: 'صحيح_٨';
+// ULONG_DATA_TYPE: 'طبيعي_٨';
 
 BOOL_DATA_TYPE: 'منطقي';
 
@@ -206,12 +220,12 @@ ID: [a-zA-Zء-ي] [a-zA-Zء-ي0-9٠-٩_]*;
 
 dataType:
 	INT_DATA_TYPE
-	| UINT_DATA_TYPE
-	| BYTE_DATA_TYPE
-	| UBYTE_DATA_TYPE
-	| SHORT_DATA_TYPE
-	| USHORT_DATA_TYPE
-	| LONG_DATA_TYPE
-	| ULONG_DATA_TYPE;
+	| UINT_DATA_TYPE;
+	// | BYTE_DATA_TYPE
+	// | UBYTE_DATA_TYPE
+	// | SHORT_DATA_TYPE
+	// | USHORT_DATA_TYPE
+	// | LONG_DATA_TYPE
+	// | ULONG_DATA_TYPE;
 
 command: (COLON ('إطبع' | 'اطبع')) expression;

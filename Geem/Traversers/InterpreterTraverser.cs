@@ -9,7 +9,7 @@ public class InterpreterTraverser {
     public static ProgramSymbolTable program_symbol_table = null;
     public static ProgramContext root = null;
     public static Stack<Int64> function_call_results = new Stack<long>();
-    public static void run(IParseTree node, SymbolTable parent)
+    public static bool run(IParseTree node, SymbolTable parent)
     {
         if(node is ProgramContext)
         {
@@ -21,6 +21,8 @@ public class InterpreterTraverser {
             {
                 run(program.children[index], parent);   
             }
+            return true;
+
         }
         else if(node is GlobalVarDeclContext)
         {
@@ -28,6 +30,7 @@ public class InterpreterTraverser {
             var gvar_symbol = (GlobalVarSymbolTableEntry) parent.get_symbol_by_id(global_var.ID().GetText());
             var initial_value = InterpreterTraverser.evalExpression(global_var.inititalization().expression(), parent);
             gvar_symbol.value = initial_value;
+            return true;
         }
         else if(node is CommandStatContext)
         {
@@ -38,7 +41,7 @@ public class InterpreterTraverser {
             Int64 integer = (Int64) evalExpression(command_node_expression, parent);
 
             Console.WriteLine(integer.ToString());
-            
+            return true;
         }
         else if(node is FunctionDeclContext)
         {
@@ -52,6 +55,7 @@ public class InterpreterTraverser {
                     run(statements[index], symbol_table_for_function);
                 }
             }
+            return true;
         }
         else if(node is Var_Decl_StatContext){
             var l_var_decl = ((Var_Decl_StatContext) node).varDecl();
@@ -61,6 +65,7 @@ public class InterpreterTraverser {
             var l_var_symbol = (LocalVarSymbolTableEntry) symbol;
 
             l_var_symbol.value = init_value;
+            return true;
         }
         else if(node is Assignment_StatContext)
         {
@@ -84,14 +89,17 @@ public class InterpreterTraverser {
 
                 g_var_symbol.value = value;
             }
+            return true;
         }
         else if(node is Result_StatContext)
         {
             Int64 value = (Int64) evalExpression(((Result_StatContext) node).resultStat().expression(), parent);
             
             function_call_results.Push(value);
-        }else if(node is Result_StatContext) {
-
+            return false;
+        }
+        else if(node is Result_StatContext) {
+            return false;
         }
         else if(node is If_StatContext) {
             var if_stat = ((If_StatContext) node).ifStat();
@@ -99,9 +107,15 @@ public class InterpreterTraverser {
             Int64 condition_value = (Int64) evalExpression(if_stat.expression(), parent);
             if(condition_value != 0) { // condition evaluate to true
                 var statements = if_stat.statementList().statement();
+                bool contine_running = true;
                 for(int index = 0; index < statements.Length; index++) {
-                    run(statements[index], parent);
+                    contine_running = run(statements[index], parent);
+                    if(!contine_running)
+                    {
+                        return false;
+                    }
                 }
+                return true;
             }
         }
         else if(node is While_StatContext) 
@@ -110,15 +124,20 @@ public class InterpreterTraverser {
 
             Int64 condition_value = (Int64) evalExpression(while_stat.expression(), parent);
             var statements = while_stat.statementList().statement();
-
+            bool continue_running = true;;
             while(condition_value != 0)
             {
                 for(int index = 0; index < statements.Length; index++) 
                 {
-                    run(statements[index], parent);
-                }    
+                    continue_running = run(statements[index], parent);
+                    if(!continue_running) 
+                    {
+                        return false;
+                    }
+                }
+                condition_value = (Int64) evalExpression(while_stat.expression(), parent);
             }
-
+            return true;
         }
         else if(node is Operation_StatContext)
         {
@@ -157,8 +176,12 @@ public class InterpreterTraverser {
             // run each statements.
             for(int index = 0; index < statements.Length; index++) 
             {
+                if(statements[index] is Return_StatContext){
+                    break;
+                }
                 run(statements[index], operationSymbolTable);
             }
+            return true;
         }
         else if(node is Command_StatContext)
         {
@@ -167,7 +190,9 @@ public class InterpreterTraverser {
 
             Int64 expression_value = (Int64)evalExpression(command_stat.expression(), parent);
             Console.WriteLine(expression_value.ToString());
+            return true;
         }
+        return true;
     }
 
     public static object evalExpression(IParseTree expr,SymbolTable parent)
@@ -180,21 +205,28 @@ public class InterpreterTraverser {
             if(variable_symbol is GlobalVarSymbolTableEntry){
                 var g_variable_symbol = (GlobalVarSymbolTableEntry) variable_symbol;
                 return g_variable_symbol.value;
-            }else if(variable_symbol is LocalVarSymbolTableEntry)
+            }
+            else if(variable_symbol is LocalVarSymbolTableEntry)
             {
                 var l_variable_symbol = (LocalVarSymbolTableEntry) variable_symbol;
                 return l_variable_symbol.value;
-            }else {
+            }
+            else if(variable_symbol is ParameterSymbolTableEntry)
+            {
+                var p_varaiable_symbol = (ParameterSymbolTableEntry) variable_symbol;
+                return p_varaiable_symbol.value;
+            }
+            else {
                 return new object();
             }
             
         }
         else if(expr is Int_literal_exprContext)
         {
-            var int_literal = ((Int_literal_exprContext) expr).int_literal();
-            var arbic_int_literal = int_literal.GetText().Substring(0, int_literal.GetText().Length -2 );
+            var int_literal = ((Int_literal_exprContext) expr).Int_literal().GetText();
+            // var arbic_int_literal = int_literal.GetText().Substring(0, int_literal.GetText().Length -2 );
 
-            Int64 int_value = Int64.Parse(convert_arabic_to_english_literal(arbic_int_literal));
+            Int64 int_value = Int64.Parse(convert_arabic_to_english_literal(int_literal));
             return int_value;
         }
         else if(expr is Add_exprContext)
@@ -360,11 +392,22 @@ public class InterpreterTraverser {
             // run each statements.
             for(int index = 0; index < statements.Length; index++) 
             {
-                run(statements[index], function_symbol_table);
+                if(statements[index] is Return_StatContext)
+                {
+                    run(statements[index], function_symbol_table);
+                    break;
+                }else {
+                    run(statements[index], function_symbol_table);
+                }
             }
             return function_call_results.Pop();
         }
-        return new object();
+        else if(expr is ArgumentContext)
+        {
+            var arguement = (ArgumentContext) expr;
+            return evalExpression(arguement.expression(), parent);
+        }
+        throw new Exception("cannot evaluate expression of type: " + expr.GetType().Name);
     }
     
     public static string convert_arabic_to_english_literal(string input){

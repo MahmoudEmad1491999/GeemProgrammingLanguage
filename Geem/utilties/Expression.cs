@@ -6,64 +6,64 @@ namespace Geem.utilties;
 
 public class Expression
 {
-    public static string int_expr_datatype(IParseTree int_literal_expr_context)
-    {
-        var int_literal = ((Int_literal_exprContext)int_literal_expr_context).int_literal();
-        string int_size = int_literal.children[int_literal.ChildCount - 1].GetText();
-        if (int_literal.PLUS() != null)
-        {
-            if (int_size == "١")
-            {
-                return "طبيعي_١";
-            }
-            else if (int_size == "٢")
-            {
-                return "طبيعي_٢";
-            }
-            else if (int_size == "٤")
-            {
-                return "طبيعي_٤";
-            }
-            else if (int_size == "٨")
-            {
-                return "طبيعي_٨";
-            }
-            else
-            {
-                throw new Exception("This path Should be un-reachable");
-            }
-        }
-        else
-        {
-            if (int_size == "١")
-            {
-                return "صحيح_١";
-            }
-            else if (int_size == "٢")
-            {
-                return "صحيح_٢";
-            }
-            else if (int_size == "٤")
-            {
-                return "صحيح_٤";
-            }
-            else if (int_size == "٨")
-            {
-                return "صحيح_٨";
-            }
-            else
-            {
-                throw new Exception("This path Should be un-reachable");
-            }
-        }
-    }
+    // public static string int_expr_datatype(IParseTree int_literal_expr_context)
+    // {
+    //     var int_literal = ((Int_literal_exprContext)int_literal_expr_context).Int_literal().GetText();
+    //     string int_size = int_literal.children[int_literal.ChildCount - 1].GetText();
+    //     if (int_literal.PLUS() != null)
+    //     {
+    //         if (int_size == "١")
+    //         {
+    //             return "طبيعي_١";
+    //         }
+    //         else if (int_size == "٢")
+    //         {
+    //             return "طبيعي_٢";
+    //         }
+    //         else if (int_size == "٤")
+    //         {
+    //             return "طبيعي_٤";
+    //         }
+    //         else if (int_size == "٨")
+    //         {
+    //             return "طبيعي_٨";
+    //         }
+    //         else
+    //         {
+    //             throw new Exception("This path Should be un-reachable");
+    //         }
+    //     }
+    //     else
+    //     {
+    //         if (int_size == "١")
+    //         {
+    //             return "صحيح_١";
+    //         }
+    //         else if (int_size == "٢")
+    //         {
+    //             return "صحيح_٢";
+    //         }
+    //         else if (int_size == "٤")
+    //         {
+    //             return "صحيح_٤";
+    //         }
+    //         else if (int_size == "٨")
+    //         {
+    //             return "صحيح_٨";
+    //         }
+    //         else
+    //         {
+    //             throw new Exception("This path Should be un-reachable");
+    //         }
+    //     }
+    // }
     public static string get_expr_type(IParseTree expr, SymbolTable symtab)
     {
         if (expr is Int_literal_exprContext)
         {
             var int_literal_expr = (Int_literal_exprContext)expr;
-            var datatype = Expression.int_expr_datatype(int_literal_expr);
-            return datatype;
+            // var datatype = Expression.int_expr_datatype(int_literal_expr);
+            return "صحيح";
         }
         else if (expr is Variable_exprContext)
         {
@@ -73,11 +73,7 @@ public class Expression
             {
                 var entry = symtab.get_symbol_by_id(identifier);
 
-                if (entry.symbol_type != SymbolType.LOCALVAR && entry.symbol_type != SymbolType.GLOBALVAR)
-                {
-                    throw new Exception("Symbol is not a variable!");
-                }
-                else if (entry.symbol_type == SymbolType.LOCALVAR)
+                if (entry.symbol_type == SymbolType.LOCALVAR)
                 {
                     var variable_entry = (LocalVarSymbolTableEntry)entry;
                     var var_datatype = variable_entry.datatype;
@@ -90,6 +86,15 @@ public class Expression
                     var var_datatype = variable_entry.datatype;
 
                     return var_datatype;
+                }
+                else if(entry.symbol_type == SymbolType.PARAMETER)
+                {
+                    var p_var_entry = (ParameterSymbolTableEntry) entry;
+                    var var_datatype = p_var_entry.datatype;
+                    return var_datatype;
+                }
+                else {
+                    throw new Exception("Symbol is not a variable!");
                 }
             }
             else
@@ -140,23 +145,33 @@ public class Expression
         {
             var datatype = get_expr_type(((Minus_exprContext)expr).expression(), symtab);
             
-            if (datatype == "طبيعي_١")
+            // if (datatype == "طبيعي_١")
+            // {
+            //     return "صحيح_١";
+            // }
+            // else if (datatype == "طبيعي_٢")
+            // {
+            //     return "صحيح_٢";
+            // }
+            // else if (datatype == "طبيعي_٤")
+            // {
+            //     return "صحيح_٤";
+            // }
+            // else if (datatype == "طبيعي_٨")
+            // {
+            //     return "صحيح_٨";
+            // }
+            // else { return datatype; }
+            if(datatype == "طبيعي")
             {
-                return "صحيح_١";
+                return "صحيح";
             }
-            else if (datatype == "طبيعي_٢")
-            {
-                return "صحيح_٢";
+            else if(datatype == "صحيح") {
+                return "صحيح";
             }
-            else if (datatype == "طبيعي_٤")
-            {
-                return "صحيح_٤";
+            else {
+                throw new Exception("Cannot negate expression of type: " + datatype);
             }
-            else if (datatype == "طبيعي_٨")
-            {
-                return "صحيح_٨";
-            }
-            else { return datatype; }
 
         }
         else if (expr is Fun_call_exprContext)
@@ -194,7 +209,7 @@ public class Expression
         {
             var Lnot_expr = (Lnot_exprContext) expr;
             get_expr_type(Lnot_expr.expression(), symtab);
-            return "طبيعي_١";
+            return "طبيعي";
         }
         else if (expr is Comparison_exprContext)
         {
@@ -205,7 +220,7 @@ public class Expression
             
             if(operand1_dt != operand2_dt) throw new Exception($"Cannot compare two expressions of different types. {operand1_dt} and {operand2_dt}");
             
-            return "طبيعي_١";
+            return "طبيعي";
         }
         else if (expr is Equality_exprContext)
         {
@@ -216,14 +231,16 @@ public class Expression
             
             if(operand1_dt != operand2_dt) throw new Exception($"Cannot compare two expressions of different types. {operand1_dt} and {operand2_dt}");
             
-            return "طبيعي_١";
+            return "طبيعي";
         }
-        
-        throw new Exception($"Couldn't recognize integer expression data type: {expr.GetText()}");
-    }
+        else if (expr is ArgumentContext)
+        {
+            var argument = (ArgumentContext) expr;
+            return get_expr_type(argument.expression(), symtab);
+        }
+        else {
+            throw new Exception($"Couldn't recognize integer expression data type: {expr.GetType().Name}");
 
-    private static bool is_operands_addable(string operand1_dt, string operand2_dt)
-    {
-        return operand1_dt == operand2_dt;
+        }
     }
 }
