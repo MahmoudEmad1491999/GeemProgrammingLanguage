@@ -1,7 +1,7 @@
 using Antlr4.Runtime.Tree;
 using static Geem.Parser.GeemParser;
 using Geem.Environment;
-
+using System.Text;
 namespace Geem.utilties;
 
 public class Expression
@@ -242,5 +242,67 @@ public class Expression
             throw new Exception($"Couldn't recognize integer expression data type: {expr.GetType().Name}");
 
         }
+    }
+    public static string convert_arabic_to_english_literal(string input)
+    {
+        StringBuilder result = new StringBuilder();
+        for (int index = input.Length - 1; index >= 0; index--)
+        {
+            if (input[index] == '٠')
+            {
+                result.Append('0');
+            }
+            else if (input[index] == '١')
+            {
+                result.Append('1');
+            }
+            else if (input[index] == '٢')
+            {
+                result.Append('2');
+
+            }
+            else if (input[index] == '٣')
+            {
+                result.Append('3');
+
+            }
+            else if (input[index] == '٤')
+            {
+                result.Append('4');
+
+            }
+            else if (input[index] == '٥')
+            {
+                result.Append('5');
+
+            }
+            else if (input[index] == '٦')
+            {
+                result.Append('6');
+
+            }
+            else if (input[index] == '٧')
+            {
+                result.Append('7');
+
+            }
+            else if (input[index] == '٨')
+            {
+                result.Append('8');
+
+            }
+            else if (input[index] == '٩')
+            {
+                result.Append('9');
+
+            }
+            else
+            {
+                throw new Exception();
+            }
+
+
+        }
+        return result.ToString();
     }
 }

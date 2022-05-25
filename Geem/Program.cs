@@ -29,7 +29,7 @@ public class Program {
         
         // task 2 implement the symbol table and validate code.
         
-        var symbol_table = GenerateSymbolTableTraverser.GenerateSymbolTable(root, null);
+        // var symbol_table = GenerateSymbolTableTraverser.GenerateSymbolTable(root, null);
         
         // if(symbol_table != null)
         // {
@@ -40,7 +40,15 @@ public class Program {
         
         // }
         
-        InterpreterTraverser.run(root, symbol_table);
+        // InterpreterTraverser.run(root, symbol_table);
+        // var temp = new FakeISAGenerator();
+
+        // var state = temp.traverse(root, null); 
+        // int i = 0;
+        // foreach(var item in state.initialized_data)
+        // {
+        //     Console.WriteLine("address: " + i++ + " : " + item);
+        // }
 
     }
 }
