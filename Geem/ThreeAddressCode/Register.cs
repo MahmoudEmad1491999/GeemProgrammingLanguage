@@ -6,6 +6,7 @@ public enum RegisterType
     RETURN_ADDRESS,
     STACK_POINTER,
     GLOBAL_POINTER,
+    FRAME_POINTER,
     // THREAD_POINTER,
     TEMP_REG,
     ARG_REG,

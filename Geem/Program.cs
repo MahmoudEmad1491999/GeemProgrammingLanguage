@@ -6,12 +6,12 @@ using Antlr4.Runtime;
 using Geem.Parser;
 using Geem.Traversers;
 using System.IO;
-using System.Text;
-using System.Text.Encodings;
+using ThreeAddressCode;
+
 public class Program {
     public static void Main(String[] args)
     {
-        string test_file_path = "/home/mahmoud/test.arac";
+        string test_file_path = "/home/mahmoud/test.geem";
         string file_content = File.ReadAllText(test_file_path);
 
         ICharStream char_stream = CharStreams.fromstring(file_content);
@@ -49,6 +49,10 @@ public class Program {
         // {
         //     Console.WriteLine("address: " + i++ + " : " + item);
         // }
+
+        var tac_traverser = new TACTraverse();
+
+        tac_traverser.Traverse(root);
 
     }
 }
