@@ -28,6 +28,11 @@ public class Add:Instruction {
         }
         this.dest = dest;
     }
+
+    public override string ToString()
+    {
+        return $"add {dest.ToString()}, {src1.ToString()},{src2.ToString()};";
+    }
 }
 
 public class AddI : Instruction {
@@ -48,6 +53,11 @@ public class AddI : Instruction {
         }
         this.dest = dest;
         this.immed = immed;
+    }
+
+    public override string ToString()
+    {
+        return $"addi {dest.ToString()}, {src1.ToString()},{immed};";
     }
 }
 
@@ -75,6 +85,11 @@ public class Subtract:Instruction {
         }
         this.dest = dest;
     }
+
+    public override string ToString()
+    {
+        return $"sub {dest.ToString()}, {src1.ToString()},{src2.ToString()};";
+    }
 }
 
 public class Multiply:Instruction {
@@ -100,6 +115,11 @@ public class Multiply:Instruction {
             throw new ArgumentNullException();
         }
         this.dest = dest;
+    }
+
+    public override string ToString()
+    {
+        return $"mul {dest.ToString()}, {src1.ToString()},{src2.ToString()};";
     }
 }
 
@@ -127,6 +147,10 @@ public class Divide:Instruction {
         }
         this.dest = dest;
     }
+    public override string ToString()
+    {
+        return $"div {dest.ToString()}, {src1.ToString()},{src2.ToString()};";
+    }
 }
 
 public class Load: Instruction {
@@ -147,6 +171,10 @@ public class Load: Instruction {
         this.base_address = base_address;
         this.offset = offset;
     }
+    public override string ToString()
+    {
+        return $"read {base_address.ToString()}({offset}) -> {loaded_register.ToString()};";
+    }
 }
 
 public class Store: Instruction {
@@ -166,6 +194,10 @@ public class Store: Instruction {
         }
         this.base_address = base_address;
         this.offset = offset;
+    }
+    public override string ToString()
+    {
+        return $"write {stored_register.ToString()} -> {base_address.ToString()}({offset});";
     }
 }
 
@@ -196,6 +228,16 @@ public class Jump_Link: Instruction {
 
 }
 
+public class Return:Instruction {
+    public Return()
+    {
+
+    }
+    public override string ToString()
+    {
+        return "return ;";
+    }
+}
 public class Branch_Equal: Instruction {
     public int offset;
 

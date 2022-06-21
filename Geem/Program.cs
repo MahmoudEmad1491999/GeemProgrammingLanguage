@@ -53,6 +53,16 @@ public class Program {
         var tac_traverser = new TACTraverse();
 
         tac_traverser.Traverse(root);
-
+        foreach(var label in TACTraverse.labels)
+        {
+            Console.WriteLine($"{label.Key}:");
+            Console.WriteLine(label.Value.Item1 + " " + label.Value.Item2);
+            for(int index = label.Value.Item1; index < label.Value.Item2; index++)
+            {
+                Console.WriteLine($"\t{TACTraverse.instructions[index]}");
+            }
+        }
+        
+        Console.WriteLine("Hello There");
     }
 }
