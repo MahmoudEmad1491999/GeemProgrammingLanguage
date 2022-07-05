@@ -1,7 +1,7 @@
 {
     "antlr4.generation": {
         "mode": "external",
-        "language": "Csharp",
+        "language": "CSharp",
         "listeners": false,
         "visitors": false,
         "package": "Geem.Parser"

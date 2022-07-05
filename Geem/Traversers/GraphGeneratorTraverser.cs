@@ -51,6 +51,9 @@ public class GraphGeneratorTraverser
         {"CommandStatContext", 0},
         {"CommandContext", 0},
         {"Command_StatContext", 0},
+        {"Sub_expressionContext", 0},
+        {"DatatypeContext",0},
+        {"ExpressionContext", 0},
         {"TerminalNodeImpl", 0}
     };
 

@@ -7,7 +7,7 @@ using Geem.Parser;
 using Geem.Traversers;
 using System.IO;
 using ThreeAddressCode;
-
+using static Geem.Parser.GeemParser;
 public class Program {
     public static void Main(String[] args)
     {
@@ -19,8 +19,17 @@ public class Program {
         ITokenStream token_stream = new CommonTokenStream(token_source);
         GeemParser geem_parser = new GeemParser(token_stream);
 
-        IParseTree root = geem_parser.program();
+        IParseTree root = geem_parser.program(new Infrastructure.SymbolTable(null, Infrastructure.SymbolTableType.SymbolTableOfFile, "program"));
         
+        ProgramContext root_t = (ProgramContext) root;
+        
+        // Console.WriteLine(root_t.st.Count());
+        
+        // Console.WriteLine(root_t.st.parent == null);
+        // foreach(var item in root_t.st)
+        // {
+        //     Console.WriteLine(item.Key + item.Value.type);
+        // }
         // task 1 implement the graph generator.        
         var graph_file = File.CreateText("/home/mahmoud/test.dot");
         graph_file.WriteLine( " digraph test {\n" + GraphGeneratorTraverser.GenerateGraph(root, 0) + "\n}");
@@ -50,18 +59,18 @@ public class Program {
         //     Console.WriteLine("address: " + i++ + " : " + item);
         // }
 
-        var tac_traverser = new TACTraverse();
+        // var tac_traverser = new TACTraverse();
 
-        tac_traverser.Traverse(root);
-        foreach(var label in TACTraverse.labels)
-        {
-            Console.WriteLine($"{label.Key}:");
-            Console.WriteLine(label.Value.Item1 + " " + label.Value.Item2);
-            for(int index = label.Value.Item1; index < label.Value.Item2; index++)
-            {
-                Console.WriteLine($"\t{TACTraverse.instructions[index]}");
-            }
-        }
+        // tac_traverser.Traverse(root);
+        // foreach(var label in TACTraverse.labels)
+        // {
+        //     Console.WriteLine($"{label.Key}:");
+        //     Console.WriteLine(label.Value.Item1 + " " + label.Value.Item2);
+        //     for(int index = label.Value.Item1; index < label.Value.Item2; index++)
+        //     {
+        //         Console.WriteLine($"\t{TACTraverse.instructions[index]}");
+        //     }
+        // }
         
         Console.WriteLine("Hello There");
     }
