@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /home/mahmoud/.projects/graduation_projects/GeemProgrammingLanguage/Geem/Parser/Geem.g4 by ANTLR 4.9.2
+// Generated from /home/mahmoud/Documents/GeemProgrammingLanguage/Geem/Parser/Geem.g4 by ANTLR 4.9.2
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -20,7 +20,9 @@
 #pragma warning disable 419
 
 namespace Geem.Parser {
-using Geem.Infrastructure;
+
+ using Geem.Infrastructure;	
+
 using System;
 using System.IO;
 using System.Text;
@@ -52,17 +54,17 @@ public partial class GeemParser : Parser {
 	public const int
 		RULE_program = 0, RULE_globalVarDecl = 1, RULE_inititalization = 2, RULE_functionDecl = 3, 
 		RULE_operationDecl = 4, RULE_parameter = 5, RULE_paramList = 6, RULE_argument = 7, 
-		RULE_argumentList = 8, RULE_expression = 9, RULE_sub_expression = 10, 
-		RULE_comparison_op = 11, RULE_equality_op = 12, RULE_statement = 13, RULE_statementList = 14, 
-		RULE_operationStat = 15, RULE_assignmentStat = 16, RULE_ifStat = 17, RULE_whileStat = 18, 
-		RULE_returnStat = 19, RULE_resultStat = 20, RULE_varDecl = 21, RULE_commandStat = 22, 
-		RULE_datatype = 23, RULE_command = 24;
+		RULE_argumentList = 8, RULE_expression = 9, RULE_comparison_op = 10, RULE_equality_op = 11, 
+		RULE_statement = 12, RULE_statementList = 13, RULE_operationStat = 14, 
+		RULE_assignmentStat = 15, RULE_ifStat = 16, RULE_whileStat = 17, RULE_returnStat = 18, 
+		RULE_resultStat = 19, RULE_varDecl = 20, RULE_commandStat = 21, RULE_datatype = 22, 
+		RULE_command = 23;
 	public static readonly string[] ruleNames = {
 		"program", "globalVarDecl", "inititalization", "functionDecl", "operationDecl", 
-		"parameter", "paramList", "argument", "argumentList", "expression", "sub_expression", 
-		"comparison_op", "equality_op", "statement", "statementList", "operationStat", 
-		"assignmentStat", "ifStat", "whileStat", "returnStat", "resultStat", "varDecl", 
-		"commandStat", "datatype", "command"
+		"parameter", "paramList", "argument", "argumentList", "expression", "comparison_op", 
+		"equality_op", "statement", "statementList", "operationStat", "assignmentStat", 
+		"ifStat", "whileStat", "returnStat", "resultStat", "varDecl", "commandStat", 
+		"datatype", "command"
 	};
 
 	private static readonly string[] _LiteralNames = {
@@ -113,14 +115,6 @@ public partial class GeemParser : Parser {
 		}
 	}
 
-
-		string get_expr_type(string type1, string type2)
-		{
-			if(type1 == "int") { return "int";};
-			if(type2 == "int") {return "int";};
-			return "uint";
-		}
-
 		public GeemParser(ITokenStream input) : this(input, Console.Out, Console.Error) { }
 
 		public GeemParser(ITokenStream input, TextWriter output, TextWriter errorOutput)
@@ -155,29 +149,27 @@ public partial class GeemParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public CommandStatContext commandStat(int i) {
 			return GetRuleContext<CommandStatContext>(i);
 		}
-		public ProgramContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public ProgramContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public ProgramContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_program; } }
 	}
 
 	[RuleVersion(0)]
-	public ProgramContext program(SymbolTable st) {
-		ProgramContext _localctx = new ProgramContext(Context, State, st);
+	public ProgramContext program() {
+		ProgramContext _localctx = new ProgramContext(Context, State);
 		EnterRule(_localctx, 0, RULE_program);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 54;
+			State = 52;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
 			do {
 				{
-				State = 54;
+				State = 52;
 				ErrorHandler.Sync(this);
 				switch (TokenStream.LA(1)) {
 				case INT_DATA_TYPE:
@@ -189,33 +181,33 @@ public partial class GeemParser : Parser {
 				case LONG_DATA_TYPE:
 				case ULONG_DATA_TYPE:
 					{
-					State = 50;
-					globalVarDecl(st);
+					State = 48;
+					globalVarDecl();
 					}
 					break;
 				case FUNC_KEYWORD:
 					{
-					State = 51;
-					functionDecl(st);
+					State = 49;
+					functionDecl();
 					}
 					break;
 				case OP_KEYWORD:
 					{
-					State = 52;
-					operationDecl(st);
+					State = 50;
+					operationDecl();
 					}
 					break;
 				case COLON:
 					{
-					State = 53;
-					commandStat(st);
+					State = 51;
+					commandStat();
 					}
 					break;
 				default:
 					throw new NoViableAltException(this);
 				}
 				}
-				State = 56;
+				State = 54;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COLON) | (1L << FUNC_KEYWORD) | (1L << OP_KEYWORD) | (1L << INT_DATA_TYPE) | (1L << UINT_DATA_TYPE) | (1L << BYTE_DATA_TYPE) | (1L << UBYTE_DATA_TYPE) | (1L << SHORT_DATA_TYPE) | (1L << USHORT_DATA_TYPE) | (1L << LONG_DATA_TYPE) | (1L << ULONG_DATA_TYPE))) != 0) );
@@ -233,9 +225,6 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class GlobalVarDeclContext : ParserRuleContext {
-		public SymbolTable st;
-		public DatatypeContext _datatype;
-		public IToken _ID;
 		[System.Diagnostics.DebuggerNonUserCode] public DatatypeContext datatype() {
 			return GetRuleContext<DatatypeContext>(0);
 		}
@@ -244,33 +233,28 @@ public partial class GeemParser : Parser {
 			return GetRuleContext<InititalizationContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode FASLA_MANQUOTA() { return GetToken(GeemParser.FASLA_MANQUOTA, 0); }
-		public GlobalVarDeclContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public GlobalVarDeclContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public GlobalVarDeclContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_globalVarDecl; } }
 	}
 
 	[RuleVersion(0)]
-	public GlobalVarDeclContext globalVarDecl(SymbolTable st) {
-		GlobalVarDeclContext _localctx = new GlobalVarDeclContext(Context, State, st);
+	public GlobalVarDeclContext globalVarDecl() {
+		GlobalVarDeclContext _localctx = new GlobalVarDeclContext(Context, State);
 		EnterRule(_localctx, 2, RULE_globalVarDecl);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
+			State = 56;
+			datatype();
+			State = 57;
+			Match(ID);
 			State = 58;
-			_localctx._datatype = datatype();
+			inititalization();
 			State = 59;
-			_localctx._ID = Match(ID);
-			State = 60;
-			inititalization(st);
-			State = 61;
 			Match(FASLA_MANQUOTA);
-
-					st.addSymbol((_localctx._ID!=null?_localctx._ID.Text:null), new SymbolInfo(SymbolType.SymbolOfGlobalVariable, new VarInfo((_localctx._datatype!=null?TokenStream.GetText(_localctx._datatype.Start,_localctx._datatype.Stop):null), null)));
-				
 			}
 		}
 		catch (RecognitionException re) {
@@ -285,32 +269,29 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class InititalizationContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ASSIGN_SYM() { return GetToken(GeemParser.ASSIGN_SYM, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
-		public InititalizationContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public InititalizationContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public InititalizationContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_inititalization; } }
 	}
 
 	[RuleVersion(0)]
-	public InititalizationContext inititalization(SymbolTable st) {
-		InititalizationContext _localctx = new InititalizationContext(Context, State, st);
+	public InititalizationContext inititalization() {
+		InititalizationContext _localctx = new InititalizationContext(Context, State);
 		EnterRule(_localctx, 4, RULE_inititalization);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 64;
+			State = 61;
 			Match(ASSIGN_SYM);
-			State = 65;
-			expression(st);
+			State = 62;
+			expression(0);
 			}
 			}
 		}
@@ -327,9 +308,6 @@ public partial class GeemParser : Parser {
 
 	public partial class FunctionDeclContext : ParserRuleContext {
 		public SymbolTable st;
-		public IToken _ID;
-		public ParamListContext _paramList;
-		public DatatypeContext _datatype;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode FUNC_KEYWORD() { return GetToken(GeemParser.FUNC_KEYWORD, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(GeemParser.ID, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RP() { return GetToken(GeemParser.RP, 0); }
@@ -346,45 +324,40 @@ public partial class GeemParser : Parser {
 			return GetRuleContext<StatementListContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LCB() { return GetToken(GeemParser.LCB, 0); }
-		public FunctionDeclContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public FunctionDeclContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public FunctionDeclContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_functionDecl; } }
 	}
 
 	[RuleVersion(0)]
-	public FunctionDeclContext functionDecl(SymbolTable st) {
-		FunctionDeclContext _localctx = new FunctionDeclContext(Context, State, st);
+	public FunctionDeclContext functionDecl() {
+		FunctionDeclContext _localctx = new FunctionDeclContext(Context, State);
 		EnterRule(_localctx, 6, RULE_functionDecl);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 67;
+			State = 64;
 			Match(FUNC_KEYWORD);
-			State = 68;
-			_localctx._ID = Match(ID);
-			State = 69;
+			State = 65;
+			Match(ID);
+			State = 66;
 			Match(RP);
-			State = 70;
-			_localctx._paramList = paramList();
-			State = 71;
+			State = 67;
+			paramList();
+			State = 68;
 			Match(LP);
-			State = 72;
+			State = 69;
 			Match(COLON);
-			State = 73;
-			_localctx._datatype = datatype();
-			State = 74;
+			State = 70;
+			datatype();
+			State = 71;
 			Match(RCB);
-			State = 75;
-			statementList(st);
-			State = 76;
+			State = 72;
+			statementList();
+			State = 73;
 			Match(LCB);
-
-					st.addSymbol((_localctx._ID!=null?_localctx._ID.Text:null), new SymbolInfo(SymbolType.SymbolOfFunction, new FunctionInfo(_localctx._paramList.parameter_datatypes_list.ToArray(), (_localctx._datatype!=null?TokenStream.GetText(_localctx._datatype.Start,_localctx._datatype.Stop):null))));
-				
 			}
 		}
 		catch (RecognitionException re) {
@@ -400,8 +373,6 @@ public partial class GeemParser : Parser {
 
 	public partial class OperationDeclContext : ParserRuleContext {
 		public SymbolTable st;
-		public IToken _ID;
-		public ParamListContext _paramList;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode OP_KEYWORD() { return GetToken(GeemParser.OP_KEYWORD, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(GeemParser.ID, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RP() { return GetToken(GeemParser.RP, 0); }
@@ -414,41 +385,36 @@ public partial class GeemParser : Parser {
 			return GetRuleContext<StatementListContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LCB() { return GetToken(GeemParser.LCB, 0); }
-		public OperationDeclContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public OperationDeclContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public OperationDeclContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_operationDecl; } }
 	}
 
 	[RuleVersion(0)]
-	public OperationDeclContext operationDecl(SymbolTable st) {
-		OperationDeclContext _localctx = new OperationDeclContext(Context, State, st);
+	public OperationDeclContext operationDecl() {
+		OperationDeclContext _localctx = new OperationDeclContext(Context, State);
 		EnterRule(_localctx, 8, RULE_operationDecl);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 79;
+			State = 75;
 			Match(OP_KEYWORD);
-			State = 80;
-			_localctx._ID = Match(ID);
-			State = 81;
+			State = 76;
+			Match(ID);
+			State = 77;
 			Match(RP);
-			State = 82;
-			_localctx._paramList = paramList();
-			State = 83;
+			State = 78;
+			paramList();
+			State = 79;
 			Match(LP);
-			State = 84;
+			State = 80;
 			Match(RCB);
-			State = 85;
-			statementList(st);
-			State = 86;
+			State = 81;
+			statementList();
+			State = 82;
 			Match(LCB);
-
-					st.addSymbol((_localctx._ID!=null?_localctx._ID.Text:null), new SymbolInfo(SymbolType.SymbolOfOperation, new OperationInfo(_localctx._paramList.parameter_datatypes_list.ToArray())));
-				
 			}
 		}
 		catch (RecognitionException re) {
@@ -463,8 +429,7 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class ParameterContext : ParserRuleContext {
-		public string dt;
-		public DatatypeContext _datatype;
+		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public DatatypeContext datatype() {
 			return GetRuleContext<DatatypeContext>(0);
 		}
@@ -483,11 +448,10 @@ public partial class GeemParser : Parser {
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 89;
-			_localctx._datatype = datatype();
-			State = 90;
+			State = 84;
+			datatype();
+			State = 85;
 			Match(ID);
-			_localctx.dt =  (_localctx._datatype!=null?TokenStream.GetText(_localctx._datatype.Start,_localctx._datatype.Stop):null);
 			}
 		}
 		catch (RecognitionException re) {
@@ -502,8 +466,6 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class ParamListContext : ParserRuleContext {
-		public List<string> parameter_datatypes_list;
-		public ParameterContext _parameter;
 		[System.Diagnostics.DebuggerNonUserCode] public ParameterContext[] parameter() {
 			return GetRuleContexts<ParameterContext>();
 		}
@@ -525,35 +487,30 @@ public partial class GeemParser : Parser {
 	public ParamListContext paramList() {
 		ParamListContext _localctx = new ParamListContext(Context, State);
 		EnterRule(_localctx, 12, RULE_paramList);
-
-			_localctx.parameter_datatypes_list =  new List<string>();
-
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 104;
+			State = 95;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT_DATA_TYPE) | (1L << UINT_DATA_TYPE) | (1L << BYTE_DATA_TYPE) | (1L << UBYTE_DATA_TYPE) | (1L << SHORT_DATA_TYPE) | (1L << USHORT_DATA_TYPE) | (1L << LONG_DATA_TYPE) | (1L << ULONG_DATA_TYPE))) != 0)) {
 				{
-				State = 93;
-				_localctx._parameter = parameter();
-				_localctx.parameter_datatypes_list.Add(_localctx._parameter.dt);
-				State = 101;
+				State = 87;
+				parameter();
+				State = 92;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 				while (_la==FASLA) {
 					{
 					{
-					State = 95;
+					State = 88;
 					Match(FASLA);
-					State = 96;
-					_localctx._parameter = parameter();
-					_localctx.parameter_datatypes_list.Add(_localctx._parameter.dt);
+					State = 89;
+					parameter();
 					}
 					}
-					State = 103;
+					State = 94;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.LA(1);
 				}
@@ -578,24 +535,22 @@ public partial class GeemParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
-		public ArgumentContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public ArgumentContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public ArgumentContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_argument; } }
 	}
 
 	[RuleVersion(0)]
-	public ArgumentContext argument(SymbolTable st) {
-		ArgumentContext _localctx = new ArgumentContext(Context, State, st);
+	public ArgumentContext argument() {
+		ArgumentContext _localctx = new ArgumentContext(Context, State);
 		EnterRule(_localctx, 14, RULE_argument);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 106;
-			expression(st);
+			State = 97;
+			expression(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -610,10 +565,6 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class ArgumentListContext : ParserRuleContext {
-		public SymbolTable st;
-		public int length;
-		public string[] datatypes;
-		public List<string> datatypes_list;
 		[System.Diagnostics.DebuggerNonUserCode] public ArgumentContext[] argument() {
 			return GetRuleContexts<ArgumentContext>();
 		}
@@ -624,46 +575,41 @@ public partial class GeemParser : Parser {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode FASLA(int i) {
 			return GetToken(GeemParser.FASLA, i);
 		}
-		public ArgumentListContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public ArgumentListContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public ArgumentListContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_argumentList; } }
 	}
 
 	[RuleVersion(0)]
-	public ArgumentListContext argumentList(SymbolTable st) {
-		ArgumentListContext _localctx = new ArgumentListContext(Context, State, st);
+	public ArgumentListContext argumentList() {
+		ArgumentListContext _localctx = new ArgumentListContext(Context, State);
 		EnterRule(_localctx, 16, RULE_argumentList);
-		_localctx.length =  0; _localctx.datatypes_list =  new List<string>();
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 119;
+			State = 107;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Int_literal) | (1L << RP) | (1L << MINUS) | (1L << LNOT) | (1L << ID))) != 0)) {
 				{
-				State = 108;
-				argument(st);
-				_localctx.length++;
-				State = 116;
+				State = 99;
+				argument();
+				State = 104;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 				while (_la==FASLA) {
 					{
 					{
-					State = 110;
+					State = 100;
 					Match(FASLA);
-					State = 111;
-					argument(st);
-					_localctx.length++;
+					State = 101;
+					argument();
 					}
 					}
-					State = 118;
+					State = 106;
 					ErrorHandler.Sync(this);
 					_la = TokenStream.LA(1);
 				}
@@ -685,317 +631,347 @@ public partial class GeemParser : Parser {
 
 	public partial class ExpressionContext : ParserRuleContext {
 		public SymbolTable st;
-		public string expr_type;
-		public string expr_datatype;
-		public IToken _ID;
-		public ArgumentListContext _argumentList;
-		public Sub_expressionContext _sub_expression;
-		public ExpressionContext _expression;
+		public ExpressionContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_expression; } }
+	 
+		public ExpressionContext() { }
+		public virtual void CopyFrom(ExpressionContext context) {
+			base.CopyFrom(context);
+			this.st = context.st;
+		}
+	}
+	public partial class Lor_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LOR() { return GetToken(GeemParser.LOR, 0); }
+		public Lor_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Add_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode PLUS() { return GetToken(GeemParser.PLUS, 0); }
+		public Add_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Land_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LAND() { return GetToken(GeemParser.LAND, 0); }
+		public Land_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Comparison_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public Comparison_opContext comparison_op() {
+			return GetRuleContext<Comparison_opContext>(0);
+		}
+		public Comparison_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Multiply_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MULTIPLY() { return GetToken(GeemParser.MULTIPLY, 0); }
+		public Multiply_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Variable_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(GeemParser.ID, 0); }
+		public Variable_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Parenthesis_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RP() { return GetToken(GeemParser.RP, 0); }
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
+			return GetRuleContext<ExpressionContext>(0);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LP() { return GetToken(GeemParser.LP, 0); }
+		public Parenthesis_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Int_literal_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Int_literal() { return GetToken(GeemParser.Int_literal, 0); }
+		public Int_literal_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Subtraction_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MINUS() { return GetToken(GeemParser.MINUS, 0); }
+		public Subtraction_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Divide_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
+		}
+		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DIVIDE() { return GetToken(GeemParser.DIVIDE, 0); }
+		public Divide_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Fun_call_exprContext : ExpressionContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(GeemParser.ID, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RP() { return GetToken(GeemParser.RP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ArgumentListContext argumentList() {
 			return GetRuleContext<ArgumentListContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LP() { return GetToken(GeemParser.LP, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public Sub_expressionContext sub_expression() {
-			return GetRuleContext<Sub_expressionContext>(0);
-		}
+		public Fun_call_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Minus_exprContext : ExpressionContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MINUS() { return GetToken(GeemParser.MINUS, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
+		public Minus_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Lnot_exprContext : ExpressionContext {
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LNOT() { return GetToken(GeemParser.LNOT, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode Int_literal() { return GetToken(GeemParser.Int_literal, 0); }
-		public ExpressionContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public ExpressionContext(ParserRuleContext parent, int invokingState, SymbolTable st)
-			: base(parent, invokingState)
-		{
-			this.st = st;
-		}
-		public override int RuleIndex { get { return RULE_expression; } }
-	}
-
-	[RuleVersion(0)]
-	public ExpressionContext expression(SymbolTable st) {
-		ExpressionContext _localctx = new ExpressionContext(Context, State, st);
-		EnterRule(_localctx, 18, RULE_expression);
-		try {
-			State = 153;
-			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,6,Context) ) {
-			case 1:
-				EnterOuterAlt(_localctx, 1);
-				{
-				State = 121;
-				_localctx._ID = Match(ID);
-				State = 122;
-				Match(RP);
-				State = 123;
-				_localctx._argumentList = argumentList(st);
-				State = 124;
-				Match(LP);
-				State = 125;
-				_localctx._sub_expression = sub_expression(st, ((FunctionInfo)st.getSymbolInfo((_localctx._ID!=null?_localctx._ID.Text:null)).specificInfo).return_type);
-
-					SymbolInfo symbol_info_of_id = st.getSymbolInfo((_localctx._ID!=null?_localctx._ID.Text:null));
-					// check if the symbol is for a function.
-					if(symbol_info_of_id.type != SymbolType.SymbolOfFunction) 
-					{
-						throw new Exception("ID is not of a function");
-					}
-					var symbolSpecificInfo = (FunctionInfo) symbol_info_of_id.specificInfo;
-					// check the number of arguments match the number of parameters.
-					
-					if(_localctx._argumentList.length != symbolSpecificInfo.parameter_datatypes.Length)
-					{
-						throw new Exception("Number of arguments is not equal to number of parameters");
-					}
-					// set the type of expr to function call.
-					_localctx.expr_type =  _localctx._sub_expression.expr_type == "" ? "function_call_expr": _localctx._sub_expression.expr_type;
-					// set the datatype of expr to the return type of the function.
-					_localctx.expr_datatype =  symbolSpecificInfo.return_type;
-
-				}
-				break;
-			case 2:
-				EnterOuterAlt(_localctx, 2);
-				{
-				State = 128;
-				Match(MINUS);
-				State = 129;
-				expression(st);
-				State = 130;
-				_localctx._sub_expression = sub_expression(st, "int");
-
-					// set the expression type to minus datatype of the datatype of sub_expression.
-					_localctx.expr_type =  _localctx._sub_expression.expr_type == "" ? "minus_expr":_localctx._sub_expression.expr_type ;
-
-					// set the expression datatype to int.
-					_localctx.expr_datatype =  "int";
-
-				}
-				break;
-			case 3:
-				EnterOuterAlt(_localctx, 3);
-				{
-				State = 133;
-				Match(LNOT);
-				State = 134;
-				expression(st);
-				State = 135;
-				_localctx._sub_expression = sub_expression(st, "int");
-
-					// set the expression type to lnot_expr or sub_expression type.
-					_localctx.expr_type =  _localctx._sub_expression.expr_type == "" ? "lnot_expr": _localctx._sub_expression.expr_type;
-					// set the expression datatype to int.
-					_localctx.expr_datatype =  "int";
-
-				}
-				break;
-			case 4:
-				EnterOuterAlt(_localctx, 4);
-				{
-				State = 138;
-				Match(RP);
-				State = 139;
-				_localctx._expression = expression(st);
-				State = 140;
-				Match(LP);
-				State = 141;
-				_localctx._sub_expression = sub_expression(st, _localctx._expression.expr_type);
-
-					// set the expression type to paren_expr or sub_expression type.
-					_localctx.expr_type =  _localctx._sub_expression.expr_type == "" ? "paren_expr" :_localctx._sub_expression.expr_type ;
-
-				}
-				break;
-			case 5:
-				EnterOuterAlt(_localctx, 5);
-				{
-				State = 144;
-				Match(Int_literal);
-				State = 145;
-				_localctx._sub_expression = sub_expression(st, "uint");
-				_localctx.expr_type =  _localctx._sub_expression.expr_type == "" ? "int_lit_expr": _localctx._sub_expression.expr_type;
-				}
-				break;
-			case 6:
-				EnterOuterAlt(_localctx, 6);
-				{
-				State = 148;
-				_localctx._ID = Match(ID);
-
-					var symbolInfo = _localctx.st.getSymbolInfo((_localctx._ID!=null?_localctx._ID.Text:null));
-					if(symbolInfo.type != SymbolType.SymbolOfGlobalVariable || 
-					symbolInfo.type != SymbolType.SymbolOfLocalVariable || 
-					symbolInfo.type != SymbolType.SymbolOfParameter ) {
-						throw new Exception("Identifier is not for variable");
-					}
-
-				State = 150;
-				_localctx._sub_expression = sub_expression(st,((VarInfo)(_localctx.st.getSymbolInfo((_localctx._ID!=null?_localctx._ID.Text:null)).specificInfo)).datatype);
-
-					_localctx.expr_type =  _localctx._sub_expression.expr_type == "" ? "variable_expr": _localctx._sub_expression.expr_type;
-
-				}
-				break;
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			ErrorHandler.ReportError(this, re);
-			ErrorHandler.Recover(this, re);
-		}
-		finally {
-			ExitRule();
-		}
-		return _localctx;
-	}
-
-	public partial class Sub_expressionContext : ParserRuleContext {
-		public SymbolTable st;
-		public string pre_expr_datatype;
-		public string expr_type;
-		public string sub_expression_datatype;
-		public ExpressionContext _expression;
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode DIVIDE() { return GetToken(GeemParser.DIVIDE, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public Sub_expressionContext sub_expression() {
-			return GetRuleContext<Sub_expressionContext>(0);
+		public Lnot_exprContext(ExpressionContext context) { CopyFrom(context); }
+	}
+	public partial class Equality_exprContext : ExpressionContext {
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext[] expression() {
+			return GetRuleContexts<ExpressionContext>();
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MULTIPLY() { return GetToken(GeemParser.MULTIPLY, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode MINUS() { return GetToken(GeemParser.MINUS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode PLUS() { return GetToken(GeemParser.PLUS, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public Comparison_opContext comparison_op() {
-			return GetRuleContext<Comparison_opContext>(0);
+		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression(int i) {
+			return GetRuleContext<ExpressionContext>(i);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public Equality_opContext equality_op() {
 			return GetRuleContext<Equality_opContext>(0);
 		}
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LAND() { return GetToken(GeemParser.LAND, 0); }
-		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LOR() { return GetToken(GeemParser.LOR, 0); }
-		public Sub_expressionContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public Sub_expressionContext(ParserRuleContext parent, int invokingState, SymbolTable st, string pre_expr_datatype)
-			: base(parent, invokingState)
-		{
-			this.st = st;
-			this.pre_expr_datatype = pre_expr_datatype;
-		}
-		public override int RuleIndex { get { return RULE_sub_expression; } }
+		public Equality_exprContext(ExpressionContext context) { CopyFrom(context); }
 	}
 
 	[RuleVersion(0)]
-	public Sub_expressionContext sub_expression(SymbolTable st, string pre_expr_datatype) {
-		Sub_expressionContext _localctx = new Sub_expressionContext(Context, State, st, pre_expr_datatype);
-		EnterRule(_localctx, 20, RULE_sub_expression);
+	public ExpressionContext expression() {
+		return expression(0);
+	}
+
+	private ExpressionContext expression(int _p) {
+		ParserRuleContext _parentctx = Context;
+		int _parentState = State;
+		ExpressionContext _localctx = new ExpressionContext(Context, _parentState);
+		ExpressionContext _prevctx = _localctx;
+		int _startState = 18;
+		EnterRecursionRule(_localctx, 18, RULE_expression, _p);
 		try {
-			State = 196;
+			int _alt;
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 125;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,7,Context) ) {
+			switch ( Interpreter.AdaptivePredict(TokenStream,6,Context) ) {
 			case 1:
-				EnterOuterAlt(_localctx, 1);
 				{
-				State = 155;
-				Match(DIVIDE);
-				State = 156;
-				_localctx._expression = expression(st);
-				State = 157;
-				sub_expression(st,get_expr_type(_localctx._expression.expr_datatype, _localctx.pre_expr_datatype));
-				_localctx.expr_type =  "divide_expr";
+				_localctx = new Fun_call_exprContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+
+				State = 110;
+				Match(ID);
+				State = 111;
+				Match(RP);
+				State = 112;
+				argumentList();
+				State = 113;
+				Match(LP);
 				}
 				break;
 			case 2:
-				EnterOuterAlt(_localctx, 2);
 				{
-				State = 160;
-				Match(MULTIPLY);
-				State = 161;
-				_localctx._expression = expression(st);
-				State = 162;
-				sub_expression(st,get_expr_type(_localctx._expression.expr_datatype, _localctx.pre_expr_datatype));
-				_localctx.expr_type =  "multiply_expr";
+				_localctx = new Minus_exprContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+				State = 115;
+				Match(MINUS);
+				State = 116;
+				expression(13);
 				}
 				break;
 			case 3:
-				EnterOuterAlt(_localctx, 3);
 				{
-				State = 165;
-				Match(MINUS);
-				State = 166;
-				_localctx._expression = expression(st);
-				State = 167;
-				sub_expression(st,get_expr_type(_localctx._expression.expr_datatype, _localctx.pre_expr_datatype));
-				_localctx.expr_type =  "subtract_expr";
+				_localctx = new Lnot_exprContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+				State = 117;
+				Match(LNOT);
+				State = 118;
+				expression(12);
 				}
 				break;
 			case 4:
-				EnterOuterAlt(_localctx, 4);
 				{
-				State = 170;
-				Match(PLUS);
-				State = 171;
-				_localctx._expression = expression(st);
-				State = 172;
-				sub_expression(st,get_expr_type(_localctx._expression.expr_datatype, _localctx.pre_expr_datatype));
-				_localctx.expr_type =  "addition_expr";
+				_localctx = new Parenthesis_exprContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+				State = 119;
+				Match(RP);
+				State = 120;
+				expression(0);
+				State = 121;
+				Match(LP);
 				}
 				break;
 			case 5:
-				EnterOuterAlt(_localctx, 5);
 				{
-				State = 175;
-				comparison_op();
-				State = 176;
-				expression(st);
-				State = 177;
-				sub_expression(st, "int");
-				_localctx.expr_type =  "comparison_expr";
+				_localctx = new Int_literal_exprContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+				State = 123;
+				Match(Int_literal);
 				}
 				break;
 			case 6:
-				EnterOuterAlt(_localctx, 6);
 				{
-				State = 180;
-				equality_op();
-				State = 181;
-				expression(st);
-				State = 182;
-				sub_expression(st,"int");
-				_localctx.expr_type =  "equality_expr";
+				_localctx = new Variable_exprContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+				State = 124;
+				Match(ID);
 				}
 				break;
-			case 7:
-				EnterOuterAlt(_localctx, 7);
-				{
-				State = 185;
-				Match(LAND);
-				State = 186;
-				expression(st);
-				State = 187;
-				sub_expression(st, "int");
-				_localctx.expr_type =  "land_expr";
+			}
+			Context.Stop = TokenStream.LT(-1);
+			State = 155;
+			ErrorHandler.Sync(this);
+			_alt = Interpreter.AdaptivePredict(TokenStream,8,Context);
+			while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( ParseListeners!=null )
+						TriggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					State = 153;
+					ErrorHandler.Sync(this);
+					switch ( Interpreter.AdaptivePredict(TokenStream,7,Context) ) {
+					case 1:
+						{
+						_localctx = new Divide_exprContext(new ExpressionContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expression);
+						State = 127;
+						if (!(Precpred(Context, 11))) throw new FailedPredicateException(this, "Precpred(Context, 11)");
+						State = 128;
+						Match(DIVIDE);
+						State = 129;
+						expression(12);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new Multiply_exprContext(new ExpressionContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expression);
+						State = 130;
+						if (!(Precpred(Context, 10))) throw new FailedPredicateException(this, "Precpred(Context, 10)");
+						State = 131;
+						Match(MULTIPLY);
+						State = 132;
+						expression(11);
+						}
+						break;
+					case 3:
+						{
+						_localctx = new Subtraction_exprContext(new ExpressionContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expression);
+						State = 133;
+						if (!(Precpred(Context, 9))) throw new FailedPredicateException(this, "Precpred(Context, 9)");
+						State = 134;
+						Match(MINUS);
+						State = 135;
+						expression(10);
+						}
+						break;
+					case 4:
+						{
+						_localctx = new Add_exprContext(new ExpressionContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expression);
+						State = 136;
+						if (!(Precpred(Context, 8))) throw new FailedPredicateException(this, "Precpred(Context, 8)");
+						State = 137;
+						Match(PLUS);
+						State = 138;
+						expression(9);
+						}
+						break;
+					case 5:
+						{
+						_localctx = new Comparison_exprContext(new ExpressionContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expression);
+						State = 139;
+						if (!(Precpred(Context, 7))) throw new FailedPredicateException(this, "Precpred(Context, 7)");
+						State = 140;
+						comparison_op();
+						State = 141;
+						expression(8);
+						}
+						break;
+					case 6:
+						{
+						_localctx = new Equality_exprContext(new ExpressionContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expression);
+						State = 143;
+						if (!(Precpred(Context, 6))) throw new FailedPredicateException(this, "Precpred(Context, 6)");
+						State = 144;
+						equality_op();
+						State = 145;
+						expression(7);
+						}
+						break;
+					case 7:
+						{
+						_localctx = new Land_exprContext(new ExpressionContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expression);
+						State = 147;
+						if (!(Precpred(Context, 5))) throw new FailedPredicateException(this, "Precpred(Context, 5)");
+						State = 148;
+						Match(LAND);
+						State = 149;
+						expression(6);
+						}
+						break;
+					case 8:
+						{
+						_localctx = new Lor_exprContext(new ExpressionContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expression);
+						State = 150;
+						if (!(Precpred(Context, 4))) throw new FailedPredicateException(this, "Precpred(Context, 4)");
+						State = 151;
+						Match(LOR);
+						State = 152;
+						expression(5);
+						}
+						break;
+					}
+					} 
 				}
-				break;
-			case 8:
-				EnterOuterAlt(_localctx, 8);
-				{
-				State = 190;
-				Match(LOR);
-				State = 191;
-				expression(st);
-				State = 192;
-				sub_expression(st, "int");
-				_localctx.expr_type =  "lor_expr";
-				}
-				break;
-			case 9:
-				EnterOuterAlt(_localctx, 9);
-				{
-				_localctx.expr_type =  "";
-				}
-				break;
+				State = 157;
+				ErrorHandler.Sync(this);
+				_alt = Interpreter.AdaptivePredict(TokenStream,8,Context);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1004,7 +980,7 @@ public partial class GeemParser : Parser {
 			ErrorHandler.Recover(this, re);
 		}
 		finally {
-			ExitRule();
+			UnrollRecursionContexts(_parentctx);
 		}
 		return _localctx;
 	}
@@ -1024,12 +1000,12 @@ public partial class GeemParser : Parser {
 	[RuleVersion(0)]
 	public Comparison_opContext comparison_op() {
 		Comparison_opContext _localctx = new Comparison_opContext(Context, State);
-		EnterRule(_localctx, 22, RULE_comparison_op);
+		EnterRule(_localctx, 20, RULE_comparison_op);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 198;
+			State = 158;
 			_la = TokenStream.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LTE_SYM) | (1L << GTE_SYM) | (1L << LT_SYM) | (1L << GT_SYM))) != 0)) ) {
 			ErrorHandler.RecoverInline(this);
@@ -1064,12 +1040,12 @@ public partial class GeemParser : Parser {
 	[RuleVersion(0)]
 	public Equality_opContext equality_op() {
 		Equality_opContext _localctx = new Equality_opContext(Context, State);
-		EnterRule(_localctx, 24, RULE_equality_op);
+		EnterRule(_localctx, 22, RULE_equality_op);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 200;
+			State = 160;
 			_la = TokenStream.LA(1);
 			if ( !(_la==EQUAL_SYM || _la==NOTEQ_SYM) ) {
 			ErrorHandler.RecoverInline(this);
@@ -1093,11 +1069,9 @@ public partial class GeemParser : Parser {
 
 	public partial class StatementContext : ParserRuleContext {
 		public SymbolTable st;
-		public StatementContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public StatementContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public StatementContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_statement; } }
 	 
@@ -1157,75 +1131,75 @@ public partial class GeemParser : Parser {
 	}
 
 	[RuleVersion(0)]
-	public StatementContext statement(SymbolTable st) {
-		StatementContext _localctx = new StatementContext(Context, State, st);
-		EnterRule(_localctx, 26, RULE_statement);
+	public StatementContext statement() {
+		StatementContext _localctx = new StatementContext(Context, State);
+		EnterRule(_localctx, 24, RULE_statement);
 		try {
-			State = 210;
+			State = 170;
 			ErrorHandler.Sync(this);
-			switch ( Interpreter.AdaptivePredict(TokenStream,8,Context) ) {
+			switch ( Interpreter.AdaptivePredict(TokenStream,9,Context) ) {
 			case 1:
 				_localctx = new Assignment_StatContext(_localctx);
 				EnterOuterAlt(_localctx, 1);
 				{
-				State = 202;
-				assignmentStat(st);
+				State = 162;
+				assignmentStat();
 				}
 				break;
 			case 2:
 				_localctx = new Return_StatContext(_localctx);
 				EnterOuterAlt(_localctx, 2);
 				{
-				State = 203;
-				returnStat(st);
+				State = 163;
+				returnStat();
 				}
 				break;
 			case 3:
 				_localctx = new Result_StatContext(_localctx);
 				EnterOuterAlt(_localctx, 3);
 				{
-				State = 204;
-				resultStat(st);
+				State = 164;
+				resultStat();
 				}
 				break;
 			case 4:
 				_localctx = new If_StatContext(_localctx);
 				EnterOuterAlt(_localctx, 4);
 				{
-				State = 205;
-				ifStat(st);
+				State = 165;
+				ifStat();
 				}
 				break;
 			case 5:
 				_localctx = new While_StatContext(_localctx);
 				EnterOuterAlt(_localctx, 5);
 				{
-				State = 206;
-				whileStat(st);
+				State = 166;
+				whileStat();
 				}
 				break;
 			case 6:
 				_localctx = new Var_Decl_StatContext(_localctx);
 				EnterOuterAlt(_localctx, 6);
 				{
-				State = 207;
-				varDecl(st);
+				State = 167;
+				varDecl();
 				}
 				break;
 			case 7:
 				_localctx = new Operation_StatContext(_localctx);
 				EnterOuterAlt(_localctx, 7);
 				{
-				State = 208;
-				operationStat(st);
+				State = 168;
+				operationStat();
 				}
 				break;
 			case 8:
 				_localctx = new Command_StatContext(_localctx);
 				EnterOuterAlt(_localctx, 8);
 				{
-				State = 209;
-				commandStat(st);
+				State = 169;
+				commandStat();
 				}
 				break;
 			}
@@ -1242,41 +1216,38 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class StatementListContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public StatementContext[] statement() {
 			return GetRuleContexts<StatementContext>();
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public StatementContext statement(int i) {
 			return GetRuleContext<StatementContext>(i);
 		}
-		public StatementListContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public StatementListContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public StatementListContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_statementList; } }
 	}
 
 	[RuleVersion(0)]
-	public StatementListContext statementList(SymbolTable st) {
-		StatementListContext _localctx = new StatementListContext(Context, State, st);
-		EnterRule(_localctx, 28, RULE_statementList);
+	public StatementListContext statementList() {
+		StatementListContext _localctx = new StatementListContext(Context, State);
+		EnterRule(_localctx, 26, RULE_statementList);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 215;
+			State = 175;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << COLON) | (1L << RET_KEYWORD) | (1L << RES_KEYWORD) | (1L << IF_KEYWORD) | (1L << WHILE_KEYWORD) | (1L << INT_DATA_TYPE) | (1L << UINT_DATA_TYPE) | (1L << BYTE_DATA_TYPE) | (1L << UBYTE_DATA_TYPE) | (1L << SHORT_DATA_TYPE) | (1L << USHORT_DATA_TYPE) | (1L << LONG_DATA_TYPE) | (1L << ULONG_DATA_TYPE) | (1L << ID))) != 0)) {
 				{
 				{
-				State = 212;
-				statement(st);
+				State = 172;
+				statement();
 				}
 				}
-				State = 217;
+				State = 177;
 				ErrorHandler.Sync(this);
 				_la = TokenStream.LA(1);
 			}
@@ -1294,7 +1265,6 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class OperationStatContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(GeemParser.ID, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RP() { return GetToken(GeemParser.RP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ArgumentListContext argumentList() {
@@ -1302,31 +1272,29 @@ public partial class GeemParser : Parser {
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LP() { return GetToken(GeemParser.LP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode FASLA_MANQUOTA() { return GetToken(GeemParser.FASLA_MANQUOTA, 0); }
-		public OperationStatContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public OperationStatContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public OperationStatContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_operationStat; } }
 	}
 
 	[RuleVersion(0)]
-	public OperationStatContext operationStat(SymbolTable st) {
-		OperationStatContext _localctx = new OperationStatContext(Context, State, st);
-		EnterRule(_localctx, 30, RULE_operationStat);
+	public OperationStatContext operationStat() {
+		OperationStatContext _localctx = new OperationStatContext(Context, State);
+		EnterRule(_localctx, 28, RULE_operationStat);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 218;
+			State = 178;
 			Match(ID);
-			State = 219;
+			State = 179;
 			Match(RP);
-			State = 220;
-			argumentList(st);
-			State = 221;
+			State = 180;
+			argumentList();
+			State = 181;
 			Match(LP);
-			State = 222;
+			State = 182;
 			Match(FASLA_MANQUOTA);
 			}
 		}
@@ -1342,36 +1310,33 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class AssignmentStatContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ID() { return GetToken(GeemParser.ID, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode ASSIGN_SYM() { return GetToken(GeemParser.ASSIGN_SYM, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode FASLA_MANQUOTA() { return GetToken(GeemParser.FASLA_MANQUOTA, 0); }
-		public AssignmentStatContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public AssignmentStatContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public AssignmentStatContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_assignmentStat; } }
 	}
 
 	[RuleVersion(0)]
-	public AssignmentStatContext assignmentStat(SymbolTable st) {
-		AssignmentStatContext _localctx = new AssignmentStatContext(Context, State, st);
-		EnterRule(_localctx, 32, RULE_assignmentStat);
+	public AssignmentStatContext assignmentStat() {
+		AssignmentStatContext _localctx = new AssignmentStatContext(Context, State);
+		EnterRule(_localctx, 30, RULE_assignmentStat);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 224;
+			State = 184;
 			Match(ID);
-			State = 225;
+			State = 185;
 			Match(ASSIGN_SYM);
-			State = 226;
-			expression(st);
-			State = 227;
+			State = 186;
+			expression(0);
+			State = 187;
 			Match(FASLA_MANQUOTA);
 			}
 		}
@@ -1387,7 +1352,6 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class IfStatContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode IF_KEYWORD() { return GetToken(GeemParser.IF_KEYWORD, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RP() { return GetToken(GeemParser.RP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
@@ -1399,35 +1363,33 @@ public partial class GeemParser : Parser {
 			return GetRuleContext<StatementListContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LCB() { return GetToken(GeemParser.LCB, 0); }
-		public IfStatContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public IfStatContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public IfStatContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_ifStat; } }
 	}
 
 	[RuleVersion(0)]
-	public IfStatContext ifStat(SymbolTable st) {
-		IfStatContext _localctx = new IfStatContext(Context, State, st);
-		EnterRule(_localctx, 34, RULE_ifStat);
+	public IfStatContext ifStat() {
+		IfStatContext _localctx = new IfStatContext(Context, State);
+		EnterRule(_localctx, 32, RULE_ifStat);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 229;
+			State = 189;
 			Match(IF_KEYWORD);
-			State = 230;
+			State = 190;
 			Match(RP);
-			State = 231;
-			expression(st);
-			State = 232;
+			State = 191;
+			expression(0);
+			State = 192;
 			Match(LP);
-			State = 233;
+			State = 193;
 			Match(RCB);
-			State = 234;
-			statementList(st);
-			State = 235;
+			State = 194;
+			statementList();
+			State = 195;
 			Match(LCB);
 			}
 		}
@@ -1443,7 +1405,6 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class WhileStatContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode WHILE_KEYWORD() { return GetToken(GeemParser.WHILE_KEYWORD, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RP() { return GetToken(GeemParser.RP, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
@@ -1455,35 +1416,33 @@ public partial class GeemParser : Parser {
 			return GetRuleContext<StatementListContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode LCB() { return GetToken(GeemParser.LCB, 0); }
-		public WhileStatContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public WhileStatContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public WhileStatContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_whileStat; } }
 	}
 
 	[RuleVersion(0)]
-	public WhileStatContext whileStat(SymbolTable st) {
-		WhileStatContext _localctx = new WhileStatContext(Context, State, st);
-		EnterRule(_localctx, 36, RULE_whileStat);
+	public WhileStatContext whileStat() {
+		WhileStatContext _localctx = new WhileStatContext(Context, State);
+		EnterRule(_localctx, 34, RULE_whileStat);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 237;
+			State = 197;
 			Match(WHILE_KEYWORD);
-			State = 238;
+			State = 198;
 			Match(RP);
-			State = 239;
-			expression(st);
-			State = 240;
+			State = 199;
+			expression(0);
+			State = 200;
 			Match(LP);
-			State = 241;
+			State = 201;
 			Match(RCB);
-			State = 242;
-			statementList(st);
-			State = 243;
+			State = 202;
+			statementList();
+			State = 203;
 			Match(LCB);
 			}
 		}
@@ -1499,28 +1458,25 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class ReturnStatContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RET_KEYWORD() { return GetToken(GeemParser.RET_KEYWORD, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode FASLA_MANQUOTA() { return GetToken(GeemParser.FASLA_MANQUOTA, 0); }
-		public ReturnStatContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public ReturnStatContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public ReturnStatContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_returnStat; } }
 	}
 
 	[RuleVersion(0)]
-	public ReturnStatContext returnStat(SymbolTable st) {
-		ReturnStatContext _localctx = new ReturnStatContext(Context, State, st);
-		EnterRule(_localctx, 38, RULE_returnStat);
+	public ReturnStatContext returnStat() {
+		ReturnStatContext _localctx = new ReturnStatContext(Context, State);
+		EnterRule(_localctx, 36, RULE_returnStat);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 245;
+			State = 205;
 			Match(RET_KEYWORD);
-			State = 246;
+			State = 206;
 			Match(FASLA_MANQUOTA);
 			}
 		}
@@ -1536,33 +1492,30 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class ResultStatContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode RES_KEYWORD() { return GetToken(GeemParser.RES_KEYWORD, 0); }
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode FASLA_MANQUOTA() { return GetToken(GeemParser.FASLA_MANQUOTA, 0); }
-		public ResultStatContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public ResultStatContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public ResultStatContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_resultStat; } }
 	}
 
 	[RuleVersion(0)]
-	public ResultStatContext resultStat(SymbolTable st) {
-		ResultStatContext _localctx = new ResultStatContext(Context, State, st);
-		EnterRule(_localctx, 40, RULE_resultStat);
+	public ResultStatContext resultStat() {
+		ResultStatContext _localctx = new ResultStatContext(Context, State);
+		EnterRule(_localctx, 38, RULE_resultStat);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 248;
+			State = 208;
 			Match(RES_KEYWORD);
-			State = 249;
-			expression(st);
-			State = 250;
+			State = 209;
+			expression(0);
+			State = 210;
 			Match(FASLA_MANQUOTA);
 			}
 		}
@@ -1587,29 +1540,27 @@ public partial class GeemParser : Parser {
 			return GetRuleContext<InititalizationContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode FASLA_MANQUOTA() { return GetToken(GeemParser.FASLA_MANQUOTA, 0); }
-		public VarDeclContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public VarDeclContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public VarDeclContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_varDecl; } }
 	}
 
 	[RuleVersion(0)]
-	public VarDeclContext varDecl(SymbolTable st) {
-		VarDeclContext _localctx = new VarDeclContext(Context, State, st);
-		EnterRule(_localctx, 42, RULE_varDecl);
+	public VarDeclContext varDecl() {
+		VarDeclContext _localctx = new VarDeclContext(Context, State);
+		EnterRule(_localctx, 40, RULE_varDecl);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 252;
+			State = 212;
 			datatype();
-			State = 253;
+			State = 213;
 			Match(ID);
-			State = 254;
-			inititalization(st);
-			State = 255;
+			State = 214;
+			inititalization();
+			State = 215;
 			Match(FASLA_MANQUOTA);
 			}
 		}
@@ -1625,30 +1576,27 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class CommandStatContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public CommandContext command() {
 			return GetRuleContext<CommandContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode FASLA_MANQUOTA() { return GetToken(GeemParser.FASLA_MANQUOTA, 0); }
-		public CommandStatContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public CommandStatContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public CommandStatContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_commandStat; } }
 	}
 
 	[RuleVersion(0)]
-	public CommandStatContext commandStat(SymbolTable st) {
-		CommandStatContext _localctx = new CommandStatContext(Context, State, st);
-		EnterRule(_localctx, 44, RULE_commandStat);
+	public CommandStatContext commandStat() {
+		CommandStatContext _localctx = new CommandStatContext(Context, State);
+		EnterRule(_localctx, 42, RULE_commandStat);
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 257;
-			command(st);
-			State = 258;
+			State = 217;
+			command();
+			State = 218;
 			Match(FASLA_MANQUOTA);
 			}
 		}
@@ -1682,12 +1630,12 @@ public partial class GeemParser : Parser {
 	[RuleVersion(0)]
 	public DatatypeContext datatype() {
 		DatatypeContext _localctx = new DatatypeContext(Context, State);
-		EnterRule(_localctx, 46, RULE_datatype);
+		EnterRule(_localctx, 44, RULE_datatype);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
-			State = 260;
+			State = 220;
 			_la = TokenStream.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT_DATA_TYPE) | (1L << UINT_DATA_TYPE) | (1L << BYTE_DATA_TYPE) | (1L << UBYTE_DATA_TYPE) | (1L << SHORT_DATA_TYPE) | (1L << USHORT_DATA_TYPE) | (1L << LONG_DATA_TYPE) | (1L << ULONG_DATA_TYPE))) != 0)) ) {
 			ErrorHandler.RecoverInline(this);
@@ -1710,32 +1658,29 @@ public partial class GeemParser : Parser {
 	}
 
 	public partial class CommandContext : ParserRuleContext {
-		public SymbolTable st;
 		[System.Diagnostics.DebuggerNonUserCode] public ExpressionContext expression() {
 			return GetRuleContext<ExpressionContext>(0);
 		}
 		[System.Diagnostics.DebuggerNonUserCode] public ITerminalNode COLON() { return GetToken(GeemParser.COLON, 0); }
-		public CommandContext(ParserRuleContext parent, int invokingState) : base(parent, invokingState) { }
-		public CommandContext(ParserRuleContext parent, int invokingState, SymbolTable st)
+		public CommandContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
-			this.st = st;
 		}
 		public override int RuleIndex { get { return RULE_command; } }
 	}
 
 	[RuleVersion(0)]
-	public CommandContext command(SymbolTable st) {
-		CommandContext _localctx = new CommandContext(Context, State, st);
-		EnterRule(_localctx, 48, RULE_command);
+	public CommandContext command() {
+		CommandContext _localctx = new CommandContext(Context, State);
+		EnterRule(_localctx, 46, RULE_command);
 		int _la;
 		try {
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
-			State = 262;
+			State = 222;
 			Match(COLON);
-			State = 263;
+			State = 223;
 			_la = TokenStream.LA(1);
 			if ( !(_la==T__0 || _la==T__1) ) {
 			ErrorHandler.RecoverInline(this);
@@ -1745,8 +1690,8 @@ public partial class GeemParser : Parser {
 			    Consume();
 			}
 			}
-			State = 265;
-			expression(st);
+			State = 225;
+			expression(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1760,9 +1705,29 @@ public partial class GeemParser : Parser {
 		return _localctx;
 	}
 
+	public override bool Sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
+		switch (ruleIndex) {
+		case 9: return expression_sempred((ExpressionContext)_localctx, predIndex);
+		}
+		return true;
+	}
+	private bool expression_sempred(ExpressionContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 0: return Precpred(Context, 11);
+		case 1: return Precpred(Context, 10);
+		case 2: return Precpred(Context, 9);
+		case 3: return Precpred(Context, 8);
+		case 4: return Precpred(Context, 7);
+		case 5: return Precpred(Context, 6);
+		case 6: return Precpred(Context, 5);
+		case 7: return Precpred(Context, 4);
+		}
+		return true;
+	}
+
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', ';', '\x10E', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
+		'\x5964', '\x3', ';', '\xE6', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', 
 		'\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t', '\x5', '\x4', 
 		'\x6', '\t', '\x6', '\x4', '\a', '\t', '\a', '\x4', '\b', '\t', '\b', 
 		'\x4', '\t', '\t', '\t', '\x4', '\n', '\t', '\n', '\x4', '\v', '\t', '\v', 
@@ -1771,211 +1736,180 @@ public partial class GeemParser : Parser {
 		'\x11', '\t', '\x11', '\x4', '\x12', '\t', '\x12', '\x4', '\x13', '\t', 
 		'\x13', '\x4', '\x14', '\t', '\x14', '\x4', '\x15', '\t', '\x15', '\x4', 
 		'\x16', '\t', '\x16', '\x4', '\x17', '\t', '\x17', '\x4', '\x18', '\t', 
-		'\x18', '\x4', '\x19', '\t', '\x19', '\x4', '\x1A', '\t', '\x1A', '\x3', 
-		'\x2', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', '\x6', '\x2', '\x39', 
-		'\n', '\x2', '\r', '\x2', '\xE', '\x2', ':', '\x3', '\x3', '\x3', '\x3', 
-		'\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x4', 
-		'\x3', '\x4', '\x3', '\x4', '\x3', '\x5', '\x3', '\x5', '\x3', '\x5', 
+		'\x18', '\x4', '\x19', '\t', '\x19', '\x3', '\x2', '\x3', '\x2', '\x3', 
+		'\x2', '\x3', '\x2', '\x6', '\x2', '\x37', '\n', '\x2', '\r', '\x2', '\xE', 
+		'\x2', '\x38', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', 
+		'\x3', '\x3', '\x3', '\x4', '\x3', '\x4', '\x3', '\x4', '\x3', '\x5', 
 		'\x3', '\x5', '\x3', '\x5', '\x3', '\x5', '\x3', '\x5', '\x3', '\x5', 
-		'\x3', '\x5', '\x3', '\x5', '\x3', '\x5', '\x3', '\x5', '\x3', '\x6', 
+		'\x3', '\x5', '\x3', '\x5', '\x3', '\x5', '\x3', '\x5', '\x3', '\x5', 
 		'\x3', '\x6', '\x3', '\x6', '\x3', '\x6', '\x3', '\x6', '\x3', '\x6', 
 		'\x3', '\x6', '\x3', '\x6', '\x3', '\x6', '\x3', '\x6', '\x3', '\a', '\x3', 
-		'\a', '\x3', '\a', '\x3', '\a', '\x3', '\b', '\x3', '\b', '\x3', '\b', 
-		'\x3', '\b', '\x3', '\b', '\x3', '\b', '\a', '\b', '\x66', '\n', '\b', 
-		'\f', '\b', '\xE', '\b', 'i', '\v', '\b', '\x5', '\b', 'k', '\n', '\b', 
-		'\x3', '\t', '\x3', '\t', '\x3', '\n', '\x3', '\n', '\x3', '\n', '\x3', 
-		'\n', '\x3', '\n', '\x3', '\n', '\a', '\n', 'u', '\n', '\n', '\f', '\n', 
-		'\xE', '\n', 'x', '\v', '\n', '\x5', '\n', 'z', '\n', '\n', '\x3', '\v', 
+		'\a', '\x3', '\a', '\x3', '\b', '\x3', '\b', '\x3', '\b', '\a', '\b', 
+		']', '\n', '\b', '\f', '\b', '\xE', '\b', '`', '\v', '\b', '\x5', '\b', 
+		'\x62', '\n', '\b', '\x3', '\t', '\x3', '\t', '\x3', '\n', '\x3', '\n', 
+		'\x3', '\n', '\a', '\n', 'i', '\n', '\n', '\f', '\n', '\xE', '\n', 'l', 
+		'\v', '\n', '\x5', '\n', 'n', '\n', '\n', '\x3', '\v', '\x3', '\v', '\x3', 
+		'\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', 
 		'\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', 
+		'\v', '\x3', '\v', '\x3', '\v', '\x5', '\v', '\x80', '\n', '\v', '\x3', 
 		'\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', 
 		'\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', 
 		'\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', 
 		'\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x3', 
-		'\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\x5', '\v', '\x9C', '\n', 
-		'\v', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', 
-		'\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', 
-		'\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', 
-		'\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', 
-		'\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', 
-		'\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', 
-		'\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', '\x3', '\f', 
-		'\x3', '\f', '\x3', '\f', '\x3', '\f', '\x5', '\f', '\xC7', '\n', '\f', 
-		'\x3', '\r', '\x3', '\r', '\x3', '\xE', '\x3', '\xE', '\x3', '\xF', '\x3', 
-		'\xF', '\x3', '\xF', '\x3', '\xF', '\x3', '\xF', '\x3', '\xF', '\x3', 
-		'\xF', '\x3', '\xF', '\x5', '\xF', '\xD5', '\n', '\xF', '\x3', '\x10', 
-		'\a', '\x10', '\xD8', '\n', '\x10', '\f', '\x10', '\xE', '\x10', '\xDB', 
-		'\v', '\x10', '\x3', '\x11', '\x3', '\x11', '\x3', '\x11', '\x3', '\x11', 
-		'\x3', '\x11', '\x3', '\x11', '\x3', '\x12', '\x3', '\x12', '\x3', '\x12', 
-		'\x3', '\x12', '\x3', '\x12', '\x3', '\x13', '\x3', '\x13', '\x3', '\x13', 
+		'\v', '\x3', '\v', '\x3', '\v', '\x3', '\v', '\a', '\v', '\x9C', '\n', 
+		'\v', '\f', '\v', '\xE', '\v', '\x9F', '\v', '\v', '\x3', '\f', '\x3', 
+		'\f', '\x3', '\r', '\x3', '\r', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', 
+		'\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', '\x3', '\xE', 
+		'\x5', '\xE', '\xAD', '\n', '\xE', '\x3', '\xF', '\a', '\xF', '\xB0', 
+		'\n', '\xF', '\f', '\xF', '\xE', '\xF', '\xB3', '\v', '\xF', '\x3', '\x10', 
+		'\x3', '\x10', '\x3', '\x10', '\x3', '\x10', '\x3', '\x10', '\x3', '\x10', 
+		'\x3', '\x11', '\x3', '\x11', '\x3', '\x11', '\x3', '\x11', '\x3', '\x11', 
+		'\x3', '\x12', '\x3', '\x12', '\x3', '\x12', '\x3', '\x12', '\x3', '\x12', 
+		'\x3', '\x12', '\x3', '\x12', '\x3', '\x12', '\x3', '\x13', '\x3', '\x13', 
 		'\x3', '\x13', '\x3', '\x13', '\x3', '\x13', '\x3', '\x13', '\x3', '\x13', 
-		'\x3', '\x14', '\x3', '\x14', '\x3', '\x14', '\x3', '\x14', '\x3', '\x14', 
-		'\x3', '\x14', '\x3', '\x14', '\x3', '\x14', '\x3', '\x15', '\x3', '\x15', 
-		'\x3', '\x15', '\x3', '\x16', '\x3', '\x16', '\x3', '\x16', '\x3', '\x16', 
-		'\x3', '\x17', '\x3', '\x17', '\x3', '\x17', '\x3', '\x17', '\x3', '\x17', 
-		'\x3', '\x18', '\x3', '\x18', '\x3', '\x18', '\x3', '\x19', '\x3', '\x19', 
-		'\x3', '\x1A', '\x3', '\x1A', '\x3', '\x1A', '\x3', '\x1A', '\x3', '\x1A', 
-		'\x3', '\x1A', '\x2', '\x2', '\x1B', '\x2', '\x4', '\x6', '\b', '\n', 
-		'\f', '\xE', '\x10', '\x12', '\x14', '\x16', '\x18', '\x1A', '\x1C', '\x1E', 
-		' ', '\"', '$', '&', '(', '*', ',', '.', '\x30', '\x32', '\x2', '\x6', 
-		'\x3', '\x2', '\"', '%', '\x3', '\x2', '&', '\'', '\x3', '\x2', '\x31', 
-		'\x38', '\x3', '\x2', '\x3', '\x4', '\x2', '\x111', '\x2', '\x38', '\x3', 
-		'\x2', '\x2', '\x2', '\x4', '<', '\x3', '\x2', '\x2', '\x2', '\x6', '\x42', 
-		'\x3', '\x2', '\x2', '\x2', '\b', '\x45', '\x3', '\x2', '\x2', '\x2', 
-		'\n', 'Q', '\x3', '\x2', '\x2', '\x2', '\f', '[', '\x3', '\x2', '\x2', 
-		'\x2', '\xE', 'j', '\x3', '\x2', '\x2', '\x2', '\x10', 'l', '\x3', '\x2', 
-		'\x2', '\x2', '\x12', 'y', '\x3', '\x2', '\x2', '\x2', '\x14', '\x9B', 
-		'\x3', '\x2', '\x2', '\x2', '\x16', '\xC6', '\x3', '\x2', '\x2', '\x2', 
-		'\x18', '\xC8', '\x3', '\x2', '\x2', '\x2', '\x1A', '\xCA', '\x3', '\x2', 
-		'\x2', '\x2', '\x1C', '\xD4', '\x3', '\x2', '\x2', '\x2', '\x1E', '\xD9', 
-		'\x3', '\x2', '\x2', '\x2', ' ', '\xDC', '\x3', '\x2', '\x2', '\x2', '\"', 
-		'\xE2', '\x3', '\x2', '\x2', '\x2', '$', '\xE7', '\x3', '\x2', '\x2', 
-		'\x2', '&', '\xEF', '\x3', '\x2', '\x2', '\x2', '(', '\xF7', '\x3', '\x2', 
-		'\x2', '\x2', '*', '\xFA', '\x3', '\x2', '\x2', '\x2', ',', '\xFE', '\x3', 
-		'\x2', '\x2', '\x2', '.', '\x103', '\x3', '\x2', '\x2', '\x2', '\x30', 
-		'\x106', '\x3', '\x2', '\x2', '\x2', '\x32', '\x108', '\x3', '\x2', '\x2', 
-		'\x2', '\x34', '\x39', '\x5', '\x4', '\x3', '\x2', '\x35', '\x39', '\x5', 
-		'\b', '\x5', '\x2', '\x36', '\x39', '\x5', '\n', '\x6', '\x2', '\x37', 
-		'\x39', '\x5', '.', '\x18', '\x2', '\x38', '\x34', '\x3', '\x2', '\x2', 
-		'\x2', '\x38', '\x35', '\x3', '\x2', '\x2', '\x2', '\x38', '\x36', '\x3', 
-		'\x2', '\x2', '\x2', '\x38', '\x37', '\x3', '\x2', '\x2', '\x2', '\x39', 
-		':', '\x3', '\x2', '\x2', '\x2', ':', '\x38', '\x3', '\x2', '\x2', '\x2', 
-		':', ';', '\x3', '\x2', '\x2', '\x2', ';', '\x3', '\x3', '\x2', '\x2', 
-		'\x2', '<', '=', '\x5', '\x30', '\x19', '\x2', '=', '>', '\a', ';', '\x2', 
-		'\x2', '>', '?', '\x5', '\x6', '\x4', '\x2', '?', '@', '\a', '\x10', '\x2', 
-		'\x2', '@', '\x41', '\b', '\x3', '\x1', '\x2', '\x41', '\x5', '\x3', '\x2', 
-		'\x2', '\x2', '\x42', '\x43', '\a', '(', '\x2', '\x2', '\x43', '\x44', 
-		'\x5', '\x14', '\v', '\x2', '\x44', '\a', '\x3', '\x2', '\x2', '\x2', 
-		'\x45', '\x46', '\a', ')', '\x2', '\x2', '\x46', 'G', '\a', ';', '\x2', 
-		'\x2', 'G', 'H', '\a', '\a', '\x2', '\x2', 'H', 'I', '\x5', '\xE', '\b', 
-		'\x2', 'I', 'J', '\a', '\x6', '\x2', '\x2', 'J', 'K', '\a', '\x11', '\x2', 
-		'\x2', 'K', 'L', '\x5', '\x30', '\x19', '\x2', 'L', 'M', '\a', '\v', '\x2', 
-		'\x2', 'M', 'N', '\x5', '\x1E', '\x10', '\x2', 'N', 'O', '\a', '\n', '\x2', 
-		'\x2', 'O', 'P', '\b', '\x5', '\x1', '\x2', 'P', '\t', '\x3', '\x2', '\x2', 
-		'\x2', 'Q', 'R', '\a', '*', '\x2', '\x2', 'R', 'S', '\a', ';', '\x2', 
-		'\x2', 'S', 'T', '\a', '\a', '\x2', '\x2', 'T', 'U', '\x5', '\xE', '\b', 
-		'\x2', 'U', 'V', '\a', '\x6', '\x2', '\x2', 'V', 'W', '\a', '\v', '\x2', 
-		'\x2', 'W', 'X', '\x5', '\x1E', '\x10', '\x2', 'X', 'Y', '\a', '\n', '\x2', 
-		'\x2', 'Y', 'Z', '\b', '\x6', '\x1', '\x2', 'Z', '\v', '\x3', '\x2', '\x2', 
-		'\x2', '[', '\\', '\x5', '\x30', '\x19', '\x2', '\\', ']', '\a', ';', 
-		'\x2', '\x2', ']', '^', '\b', '\a', '\x1', '\x2', '^', '\r', '\x3', '\x2', 
-		'\x2', '\x2', '_', '`', '\x5', '\f', '\a', '\x2', '`', 'g', '\b', '\b', 
-		'\x1', '\x2', '\x61', '\x62', '\a', '\xF', '\x2', '\x2', '\x62', '\x63', 
-		'\x5', '\f', '\a', '\x2', '\x63', '\x64', '\b', '\b', '\x1', '\x2', '\x64', 
-		'\x66', '\x3', '\x2', '\x2', '\x2', '\x65', '\x61', '\x3', '\x2', '\x2', 
-		'\x2', '\x66', 'i', '\x3', '\x2', '\x2', '\x2', 'g', '\x65', '\x3', '\x2', 
-		'\x2', '\x2', 'g', 'h', '\x3', '\x2', '\x2', '\x2', 'h', 'k', '\x3', '\x2', 
-		'\x2', '\x2', 'i', 'g', '\x3', '\x2', '\x2', '\x2', 'j', '_', '\x3', '\x2', 
-		'\x2', '\x2', 'j', 'k', '\x3', '\x2', '\x2', '\x2', 'k', '\xF', '\x3', 
-		'\x2', '\x2', '\x2', 'l', 'm', '\x5', '\x14', '\v', '\x2', 'm', '\x11', 
-		'\x3', '\x2', '\x2', '\x2', 'n', 'o', '\x5', '\x10', '\t', '\x2', 'o', 
-		'v', '\b', '\n', '\x1', '\x2', 'p', 'q', '\a', '\xF', '\x2', '\x2', 'q', 
-		'r', '\x5', '\x10', '\t', '\x2', 'r', 's', '\b', '\n', '\x1', '\x2', 's', 
-		'u', '\x3', '\x2', '\x2', '\x2', 't', 'p', '\x3', '\x2', '\x2', '\x2', 
-		'u', 'x', '\x3', '\x2', '\x2', '\x2', 'v', 't', '\x3', '\x2', '\x2', '\x2', 
-		'v', 'w', '\x3', '\x2', '\x2', '\x2', 'w', 'z', '\x3', '\x2', '\x2', '\x2', 
-		'x', 'v', '\x3', '\x2', '\x2', '\x2', 'y', 'n', '\x3', '\x2', '\x2', '\x2', 
-		'y', 'z', '\x3', '\x2', '\x2', '\x2', 'z', '\x13', '\x3', '\x2', '\x2', 
-		'\x2', '{', '|', '\a', ';', '\x2', '\x2', '|', '}', '\a', '\a', '\x2', 
-		'\x2', '}', '~', '\x5', '\x12', '\n', '\x2', '~', '\x7F', '\a', '\x6', 
-		'\x2', '\x2', '\x7F', '\x80', '\x5', '\x16', '\f', '\x2', '\x80', '\x81', 
-		'\b', '\v', '\x1', '\x2', '\x81', '\x9C', '\x3', '\x2', '\x2', '\x2', 
-		'\x82', '\x83', '\a', '\x13', '\x2', '\x2', '\x83', '\x84', '\x5', '\x14', 
-		'\v', '\x2', '\x84', '\x85', '\x5', '\x16', '\f', '\x2', '\x85', '\x86', 
-		'\b', '\v', '\x1', '\x2', '\x86', '\x9C', '\x3', '\x2', '\x2', '\x2', 
-		'\x87', '\x88', '\a', '\x1A', '\x2', '\x2', '\x88', '\x89', '\x5', '\x14', 
-		'\v', '\x2', '\x89', '\x8A', '\x5', '\x16', '\f', '\x2', '\x8A', '\x8B', 
-		'\b', '\v', '\x1', '\x2', '\x8B', '\x9C', '\x3', '\x2', '\x2', '\x2', 
-		'\x8C', '\x8D', '\a', '\a', '\x2', '\x2', '\x8D', '\x8E', '\x5', '\x14', 
-		'\v', '\x2', '\x8E', '\x8F', '\a', '\x6', '\x2', '\x2', '\x8F', '\x90', 
-		'\x5', '\x16', '\f', '\x2', '\x90', '\x91', '\b', '\v', '\x1', '\x2', 
-		'\x91', '\x9C', '\x3', '\x2', '\x2', '\x2', '\x92', '\x93', '\a', '\x5', 
-		'\x2', '\x2', '\x93', '\x94', '\x5', '\x16', '\f', '\x2', '\x94', '\x95', 
-		'\b', '\v', '\x1', '\x2', '\x95', '\x9C', '\x3', '\x2', '\x2', '\x2', 
-		'\x96', '\x97', '\a', ';', '\x2', '\x2', '\x97', '\x98', '\b', '\v', '\x1', 
-		'\x2', '\x98', '\x99', '\x5', '\x16', '\f', '\x2', '\x99', '\x9A', '\b', 
-		'\v', '\x1', '\x2', '\x9A', '\x9C', '\x3', '\x2', '\x2', '\x2', '\x9B', 
-		'{', '\x3', '\x2', '\x2', '\x2', '\x9B', '\x82', '\x3', '\x2', '\x2', 
-		'\x2', '\x9B', '\x87', '\x3', '\x2', '\x2', '\x2', '\x9B', '\x8C', '\x3', 
-		'\x2', '\x2', '\x2', '\x9B', '\x92', '\x3', '\x2', '\x2', '\x2', '\x9B', 
-		'\x96', '\x3', '\x2', '\x2', '\x2', '\x9C', '\x15', '\x3', '\x2', '\x2', 
-		'\x2', '\x9D', '\x9E', '\a', '\x15', '\x2', '\x2', '\x9E', '\x9F', '\x5', 
-		'\x14', '\v', '\x2', '\x9F', '\xA0', '\x5', '\x16', '\f', '\x2', '\xA0', 
-		'\xA1', '\b', '\f', '\x1', '\x2', '\xA1', '\xC7', '\x3', '\x2', '\x2', 
-		'\x2', '\xA2', '\xA3', '\a', '\x14', '\x2', '\x2', '\xA3', '\xA4', '\x5', 
-		'\x14', '\v', '\x2', '\xA4', '\xA5', '\x5', '\x16', '\f', '\x2', '\xA5', 
-		'\xA6', '\b', '\f', '\x1', '\x2', '\xA6', '\xC7', '\x3', '\x2', '\x2', 
-		'\x2', '\xA7', '\xA8', '\a', '\x13', '\x2', '\x2', '\xA8', '\xA9', '\x5', 
-		'\x14', '\v', '\x2', '\xA9', '\xAA', '\x5', '\x16', '\f', '\x2', '\xAA', 
-		'\xAB', '\b', '\f', '\x1', '\x2', '\xAB', '\xC7', '\x3', '\x2', '\x2', 
-		'\x2', '\xAC', '\xAD', '\a', '\x12', '\x2', '\x2', '\xAD', '\xAE', '\x5', 
-		'\x14', '\v', '\x2', '\xAE', '\xAF', '\x5', '\x16', '\f', '\x2', '\xAF', 
-		'\xB0', '\b', '\f', '\x1', '\x2', '\xB0', '\xC7', '\x3', '\x2', '\x2', 
-		'\x2', '\xB1', '\xB2', '\x5', '\x18', '\r', '\x2', '\xB2', '\xB3', '\x5', 
-		'\x14', '\v', '\x2', '\xB3', '\xB4', '\x5', '\x16', '\f', '\x2', '\xB4', 
-		'\xB5', '\b', '\f', '\x1', '\x2', '\xB5', '\xC7', '\x3', '\x2', '\x2', 
-		'\x2', '\xB6', '\xB7', '\x5', '\x1A', '\xE', '\x2', '\xB7', '\xB8', '\x5', 
-		'\x14', '\v', '\x2', '\xB8', '\xB9', '\x5', '\x16', '\f', '\x2', '\xB9', 
-		'\xBA', '\b', '\f', '\x1', '\x2', '\xBA', '\xC7', '\x3', '\x2', '\x2', 
-		'\x2', '\xBB', '\xBC', '\a', '\x18', '\x2', '\x2', '\xBC', '\xBD', '\x5', 
-		'\x14', '\v', '\x2', '\xBD', '\xBE', '\x5', '\x16', '\f', '\x2', '\xBE', 
-		'\xBF', '\b', '\f', '\x1', '\x2', '\xBF', '\xC7', '\x3', '\x2', '\x2', 
-		'\x2', '\xC0', '\xC1', '\a', '\x19', '\x2', '\x2', '\xC1', '\xC2', '\x5', 
-		'\x14', '\v', '\x2', '\xC2', '\xC3', '\x5', '\x16', '\f', '\x2', '\xC3', 
-		'\xC4', '\b', '\f', '\x1', '\x2', '\xC4', '\xC7', '\x3', '\x2', '\x2', 
-		'\x2', '\xC5', '\xC7', '\b', '\f', '\x1', '\x2', '\xC6', '\x9D', '\x3', 
-		'\x2', '\x2', '\x2', '\xC6', '\xA2', '\x3', '\x2', '\x2', '\x2', '\xC6', 
-		'\xA7', '\x3', '\x2', '\x2', '\x2', '\xC6', '\xAC', '\x3', '\x2', '\x2', 
-		'\x2', '\xC6', '\xB1', '\x3', '\x2', '\x2', '\x2', '\xC6', '\xB6', '\x3', 
-		'\x2', '\x2', '\x2', '\xC6', '\xBB', '\x3', '\x2', '\x2', '\x2', '\xC6', 
-		'\xC0', '\x3', '\x2', '\x2', '\x2', '\xC6', '\xC5', '\x3', '\x2', '\x2', 
-		'\x2', '\xC7', '\x17', '\x3', '\x2', '\x2', '\x2', '\xC8', '\xC9', '\t', 
-		'\x2', '\x2', '\x2', '\xC9', '\x19', '\x3', '\x2', '\x2', '\x2', '\xCA', 
-		'\xCB', '\t', '\x3', '\x2', '\x2', '\xCB', '\x1B', '\x3', '\x2', '\x2', 
-		'\x2', '\xCC', '\xD5', '\x5', '\"', '\x12', '\x2', '\xCD', '\xD5', '\x5', 
-		'(', '\x15', '\x2', '\xCE', '\xD5', '\x5', '*', '\x16', '\x2', '\xCF', 
-		'\xD5', '\x5', '$', '\x13', '\x2', '\xD0', '\xD5', '\x5', '&', '\x14', 
-		'\x2', '\xD1', '\xD5', '\x5', ',', '\x17', '\x2', '\xD2', '\xD5', '\x5', 
-		' ', '\x11', '\x2', '\xD3', '\xD5', '\x5', '.', '\x18', '\x2', '\xD4', 
-		'\xCC', '\x3', '\x2', '\x2', '\x2', '\xD4', '\xCD', '\x3', '\x2', '\x2', 
-		'\x2', '\xD4', '\xCE', '\x3', '\x2', '\x2', '\x2', '\xD4', '\xCF', '\x3', 
-		'\x2', '\x2', '\x2', '\xD4', '\xD0', '\x3', '\x2', '\x2', '\x2', '\xD4', 
-		'\xD1', '\x3', '\x2', '\x2', '\x2', '\xD4', '\xD2', '\x3', '\x2', '\x2', 
-		'\x2', '\xD4', '\xD3', '\x3', '\x2', '\x2', '\x2', '\xD5', '\x1D', '\x3', 
-		'\x2', '\x2', '\x2', '\xD6', '\xD8', '\x5', '\x1C', '\xF', '\x2', '\xD7', 
-		'\xD6', '\x3', '\x2', '\x2', '\x2', '\xD8', '\xDB', '\x3', '\x2', '\x2', 
-		'\x2', '\xD9', '\xD7', '\x3', '\x2', '\x2', '\x2', '\xD9', '\xDA', '\x3', 
-		'\x2', '\x2', '\x2', '\xDA', '\x1F', '\x3', '\x2', '\x2', '\x2', '\xDB', 
-		'\xD9', '\x3', '\x2', '\x2', '\x2', '\xDC', '\xDD', '\a', ';', '\x2', 
-		'\x2', '\xDD', '\xDE', '\a', '\a', '\x2', '\x2', '\xDE', '\xDF', '\x5', 
-		'\x12', '\n', '\x2', '\xDF', '\xE0', '\a', '\x6', '\x2', '\x2', '\xE0', 
-		'\xE1', '\a', '\x10', '\x2', '\x2', '\xE1', '!', '\x3', '\x2', '\x2', 
-		'\x2', '\xE2', '\xE3', '\a', ';', '\x2', '\x2', '\xE3', '\xE4', '\a', 
-		'(', '\x2', '\x2', '\xE4', '\xE5', '\x5', '\x14', '\v', '\x2', '\xE5', 
-		'\xE6', '\a', '\x10', '\x2', '\x2', '\xE6', '#', '\x3', '\x2', '\x2', 
-		'\x2', '\xE7', '\xE8', '\a', '-', '\x2', '\x2', '\xE8', '\xE9', '\a', 
-		'\a', '\x2', '\x2', '\xE9', '\xEA', '\x5', '\x14', '\v', '\x2', '\xEA', 
-		'\xEB', '\a', '\x6', '\x2', '\x2', '\xEB', '\xEC', '\a', '\v', '\x2', 
-		'\x2', '\xEC', '\xED', '\x5', '\x1E', '\x10', '\x2', '\xED', '\xEE', '\a', 
-		'\n', '\x2', '\x2', '\xEE', '%', '\x3', '\x2', '\x2', '\x2', '\xEF', '\xF0', 
-		'\a', '.', '\x2', '\x2', '\xF0', '\xF1', '\a', '\a', '\x2', '\x2', '\xF1', 
-		'\xF2', '\x5', '\x14', '\v', '\x2', '\xF2', '\xF3', '\a', '\x6', '\x2', 
-		'\x2', '\xF3', '\xF4', '\a', '\v', '\x2', '\x2', '\xF4', '\xF5', '\x5', 
-		'\x1E', '\x10', '\x2', '\xF5', '\xF6', '\a', '\n', '\x2', '\x2', '\xF6', 
-		'\'', '\x3', '\x2', '\x2', '\x2', '\xF7', '\xF8', '\a', '+', '\x2', '\x2', 
-		'\xF8', '\xF9', '\a', '\x10', '\x2', '\x2', '\xF9', ')', '\x3', '\x2', 
-		'\x2', '\x2', '\xFA', '\xFB', '\a', ',', '\x2', '\x2', '\xFB', '\xFC', 
-		'\x5', '\x14', '\v', '\x2', '\xFC', '\xFD', '\a', '\x10', '\x2', '\x2', 
-		'\xFD', '+', '\x3', '\x2', '\x2', '\x2', '\xFE', '\xFF', '\x5', '\x30', 
-		'\x19', '\x2', '\xFF', '\x100', '\a', ';', '\x2', '\x2', '\x100', '\x101', 
-		'\x5', '\x6', '\x4', '\x2', '\x101', '\x102', '\a', '\x10', '\x2', '\x2', 
-		'\x102', '-', '\x3', '\x2', '\x2', '\x2', '\x103', '\x104', '\x5', '\x32', 
-		'\x1A', '\x2', '\x104', '\x105', '\a', '\x10', '\x2', '\x2', '\x105', 
-		'/', '\x3', '\x2', '\x2', '\x2', '\x106', '\x107', '\t', '\x4', '\x2', 
-		'\x2', '\x107', '\x31', '\x3', '\x2', '\x2', '\x2', '\x108', '\x109', 
-		'\a', '\x11', '\x2', '\x2', '\x109', '\x10A', '\t', '\x5', '\x2', '\x2', 
-		'\x10A', '\x10B', '\x3', '\x2', '\x2', '\x2', '\x10B', '\x10C', '\x5', 
-		'\x14', '\v', '\x2', '\x10C', '\x33', '\x3', '\x2', '\x2', '\x2', '\f', 
-		'\x38', ':', 'g', 'j', 'v', 'y', '\x9B', '\xC6', '\xD4', '\xD9',
+		'\x3', '\x13', '\x3', '\x14', '\x3', '\x14', '\x3', '\x14', '\x3', '\x15', 
+		'\x3', '\x15', '\x3', '\x15', '\x3', '\x15', '\x3', '\x16', '\x3', '\x16', 
+		'\x3', '\x16', '\x3', '\x16', '\x3', '\x16', '\x3', '\x17', '\x3', '\x17', 
+		'\x3', '\x17', '\x3', '\x18', '\x3', '\x18', '\x3', '\x19', '\x3', '\x19', 
+		'\x3', '\x19', '\x3', '\x19', '\x3', '\x19', '\x3', '\x19', '\x2', '\x3', 
+		'\x14', '\x1A', '\x2', '\x4', '\x6', '\b', '\n', '\f', '\xE', '\x10', 
+		'\x12', '\x14', '\x16', '\x18', '\x1A', '\x1C', '\x1E', ' ', '\"', '$', 
+		'&', '(', '*', ',', '.', '\x30', '\x2', '\x6', '\x3', '\x2', '\"', '%', 
+		'\x3', '\x2', '&', '\'', '\x3', '\x2', '\x31', '\x38', '\x3', '\x2', '\x3', 
+		'\x4', '\x2', '\xEA', '\x2', '\x36', '\x3', '\x2', '\x2', '\x2', '\x4', 
+		':', '\x3', '\x2', '\x2', '\x2', '\x6', '?', '\x3', '\x2', '\x2', '\x2', 
+		'\b', '\x42', '\x3', '\x2', '\x2', '\x2', '\n', 'M', '\x3', '\x2', '\x2', 
+		'\x2', '\f', 'V', '\x3', '\x2', '\x2', '\x2', '\xE', '\x61', '\x3', '\x2', 
+		'\x2', '\x2', '\x10', '\x63', '\x3', '\x2', '\x2', '\x2', '\x12', 'm', 
+		'\x3', '\x2', '\x2', '\x2', '\x14', '\x7F', '\x3', '\x2', '\x2', '\x2', 
+		'\x16', '\xA0', '\x3', '\x2', '\x2', '\x2', '\x18', '\xA2', '\x3', '\x2', 
+		'\x2', '\x2', '\x1A', '\xAC', '\x3', '\x2', '\x2', '\x2', '\x1C', '\xB1', 
+		'\x3', '\x2', '\x2', '\x2', '\x1E', '\xB4', '\x3', '\x2', '\x2', '\x2', 
+		' ', '\xBA', '\x3', '\x2', '\x2', '\x2', '\"', '\xBF', '\x3', '\x2', '\x2', 
+		'\x2', '$', '\xC7', '\x3', '\x2', '\x2', '\x2', '&', '\xCF', '\x3', '\x2', 
+		'\x2', '\x2', '(', '\xD2', '\x3', '\x2', '\x2', '\x2', '*', '\xD6', '\x3', 
+		'\x2', '\x2', '\x2', ',', '\xDB', '\x3', '\x2', '\x2', '\x2', '.', '\xDE', 
+		'\x3', '\x2', '\x2', '\x2', '\x30', '\xE0', '\x3', '\x2', '\x2', '\x2', 
+		'\x32', '\x37', '\x5', '\x4', '\x3', '\x2', '\x33', '\x37', '\x5', '\b', 
+		'\x5', '\x2', '\x34', '\x37', '\x5', '\n', '\x6', '\x2', '\x35', '\x37', 
+		'\x5', ',', '\x17', '\x2', '\x36', '\x32', '\x3', '\x2', '\x2', '\x2', 
+		'\x36', '\x33', '\x3', '\x2', '\x2', '\x2', '\x36', '\x34', '\x3', '\x2', 
+		'\x2', '\x2', '\x36', '\x35', '\x3', '\x2', '\x2', '\x2', '\x37', '\x38', 
+		'\x3', '\x2', '\x2', '\x2', '\x38', '\x36', '\x3', '\x2', '\x2', '\x2', 
+		'\x38', '\x39', '\x3', '\x2', '\x2', '\x2', '\x39', '\x3', '\x3', '\x2', 
+		'\x2', '\x2', ':', ';', '\x5', '.', '\x18', '\x2', ';', '<', '\a', ';', 
+		'\x2', '\x2', '<', '=', '\x5', '\x6', '\x4', '\x2', '=', '>', '\a', '\x10', 
+		'\x2', '\x2', '>', '\x5', '\x3', '\x2', '\x2', '\x2', '?', '@', '\a', 
+		'(', '\x2', '\x2', '@', '\x41', '\x5', '\x14', '\v', '\x2', '\x41', '\a', 
+		'\x3', '\x2', '\x2', '\x2', '\x42', '\x43', '\a', ')', '\x2', '\x2', '\x43', 
+		'\x44', '\a', ';', '\x2', '\x2', '\x44', '\x45', '\a', '\a', '\x2', '\x2', 
+		'\x45', '\x46', '\x5', '\xE', '\b', '\x2', '\x46', 'G', '\a', '\x6', '\x2', 
+		'\x2', 'G', 'H', '\a', '\x11', '\x2', '\x2', 'H', 'I', '\x5', '.', '\x18', 
+		'\x2', 'I', 'J', '\a', '\v', '\x2', '\x2', 'J', 'K', '\x5', '\x1C', '\xF', 
+		'\x2', 'K', 'L', '\a', '\n', '\x2', '\x2', 'L', '\t', '\x3', '\x2', '\x2', 
+		'\x2', 'M', 'N', '\a', '*', '\x2', '\x2', 'N', 'O', '\a', ';', '\x2', 
+		'\x2', 'O', 'P', '\a', '\a', '\x2', '\x2', 'P', 'Q', '\x5', '\xE', '\b', 
+		'\x2', 'Q', 'R', '\a', '\x6', '\x2', '\x2', 'R', 'S', '\a', '\v', '\x2', 
+		'\x2', 'S', 'T', '\x5', '\x1C', '\xF', '\x2', 'T', 'U', '\a', '\n', '\x2', 
+		'\x2', 'U', '\v', '\x3', '\x2', '\x2', '\x2', 'V', 'W', '\x5', '.', '\x18', 
+		'\x2', 'W', 'X', '\a', ';', '\x2', '\x2', 'X', '\r', '\x3', '\x2', '\x2', 
+		'\x2', 'Y', '^', '\x5', '\f', '\a', '\x2', 'Z', '[', '\a', '\xF', '\x2', 
+		'\x2', '[', ']', '\x5', '\f', '\a', '\x2', '\\', 'Z', '\x3', '\x2', '\x2', 
+		'\x2', ']', '`', '\x3', '\x2', '\x2', '\x2', '^', '\\', '\x3', '\x2', 
+		'\x2', '\x2', '^', '_', '\x3', '\x2', '\x2', '\x2', '_', '\x62', '\x3', 
+		'\x2', '\x2', '\x2', '`', '^', '\x3', '\x2', '\x2', '\x2', '\x61', 'Y', 
+		'\x3', '\x2', '\x2', '\x2', '\x61', '\x62', '\x3', '\x2', '\x2', '\x2', 
+		'\x62', '\xF', '\x3', '\x2', '\x2', '\x2', '\x63', '\x64', '\x5', '\x14', 
+		'\v', '\x2', '\x64', '\x11', '\x3', '\x2', '\x2', '\x2', '\x65', 'j', 
+		'\x5', '\x10', '\t', '\x2', '\x66', 'g', '\a', '\xF', '\x2', '\x2', 'g', 
+		'i', '\x5', '\x10', '\t', '\x2', 'h', '\x66', '\x3', '\x2', '\x2', '\x2', 
+		'i', 'l', '\x3', '\x2', '\x2', '\x2', 'j', 'h', '\x3', '\x2', '\x2', '\x2', 
+		'j', 'k', '\x3', '\x2', '\x2', '\x2', 'k', 'n', '\x3', '\x2', '\x2', '\x2', 
+		'l', 'j', '\x3', '\x2', '\x2', '\x2', 'm', '\x65', '\x3', '\x2', '\x2', 
+		'\x2', 'm', 'n', '\x3', '\x2', '\x2', '\x2', 'n', '\x13', '\x3', '\x2', 
+		'\x2', '\x2', 'o', 'p', '\b', '\v', '\x1', '\x2', 'p', 'q', '\a', ';', 
+		'\x2', '\x2', 'q', 'r', '\a', '\a', '\x2', '\x2', 'r', 's', '\x5', '\x12', 
+		'\n', '\x2', 's', 't', '\a', '\x6', '\x2', '\x2', 't', '\x80', '\x3', 
+		'\x2', '\x2', '\x2', 'u', 'v', '\a', '\x13', '\x2', '\x2', 'v', '\x80', 
+		'\x5', '\x14', '\v', '\xF', 'w', 'x', '\a', '\x1A', '\x2', '\x2', 'x', 
+		'\x80', '\x5', '\x14', '\v', '\xE', 'y', 'z', '\a', '\a', '\x2', '\x2', 
+		'z', '{', '\x5', '\x14', '\v', '\x2', '{', '|', '\a', '\x6', '\x2', '\x2', 
+		'|', '\x80', '\x3', '\x2', '\x2', '\x2', '}', '\x80', '\a', '\x5', '\x2', 
+		'\x2', '~', '\x80', '\a', ';', '\x2', '\x2', '\x7F', 'o', '\x3', '\x2', 
+		'\x2', '\x2', '\x7F', 'u', '\x3', '\x2', '\x2', '\x2', '\x7F', 'w', '\x3', 
+		'\x2', '\x2', '\x2', '\x7F', 'y', '\x3', '\x2', '\x2', '\x2', '\x7F', 
+		'}', '\x3', '\x2', '\x2', '\x2', '\x7F', '~', '\x3', '\x2', '\x2', '\x2', 
+		'\x80', '\x9D', '\x3', '\x2', '\x2', '\x2', '\x81', '\x82', '\f', '\r', 
+		'\x2', '\x2', '\x82', '\x83', '\a', '\x15', '\x2', '\x2', '\x83', '\x9C', 
+		'\x5', '\x14', '\v', '\xE', '\x84', '\x85', '\f', '\f', '\x2', '\x2', 
+		'\x85', '\x86', '\a', '\x14', '\x2', '\x2', '\x86', '\x9C', '\x5', '\x14', 
+		'\v', '\r', '\x87', '\x88', '\f', '\v', '\x2', '\x2', '\x88', '\x89', 
+		'\a', '\x13', '\x2', '\x2', '\x89', '\x9C', '\x5', '\x14', '\v', '\f', 
+		'\x8A', '\x8B', '\f', '\n', '\x2', '\x2', '\x8B', '\x8C', '\a', '\x12', 
+		'\x2', '\x2', '\x8C', '\x9C', '\x5', '\x14', '\v', '\v', '\x8D', '\x8E', 
+		'\f', '\t', '\x2', '\x2', '\x8E', '\x8F', '\x5', '\x16', '\f', '\x2', 
+		'\x8F', '\x90', '\x5', '\x14', '\v', '\n', '\x90', '\x9C', '\x3', '\x2', 
+		'\x2', '\x2', '\x91', '\x92', '\f', '\b', '\x2', '\x2', '\x92', '\x93', 
+		'\x5', '\x18', '\r', '\x2', '\x93', '\x94', '\x5', '\x14', '\v', '\t', 
+		'\x94', '\x9C', '\x3', '\x2', '\x2', '\x2', '\x95', '\x96', '\f', '\a', 
+		'\x2', '\x2', '\x96', '\x97', '\a', '\x18', '\x2', '\x2', '\x97', '\x9C', 
+		'\x5', '\x14', '\v', '\b', '\x98', '\x99', '\f', '\x6', '\x2', '\x2', 
+		'\x99', '\x9A', '\a', '\x19', '\x2', '\x2', '\x9A', '\x9C', '\x5', '\x14', 
+		'\v', '\a', '\x9B', '\x81', '\x3', '\x2', '\x2', '\x2', '\x9B', '\x84', 
+		'\x3', '\x2', '\x2', '\x2', '\x9B', '\x87', '\x3', '\x2', '\x2', '\x2', 
+		'\x9B', '\x8A', '\x3', '\x2', '\x2', '\x2', '\x9B', '\x8D', '\x3', '\x2', 
+		'\x2', '\x2', '\x9B', '\x91', '\x3', '\x2', '\x2', '\x2', '\x9B', '\x95', 
+		'\x3', '\x2', '\x2', '\x2', '\x9B', '\x98', '\x3', '\x2', '\x2', '\x2', 
+		'\x9C', '\x9F', '\x3', '\x2', '\x2', '\x2', '\x9D', '\x9B', '\x3', '\x2', 
+		'\x2', '\x2', '\x9D', '\x9E', '\x3', '\x2', '\x2', '\x2', '\x9E', '\x15', 
+		'\x3', '\x2', '\x2', '\x2', '\x9F', '\x9D', '\x3', '\x2', '\x2', '\x2', 
+		'\xA0', '\xA1', '\t', '\x2', '\x2', '\x2', '\xA1', '\x17', '\x3', '\x2', 
+		'\x2', '\x2', '\xA2', '\xA3', '\t', '\x3', '\x2', '\x2', '\xA3', '\x19', 
+		'\x3', '\x2', '\x2', '\x2', '\xA4', '\xAD', '\x5', ' ', '\x11', '\x2', 
+		'\xA5', '\xAD', '\x5', '&', '\x14', '\x2', '\xA6', '\xAD', '\x5', '(', 
+		'\x15', '\x2', '\xA7', '\xAD', '\x5', '\"', '\x12', '\x2', '\xA8', '\xAD', 
+		'\x5', '$', '\x13', '\x2', '\xA9', '\xAD', '\x5', '*', '\x16', '\x2', 
+		'\xAA', '\xAD', '\x5', '\x1E', '\x10', '\x2', '\xAB', '\xAD', '\x5', ',', 
+		'\x17', '\x2', '\xAC', '\xA4', '\x3', '\x2', '\x2', '\x2', '\xAC', '\xA5', 
+		'\x3', '\x2', '\x2', '\x2', '\xAC', '\xA6', '\x3', '\x2', '\x2', '\x2', 
+		'\xAC', '\xA7', '\x3', '\x2', '\x2', '\x2', '\xAC', '\xA8', '\x3', '\x2', 
+		'\x2', '\x2', '\xAC', '\xA9', '\x3', '\x2', '\x2', '\x2', '\xAC', '\xAA', 
+		'\x3', '\x2', '\x2', '\x2', '\xAC', '\xAB', '\x3', '\x2', '\x2', '\x2', 
+		'\xAD', '\x1B', '\x3', '\x2', '\x2', '\x2', '\xAE', '\xB0', '\x5', '\x1A', 
+		'\xE', '\x2', '\xAF', '\xAE', '\x3', '\x2', '\x2', '\x2', '\xB0', '\xB3', 
+		'\x3', '\x2', '\x2', '\x2', '\xB1', '\xAF', '\x3', '\x2', '\x2', '\x2', 
+		'\xB1', '\xB2', '\x3', '\x2', '\x2', '\x2', '\xB2', '\x1D', '\x3', '\x2', 
+		'\x2', '\x2', '\xB3', '\xB1', '\x3', '\x2', '\x2', '\x2', '\xB4', '\xB5', 
+		'\a', ';', '\x2', '\x2', '\xB5', '\xB6', '\a', '\a', '\x2', '\x2', '\xB6', 
+		'\xB7', '\x5', '\x12', '\n', '\x2', '\xB7', '\xB8', '\a', '\x6', '\x2', 
+		'\x2', '\xB8', '\xB9', '\a', '\x10', '\x2', '\x2', '\xB9', '\x1F', '\x3', 
+		'\x2', '\x2', '\x2', '\xBA', '\xBB', '\a', ';', '\x2', '\x2', '\xBB', 
+		'\xBC', '\a', '(', '\x2', '\x2', '\xBC', '\xBD', '\x5', '\x14', '\v', 
+		'\x2', '\xBD', '\xBE', '\a', '\x10', '\x2', '\x2', '\xBE', '!', '\x3', 
+		'\x2', '\x2', '\x2', '\xBF', '\xC0', '\a', '-', '\x2', '\x2', '\xC0', 
+		'\xC1', '\a', '\a', '\x2', '\x2', '\xC1', '\xC2', '\x5', '\x14', '\v', 
+		'\x2', '\xC2', '\xC3', '\a', '\x6', '\x2', '\x2', '\xC3', '\xC4', '\a', 
+		'\v', '\x2', '\x2', '\xC4', '\xC5', '\x5', '\x1C', '\xF', '\x2', '\xC5', 
+		'\xC6', '\a', '\n', '\x2', '\x2', '\xC6', '#', '\x3', '\x2', '\x2', '\x2', 
+		'\xC7', '\xC8', '\a', '.', '\x2', '\x2', '\xC8', '\xC9', '\a', '\a', '\x2', 
+		'\x2', '\xC9', '\xCA', '\x5', '\x14', '\v', '\x2', '\xCA', '\xCB', '\a', 
+		'\x6', '\x2', '\x2', '\xCB', '\xCC', '\a', '\v', '\x2', '\x2', '\xCC', 
+		'\xCD', '\x5', '\x1C', '\xF', '\x2', '\xCD', '\xCE', '\a', '\n', '\x2', 
+		'\x2', '\xCE', '%', '\x3', '\x2', '\x2', '\x2', '\xCF', '\xD0', '\a', 
+		'+', '\x2', '\x2', '\xD0', '\xD1', '\a', '\x10', '\x2', '\x2', '\xD1', 
+		'\'', '\x3', '\x2', '\x2', '\x2', '\xD2', '\xD3', '\a', ',', '\x2', '\x2', 
+		'\xD3', '\xD4', '\x5', '\x14', '\v', '\x2', '\xD4', '\xD5', '\a', '\x10', 
+		'\x2', '\x2', '\xD5', ')', '\x3', '\x2', '\x2', '\x2', '\xD6', '\xD7', 
+		'\x5', '.', '\x18', '\x2', '\xD7', '\xD8', '\a', ';', '\x2', '\x2', '\xD8', 
+		'\xD9', '\x5', '\x6', '\x4', '\x2', '\xD9', '\xDA', '\a', '\x10', '\x2', 
+		'\x2', '\xDA', '+', '\x3', '\x2', '\x2', '\x2', '\xDB', '\xDC', '\x5', 
+		'\x30', '\x19', '\x2', '\xDC', '\xDD', '\a', '\x10', '\x2', '\x2', '\xDD', 
+		'-', '\x3', '\x2', '\x2', '\x2', '\xDE', '\xDF', '\t', '\x4', '\x2', '\x2', 
+		'\xDF', '/', '\x3', '\x2', '\x2', '\x2', '\xE0', '\xE1', '\a', '\x11', 
+		'\x2', '\x2', '\xE1', '\xE2', '\t', '\x5', '\x2', '\x2', '\xE2', '\xE3', 
+		'\x3', '\x2', '\x2', '\x2', '\xE3', '\xE4', '\x5', '\x14', '\v', '\x2', 
+		'\xE4', '\x31', '\x3', '\x2', '\x2', '\x2', '\r', '\x36', '\x38', '^', 
+		'\x61', 'j', 'm', '\x7F', '\x9B', '\x9D', '\xAC', '\xB1',
 	};
 
 	public static readonly ATN _ATN =

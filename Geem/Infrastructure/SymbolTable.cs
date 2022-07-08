@@ -1,7 +1,8 @@
 namespace Geem.Infrastructure;
 
 using System.Collections.Generic;
-
+using System.Text;
+using static Geem.Parser.GeemParser;
 public enum SymbolType {
     SymbolOfFunction,
     SymbolOfOperation,
@@ -23,8 +24,11 @@ public class SymbolInfo
         this.type = type;
         this.specificInfo = specificInfo;
     }
-    
 
+    public override string ToString()
+    {
+        return $"type: {type.ToString()}, sub_info: {specificInfo.ToString()}";
+    }
 }
 public abstract class SymbolSpecificInfo {
 
@@ -33,14 +37,16 @@ public abstract class SymbolSpecificInfo {
 public class VarInfo: SymbolSpecificInfo 
 {
     public string datatype {get; set;}
-    public Object cvalue {get; set;}
 
-    public VarInfo(string datatype, Object cvalue)
+    public VarInfo(string datatype)
     {
         this.datatype = datatype;
-        this.cvalue = cvalue;
+        
     }
-
+    public override string ToString()
+    {
+        return $"datatype: {datatype}";
+    }
 }
 
 
@@ -48,22 +54,42 @@ public class FunctionInfo: SymbolSpecificInfo
 {
     public string[] parameter_datatypes {get; set;}
     public string return_type {get; set;}
-
-    public FunctionInfo(string[] parameter_datatypes, string return_type)
+    public FunctionDeclContext node {get; set;}
+    public FunctionInfo(string return_type, string[] parameter_datatypes, FunctionDeclContext node)
     {
         this.parameter_datatypes = parameter_datatypes;
         this.return_type = return_type;
-    }    
+        this.node = node;
+    }
+    public override string ToString()
+    {
+        StringBuilder result = new StringBuilder();
+        for(int x = 0; x< parameter_datatypes.Length; x++)
+        {
+            result.Append(parameter_datatypes[x]);
+        }
+        return $"return type: {return_type}, parameter datatypes: {result.ToString()}";
+    }
 }
 
 public class OperationInfo: SymbolSpecificInfo 
 {
     public string[] parameter_datatypes {get; set;}
-
-    public OperationInfo(string[] parameter_datatypes)
+    public OperationDeclContext node {get; set;}
+    public OperationInfo(string[] parameter_datatypes, OperationDeclContext node)
     {
         this.parameter_datatypes = parameter_datatypes;
-    }    
+        this.node = node;
+    }
+    public override string ToString()
+    {
+        StringBuilder result = new StringBuilder();
+        for(int x = 0; x< parameter_datatypes.Length; x++)
+        {
+            result.Append(parameter_datatypes[x]);
+        }
+        return $"parameter datatypes: {result.ToString()}";
+    }
 }
 public class SymbolTable : Dictionary<string, SymbolInfo>
 {
@@ -79,7 +105,6 @@ public class SymbolTable : Dictionary<string, SymbolInfo>
     public Boolean SymbolExist(string symbol_identifier)
     {
         if(this.ContainsKey(symbol_identifier)) return true;
-        if(this.parent is not null) if(this.parent.ContainsKey(symbol_identifier)) return true;
         return false;
     }
     public Boolean SymbolExistInParent(string symbol_identifier)
@@ -87,18 +112,22 @@ public class SymbolTable : Dictionary<string, SymbolInfo>
         if(this.parent is not null) if(this.parent.ContainsKey(symbol_identifier)) return true;
         return false;
     }
-    public SymbolInfo getSymbolInfo(string symbol_identifier)
+    public SymbolInfo getSymbolInfo(string symbol_name)
     {
-        if(SymbolExist(symbol_identifier)) return this[symbol_identifier];
-        if(SymbolExistInParent(symbol_identifier)) return this.parent[symbol_identifier];
-        throw new Exception("Symbol Not Found!");
+        if(SymbolExist(symbol_name)) return this[symbol_name];
+        if(SymbolExistInParent(symbol_name)) return this.parent[symbol_name];
+        throw new Exception($"Symbol Not Found!: {symbol_name}");
     }
-
+    public void setSymbolInfo(string symbol_name, SymbolInfo symbolInfo){
+        if(SymbolExist(symbol_name)) this[symbol_name] = symbolInfo;
+        if(SymbolExistInParent(symbol_name)) this.parent[symbol_name] = symbolInfo;
+        throw new Exception($"Symbol Not Found!: {symbol_name}");
+    }
     public void addSymbol(string symbol_name, SymbolInfo symbolInfo)
     {
         if(SymbolExist(symbol_name))
         {
-            throw new Exception("Symbol Table already contain this Symbol");
+            throw new Exception($"Symbol Table already contain this Symbol: \"{symbol_name}\" " + getSymbolInfo(symbol_name));
         } 
         else {
             if(SymbolExistInParent(symbol_name))
@@ -110,7 +139,7 @@ public class SymbolTable : Dictionary<string, SymbolInfo>
                     }
                 
                 }
-                throw new Exception("Symbol Table already contain this Symbol");
+                throw new Exception($"Symbol Table already contain this Symbol: {symbol_name}");
             }
             else {
                 this[symbol_name] = symbolInfo;

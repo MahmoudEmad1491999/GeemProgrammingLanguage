@@ -3,7 +3,7 @@
         "mode": "external",
         "language": "CSharp",
         "listeners": false,
-        "visitors": false,
+        "visitors": true,
         "package": "Geem.Parser"
     }
 }
