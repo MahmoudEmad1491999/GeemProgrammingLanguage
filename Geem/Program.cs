@@ -26,7 +26,11 @@ public class Program {
         
         ConstructSymbolTableVisitor v1 = new ConstructSymbolTableVisitor();
         v1.Visit(root);
-
+        foreach(var item in root_t.st )
+        {
+            Console.WriteLine(item.Key + ", " + item.Value);
+        }
+        
         Console.WriteLine(root_t.st == null);
 
         TypeMismatchValidator v2 = new TypeMismatchValidator();

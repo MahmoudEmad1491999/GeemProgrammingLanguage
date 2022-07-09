@@ -130,6 +130,7 @@ public class UsedBeforeDeclaration : GeemBaseVisitor<object>
     public override object VisitAssignment_Stat([NotNull] Assignment_StatContext context)
     {
         var container_fun_or_op = context.Parent;
+        var id = context.assignmentStat().ID().GetText();
 
         while(container_fun_or_op != null && 
             (container_fun_or_op is FunctionDeclContext || container_fun_or_op is OperationDeclContext)
@@ -137,14 +138,86 @@ public class UsedBeforeDeclaration : GeemBaseVisitor<object>
         {
             container_fun_or_op = container_fun_or_op.Parent;
         }
+        
         if(container_fun_or_op is FunctionDeclContext)
         {
-            this.fun_op_defined_lvar[((FunctionDeclContext) container_fun_or_op).ID().GetText()].Add(context.assignmentStat().ID().GetText());
+            if(!fun_op_defined_lvar[((FunctionDeclContext) container_fun_or_op).ID().GetText()]
+            .Contains(id)) {
+                throw new Exception($"lhs is not defined already. Ln: {context.Start.Line}");
+            }
         }
-        else if(container_fun_or_op is OperationDeclContext) 
+        else if(container_fun_or_op is OperationDeclContext){
+            if(!fun_op_defined_lvar[((OperationDeclContext) container_fun_or_op).ID().GetText()]
+            .Contains(id)) {
+                throw new Exception($"lhs is not defined already. Ln: {context.Start.Line}");
+            }
+        }
+        Visit(context.assignmentStat().expression());
+        return null;
+    }
+
+    public override object VisitIf_Stat([NotNull] If_StatContext context){
+        Visit(context.ifStat().expression());
+
+        foreach(var statement in context.ifStat().statementList().statement())
         {
-            this.fun_op_defined_lvar[((OperationDeclContext) container_fun_or_op).ID().GetText()].Add(context.assignmentStat().ID().GetText());
+            Visit(statement);
         }
+        return null;
+    }
+    public override object VisitWhile_Stat([NotNull] While_StatContext context){
+        Visit(context.whileStat().expression());
+
+        foreach(var statement in context.whileStat().statementList().statement())
+        {
+            Visit(statement);
+        }
+        return null;
+    }
+
+    public override object VisitResult_Stat([NotNull] Result_StatContext context)
+    {
+        Visit(context.resultStat().expression());
+        return null;
+    }
+
+    public override object VisitCommand_Stat([NotNull] Command_StatContext context)
+    {
+        Visit(context.commandStat().command().expression());
+        return null;
+    }
+
+    public override object VisitOperation_Stat([NotNull] Operation_StatContext context)
+    {
+        string operation_name = context.operationStat().ID().GetText();
+
+        var container_func_or_op = context.Parent;
+
+        while(container_func_or_op != null && (container_func_or_op is not FunctionDeclContext || container_func_or_op is not OperationDeclContext))
+        {
+            container_func_or_op = container_func_or_op.Parent;
+        }
+
+        if(container_func_or_op is FunctionDeclContext)
+        {
+            if(!fun_op_defined_lvar[((FunctionDeclContext) container_func_or_op).ID().GetText()]
+            .Contains(operation_name)) {
+                throw new Exception($"this op is not defined already. Ln: {context.Start.Line}");
+            }
+        }
+        else if(container_func_or_op is OperationDeclContext){
+            if(!fun_op_defined_lvar[((OperationDeclContext) container_func_or_op).ID().GetText()]
+            .Contains(operation_name)) {
+                throw new Exception($"this op not defined already. Ln: {context.Start.Line}");
+            }
+        }
+
+        foreach(var argument in context.operationStat().argumentList().argument())
+        {
+            Visit(argument);
+        }
+
+
         return null;
     }
 
