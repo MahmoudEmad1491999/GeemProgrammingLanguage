@@ -52,18 +52,7 @@ expression locals[SymbolTable st]:
 	| Int_literal					# int_literal_expr
 	| ID							# variable_expr;
 
-Int_literal: (
-		'٠'
-		| '١'
-		| '٢'
-		| '٣'
-		| '٤'
-		| '٥'
-		| '٦'
-		| '٧'
-		| '٨'
-		| '٩'
-	)+ (':' ('١'| '٢' | '٨'))?;
+
 
 comparison_op: (GTE_SYM | LTE_SYM | GT_SYM | LT_SYM);
 equality_op: (EQUAL_SYM | NOTEQ_SYM);
@@ -77,7 +66,9 @@ statement locals[SymbolTable st]:
 	| varDecl		# var_Decl_Stat
 	// | expressionStat #expression_Stat
 	| operationStat	# operation_Stat
-	| commandStat	# command_Stat;
+	| commandStat	# command_Stat
+	| BREAK_KEYWORD FASLA_MANQUOTA #break_Stat
+	| CONTINUE_KEYWORRD FASLA_MANQUOTA #continue_Stat;
 
 statementList: statement*;
 
@@ -161,6 +152,8 @@ RES_KEYWORD: 'الناتج';
 IF_KEYWORD: 'إذا' | 'اذا';
 WHILE_KEYWORD: 'طالما';
 
+TRUE_KEYWORD: 'صواب';
+FALSE_KEYWORD: 'خطا' | 'خطأ';
 BREAK_KEYWORD: 'قطع';
 CONTINUE_KEYWORRD: 'تخظى' | 'تخطي';
 
@@ -197,9 +190,22 @@ datatype:
 	| SHORT_DATA_TYPE
 	| USHORT_DATA_TYPE
 	| LONG_DATA_TYPE
-	| ULONG_DATA_TYPE;
+	| ULONG_DATA_TYPE
+	| BOOL_DATA_TYPE;
 
 command: (COLON ('إطبع' | 'اطبع')) expression;
+Int_literal:( '+' | '-')? (
+		'٠'
+		| '١'
+		| '٢'
+		| '٣'
+		| '٤'
+		| '٥'
+		| '٦'
+		| '٧'
+		| '٨'
+		| '٩'
+	)+ (':' ('+' | '-')? ('١'| '٢' | '٨'))?;
 
 // sub_expression: DIVIDE expression sub_exppression MULTIPLY expression sub_exppression MINUS
 // expression sub_exppression PLUS expression sub_exppression comparison_op expression

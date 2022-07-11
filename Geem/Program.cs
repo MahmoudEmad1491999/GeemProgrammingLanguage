@@ -4,7 +4,9 @@ namespace Geem;
 using Antlr4.Runtime.Tree;
 using Antlr4.Runtime;
 using Geem.Parser;
-
+using Geem.Utilities;
+using System.Text;
+using System.Text.Encodings;
 using System.IO;
 
 using static Geem.Parser.GeemParser;
@@ -12,7 +14,7 @@ using Geem.Visitors;
 public class Program {
     public static void Main(String[] args)
     {
-        string test_file_path = "/home/mahmoud/test.geem";
+        string test_file_path = "/home/mahmoud/geem_files/test.geem";
         string file_content = File.ReadAllText(test_file_path);
 
         ICharStream char_stream = CharStreams.fromstring(file_content);
@@ -37,5 +39,13 @@ public class Program {
         v2.Visit(root);
 
 
+        // UsedBeforeDeclaration v3 = new UsedBeforeDeclaration();
+
+        // v3.Visit(root);
+
+
+        string dot_graph = GraphGeneratorTraverser.GenerateGraph(root);
+
+        File.WriteAllBytes("/home/mahmoud/geem_files/test.dot", UnicodeEncoding.UTF8.GetBytes(dot_graph));
     }
 }
