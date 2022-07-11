@@ -45,7 +45,7 @@ public class ConstructSymbolTableVisitor : GeemBaseVisitor<Object>
             List<string> operation_parameter_datatypes = new List<string>();
             foreach (var parameter in operation_declaration.paramList().parameter())
             {
-                operation_parameter_datatypes.Add(parameter.ID().GetText());
+                operation_parameter_datatypes.Add(parameter.datatype().GetText());
             }
             context.st.addSymbol(operationName, new SymbolInfo(SymbolType.SymbolOfOperation, new OperationInfo(operation_parameter_datatypes.ToArray(), operation_declaration)));
         }
@@ -128,7 +128,7 @@ public class ConstructSymbolTableVisitor : GeemBaseVisitor<Object>
     {
         string parameter_datatype = context.datatype().GetText();
         string parameter_name = context.ID().GetText();
-        if (context.st.SymbolExist(parameter_name)) throw new Exception($"parameter_name already used: {parameter_name}");
+        if (context.st.SymbolExist(parameter_name)) throw new Exception($"parameter_name already used: {parameter_name}, Ln: {context.Start.Line}");
         if (context.st.SymbolExistInParent(parameter_name))
         {
             var info = context.st.getSymbolInfo(parameter_name);
@@ -138,7 +138,7 @@ public class ConstructSymbolTableVisitor : GeemBaseVisitor<Object>
             }
             else
             {
-                throw new Exception($"parameter_name already used: {parameter_name}");
+                throw new Exception($"parameter_name already used: {parameter_name}, Ln: {context.Start.Line}");
             }
         }
         else
@@ -157,7 +157,7 @@ public class ConstructSymbolTableVisitor : GeemBaseVisitor<Object>
 
         if (context.st.SymbolExist(variable_name))
         {
-            throw new Exception($"Identifier already used: {variable_name}");
+            throw new Exception($"Identifier already used: {variable_name}, Ln: {context.Start.Line}");
         }
         
         if (context.st.SymbolExistInParent(variable_name))
@@ -169,7 +169,7 @@ public class ConstructSymbolTableVisitor : GeemBaseVisitor<Object>
             }
             else
             {
-                throw new Exception("Identifier already used: {variable_name}");
+                throw new Exception($"Identifier already used: {variable_name}, Ln: {context.Start.Line}");
             }
         }
         else

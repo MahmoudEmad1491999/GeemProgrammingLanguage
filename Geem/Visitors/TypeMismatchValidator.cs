@@ -132,9 +132,10 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
 
         for (int index = 0; index < parameter_datatypes.Length; index++)
         {
-            if (parameter_datatypes[index] != Visit(arguments[index].expression()))
+            string arg_datatype = Visit(arguments[index].expression());
+            if (parameter_datatypes[index] != arg_datatype)
             {
-                throw new Exception($"argument datatype does not match parameter datatype., Ln: {context.Start.Line}");
+                throw new Exception($"argument datatype does not match parameter datatype.{parameter_datatypes[index]}, {arg_datatype}, Ln: {context.Start.Line}");
             }
         }
         return null;
@@ -166,49 +167,60 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
 
         if (int_literal.StartsWith("١:") || int_literal.StartsWith("١+:"))
         {
-            return "ط_١";
+            context.expression_datatype = "ط_١";
+            return context.expression_datatype;
         }
         else if (int_literal.StartsWith("٢:") || int_literal.StartsWith("٢+:"))
         {
-            return "ط_٢";
+            context.expression_datatype = "ط_٢";
+            return context.expression_datatype;
         }
         else if (int_literal.StartsWith("٤:") || int_literal.StartsWith("٤+:"))
         {
-            return "ط_٨";
+            context.expression_datatype = "ط_٤";
+            return context.expression_datatype;
         }
         else if (int_literal.StartsWith("٨:") || int_literal.StartsWith("٨+:"))
         {
-            return "ط_٨";
+            context.expression_datatype = "ط_٨";
+            return context.expression_datatype;
         }
-        else if (int_literal.StartsWith("٢-:"))
+        else if (int_literal.StartsWith("١-:"))
         {
-            return "ص_١";
+            context.expression_datatype = "ص_١";
+            return context.expression_datatype;
         }
         else if (int_literal.StartsWith("٢-:"))
 
         {
-            return "ص_٢";
+            context.expression_datatype = "ص_٢";
+            return context.expression_datatype;
         }
         else if (int_literal.StartsWith("٤-:"))
 
         {
-            return "ص_٤";
+            context.expression_datatype = "ص_٤";
+            return context.expression_datatype;
         }
         else if (int_literal.StartsWith("٨-:"))
         {
-            return "ص_٨";
+            context.expression_datatype = "ص_٨";
+            return context.expression_datatype;
         }
         else
         {
-            return "ص_٤";
+            context.expression_datatype = "ص_٤";
+            return context.expression_datatype;
         }
     }
 
     public override string VisitVariable_expr([NotNull] Variable_exprContext context)
     {
         var variable_info = context.st.getSymbolInfo(context.ID().GetText());
-        return ((VarInfo)variable_info.specificInfo).datatype;
+        context.expression_datatype =  ((VarInfo)variable_info.specificInfo).datatype;
+        return context.expression_datatype;
     }
+
 
     public override string VisitAdd_expr([NotNull] Add_exprContext context)
     {
@@ -422,27 +434,27 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
         return ((FunctionInfo)function_sub_info).return_type;
     }
 
-    private string convert_ar_int_to_en_int(string input)
-    {
-        StringBuilder str_builder = new StringBuilder();
+    // private string convert_ar_int_to_en_int(string input)
+    // {
+    //     StringBuilder str_builder = new StringBuilder();
 
-        foreach (char c in input)
-        {
-            if (c == '٠') str_builder.Append('0');
-            else if (c == '١') str_builder.Append('1');
-            else if (c == '٢') str_builder.Append('2');
-            else if (c == '٣') str_builder.Append('3');
-            else if (c == '٤') str_builder.Append('4');
-            else if (c == '٥') str_builder.Append('5');
-            else if (c == '٦') str_builder.Append('6');
-            else if (c == '٧') str_builder.Append('7');
-            else if (c == '٨') str_builder.Append('8');
-            else if (c == '٩') str_builder.Append('9');
-            else { throw new Exception($"unknown character. {c}"); }
-        }
+    //     foreach (char c in input)
+    //     {
+    //         if (c == '٠') str_builder.Append('0');
+    //         else if (c == '١') str_builder.Append('1');
+    //         else if (c == '٢') str_builder.Append('2');
+    //         else if (c == '٣') str_builder.Append('3');
+    //         else if (c == '٤') str_builder.Append('4');
+    //         else if (c == '٥') str_builder.Append('5');
+    //         else if (c == '٦') str_builder.Append('6');
+    //         else if (c == '٧') str_builder.Append('7');
+    //         else if (c == '٨') str_builder.Append('8');
+    //         else if (c == '٩') str_builder.Append('9');
+    //         else { throw new Exception($"unknown character. {c}"); }
+    //     }
 
-        return str_builder.ToString().Reverse().ToString();
-    }
+    //     return str_builder.ToString().Reverse().ToString();
+    // }
     private int datatype_to_int(string dt)
     {
         if (dt == "ط_١") return 1;
@@ -468,27 +480,27 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
         if (dt == -8) return "ص_٨";
         throw new Exception();
     }
-    private DATATYPE get_result_datatype(DATATYPE dt1, DATATYPE dt2, string op)
-    {
-        if (op is "add")
-        {
-            if (
-                is_both_unsigned(dt1, dt2)
-            )
-            {
-                return (dt1 > dt2 ? dt1 : dt2);
-            }
-            else
-            {
+    // private DATATYPE get_result_datatype(DATATYPE dt1, DATATYPE dt2, string op)
+    // {
+    //     if (op is "add")
+    //     {
+    //         if (
+    //             is_both_unsigned(dt1, dt2)
+    //         )
+    //         {
+    //             return (dt1 > dt2 ? dt1 : dt2);
+    //         }
+    //         else
+    //         {
 
-            }
-        }
-        throw new Exception();
-    }
-    private bool is_both_unsigned(DATATYPE dt1, DATATYPE dt2)
-    {
-        return dt1 != DATATYPE.INT32 && dt2 != DATATYPE.INT32 && dt1 != DATATYPE.INT64 && dt2 != DATATYPE.INT64;
-    }
+    //         }
+    //     }
+    //     throw new Exception();
+    // }
+    // private bool is_both_unsigned(DATATYPE dt1, DATATYPE dt2)
+    // {
+    //     return dt1 != DATATYPE.INT32 && dt2 != DATATYPE.INT32 && dt1 != DATATYPE.INT64 && dt2 != DATATYPE.INT64;
+    // }
     private bool is_numeric_datatype(string dt)
     {
         if (dt == "ص_١"

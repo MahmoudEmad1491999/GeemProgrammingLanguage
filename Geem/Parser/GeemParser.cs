@@ -632,6 +632,7 @@ public partial class GeemParser : Parser {
 
 	public partial class ExpressionContext : ParserRuleContext {
 		public SymbolTable st;
+		public string expression_datatype;
 		public ExpressionContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
@@ -642,6 +643,7 @@ public partial class GeemParser : Parser {
 		public virtual void CopyFrom(ExpressionContext context) {
 			base.CopyFrom(context);
 			this.st = context.st;
+			this.expression_datatype = context.expression_datatype;
 		}
 	}
 	public partial class Lor_exprContext : ExpressionContext {

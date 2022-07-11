@@ -29,7 +29,7 @@ paramList: (parameter (FASLA parameter)*)?;
 argument locals[SymbolTable st]: expression;
 argumentList: (argument (FASLA argument)*)?;
 
-expression locals[SymbolTable st]:
+expression locals[SymbolTable st, string expression_datatype]:
 	ID RP argumentList LP # fun_call_expr
 	// | expression RSB expression LSB									# arr_subscrip_expr
 	| MINUS expression	# minus_expr

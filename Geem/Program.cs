@@ -28,24 +28,40 @@ public class Program {
         
         ConstructSymbolTableVisitor v1 = new ConstructSymbolTableVisitor();
         v1.Visit(root);
-        foreach(var item in root_t.st )
-        {
-            Console.WriteLine(item.Key + ", " + item.Value);
-        }
-        
-        Console.WriteLine(root_t.st == null);
 
         TypeMismatchValidator v2 = new TypeMismatchValidator();
         v2.Visit(root);
 
 
-        // UsedBeforeDeclaration v3 = new UsedBeforeDeclaration();
+        UsedBeforeDeclaration v3 = new UsedBeforeDeclaration();
 
-        // v3.Visit(root);
+        v3.Visit(root);
 
 
+        InterpreterVisitor v4 = new InterpreterVisitor();
+
+        v4.Visit(root);
+        foreach(var item in v4.gvar_indices){
+            Console.WriteLine(item.Key + ": " + item.Value);
+        }
+        foreach(var item in v4.func_op_variable_indices)
+        {
+            Console.WriteLine(item.Key + " {");
+            foreach(var sub_item in item.Value)
+            {
+                Console.WriteLine("\t" + sub_item.Key + ": " + sub_item.Value);
+            }
+            Console.WriteLine("};");
+        }
+        
+        foreach(var item in v4.stackMemory.mem)
+        {
+            Console.WriteLine(item);
+        }
+        
         string dot_graph = GraphGeneratorTraverser.GenerateGraph(root);
-
+       
         File.WriteAllBytes("/home/mahmoud/geem_files/test.dot", UnicodeEncoding.UTF8.GetBytes(dot_graph));
+        
     }
 }
