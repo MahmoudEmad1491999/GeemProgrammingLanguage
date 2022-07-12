@@ -67,8 +67,8 @@ statement locals[SymbolTable st]:
 	// | expressionStat #expression_Stat
 	| operationStat	# operation_Stat
 	| commandStat	# command_Stat
-	| BREAK_KEYWORD FASLA_MANQUOTA #break_Stat
-	| CONTINUE_KEYWORRD FASLA_MANQUOTA #continue_Stat;
+	| breakStat #break_Stat
+	| continueStat #continue_Stat;
 
 statementList: statement*;
 
@@ -89,6 +89,8 @@ resultStat: RES_KEYWORD expression FASLA_MANQUOTA;
 varDecl locals [SymbolTable st]: datatype ID inititalization FASLA_MANQUOTA;
 
 commandStat: command FASLA_MANQUOTA;
+breakStat: BREAK_KEYWORD FASLA_MANQUOTA;
+continueStat: CONTINUE_KEYWORRD FASLA_MANQUOTA;
 // | ENGLISH_INT_LITERAL;
 
 LP: '(';

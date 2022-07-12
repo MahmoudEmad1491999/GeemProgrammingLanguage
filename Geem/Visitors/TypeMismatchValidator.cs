@@ -10,25 +10,21 @@ using Antlr4.Runtime.Tree;
 public class TypeMismatchValidator : GeemBaseVisitor<string>
 
 {
-    private enum DATATYPE
-    {
-
-        UINT32,
-        INT32,
-        UINT64,
-        INT64,
-    }
-
     public override string Visit(IParseTree tree)
     {
-        if (tree is ProgramContext) return VisitProgram((ProgramContext)tree);
-        if (tree is FunctionDeclContext) return VisitFunctionDecl((FunctionDeclContext)tree);
-        if (tree is OperationDeclContext) return VisitOperationDecl((OperationDeclContext)tree);
-        if (tree is GlobalVarDeclContext) return VisitGlobalVarDecl((GlobalVarDeclContext)tree);
-        if (tree is Var_Decl_StatContext) return VisitVar_Decl_Stat((Var_Decl_StatContext)tree);
-        if (tree is Assignment_StatContext) return VisitAssignment_Stat((Assignment_StatContext)tree);
-        if (tree is Operation_StatContext) return VisitOperation_Stat((Operation_StatContext)tree);
-        if (tree is Result_StatContext) return VisitResult_Stat((Result_StatContext)tree);
+        if (tree is ProgramContext) VisitProgram((ProgramContext)tree);
+        if (tree is FunctionDeclContext) VisitFunctionDecl((FunctionDeclContext)tree);
+        if (tree is OperationDeclContext) VisitOperationDecl((OperationDeclContext)tree);
+        if (tree is GlobalVarDeclContext) VisitGlobalVarDecl((GlobalVarDeclContext)tree);
+        if (tree is Var_Decl_StatContext) VisitVar_Decl_Stat((Var_Decl_StatContext)tree);
+        if (tree is Assignment_StatContext) VisitAssignment_Stat((Assignment_StatContext)tree);
+        if (tree is Operation_StatContext) VisitOperation_Stat((Operation_StatContext)tree);
+        if (tree is Result_StatContext) VisitResult_Stat((Result_StatContext)tree);
+        if (tree is Return_StatContext) VisitReturn_Stat((Return_StatContext)tree);
+        if (tree is If_StatContext) VisitIf_Stat((If_StatContext)tree);
+        if (tree is While_StatContext) VisitWhile_Stat((While_StatContext)tree);
+        if (tree is Command_StatContext) VisitCommand_Stat((Command_StatContext)tree);
+
         if (tree is Int_literal_exprContext) return VisitInt_literal_expr((Int_literal_exprContext)tree);
         if (tree is Variable_exprContext) return VisitVariable_expr((Variable_exprContext)tree);
         if (tree is Add_exprContext) return VisitAdd_expr((Add_exprContext)tree);
@@ -97,7 +93,7 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
     public override string VisitAssignment_Stat([NotNull] Assignment_StatContext context)
     {
         var lhs_id = context.assignmentStat().ID().GetText();
-        var ssinfo = context.st.getSymbolInfo(lhs_id).specificInfo;
+        var ssinfo = context.st.getSymbolInfo(lhs_id);
         string lhs_datatype = null;
         if (ssinfo is VarInfo)
         {
@@ -119,7 +115,7 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
     public override string VisitOperation_Stat([NotNull] Operation_StatContext context)
     {
         var operation_info = context.st.getSymbolInfo(context.operationStat().ID().GetText());
-        var operation_sub_info = operation_info.specificInfo;
+        var operation_sub_info = operation_info;
 
         string[] parameter_datatypes = ((OperationInfo)operation_sub_info).parameter_datatypes;
 
@@ -217,7 +213,7 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
     public override string VisitVariable_expr([NotNull] Variable_exprContext context)
     {
         var variable_info = context.st.getSymbolInfo(context.ID().GetText());
-        context.expression_datatype =  ((VarInfo)variable_info.specificInfo).datatype;
+        context.expression_datatype = ((VarInfo)variable_info).datatype;
         return context.expression_datatype;
     }
 
@@ -238,13 +234,31 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
 
             if (Math.Abs(dt1) >= Math.Abs(dt2))
             {
-                if (dt1 * dt2 > 0) return int_to_datatype(dt1);
-                return int_to_datatype(-1 * Math.Abs(dt1));
+                if (dt1 * dt2 > 0)
+                {
+                    context.expression_datatype = int_to_datatype(dt1);
+                    return context.expression_datatype;
+                }
+                else
+                {
+                    context.expression_datatype = int_to_datatype(-1 * Math.Abs(dt1));
+                    return context.expression_datatype;
+                }
+
             }
             else
             {
-                if (dt1 * dt2 > 0) return int_to_datatype(dt2);
-                return int_to_datatype(-1 * Math.Abs(dt2));
+                if (dt1 * dt2 > 0)
+                {
+                    context.expression_datatype = int_to_datatype(dt2);
+                    return context.expression_datatype;
+                }
+                else
+                {
+                    context.expression_datatype = int_to_datatype(-1 * Math.Abs(dt2));
+                    return context.expression_datatype;
+                }
+
             }
 
         }
@@ -266,13 +280,31 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
 
             if (Math.Abs(dt1) >= Math.Abs(dt2))
             {
-                if (dt1 * dt2 > 0) return int_to_datatype(dt1);
-                return int_to_datatype(-1 * Math.Abs(dt1));
+                if (dt1 * dt2 > 0)
+                {
+                    context.expression_datatype = int_to_datatype(dt1);
+                    return context.expression_datatype;
+                }
+                else
+                {
+                    context.expression_datatype = int_to_datatype(-1 * Math.Abs(dt1));
+                    return context.expression_datatype;
+                }
+
             }
             else
             {
-                if (dt1 * dt2 > 0) return int_to_datatype(dt2);
-                return int_to_datatype(-1 * Math.Abs(dt2));
+                if (dt1 * dt2 > 0)
+                {
+                    context.expression_datatype = int_to_datatype(dt2);
+                    return context.expression_datatype;
+                }
+                else
+                {
+                    context.expression_datatype = int_to_datatype(-1 * Math.Abs(dt2));
+                    return context.expression_datatype;
+                }
+
             }
 
         }
@@ -295,13 +327,31 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
 
             if (Math.Abs(dt1) >= Math.Abs(dt2))
             {
-                if (dt1 * dt2 > 0) return int_to_datatype(dt1);
-                return int_to_datatype(-1 * Math.Abs(dt1));
+                if (dt1 * dt2 > 0)
+                {
+                    context.expression_datatype = int_to_datatype(dt1);
+                    return context.expression_datatype;
+                }
+                else
+                {
+                    context.expression_datatype = int_to_datatype(-1 * Math.Abs(dt1));
+                    return context.expression_datatype;
+                }
+
             }
             else
             {
-                if (dt1 * dt2 > 0) return int_to_datatype(dt2);
-                return int_to_datatype(-1 * Math.Abs(dt2));
+                if (dt1 * dt2 > 0)
+                {
+                    context.expression_datatype = int_to_datatype(dt2);
+                    return context.expression_datatype;
+                }
+                else
+                {
+                    context.expression_datatype = int_to_datatype(-1 * Math.Abs(dt2));
+                    return context.expression_datatype;
+                }
+
             }
 
         }
@@ -323,13 +373,29 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
 
             if (Math.Abs(dt1) >= Math.Abs(dt2))
             {
-                if (dt1 * dt2 > 0) return int_to_datatype(dt1);
-                return int_to_datatype(-1 * Math.Abs(dt1));
+                if (dt1 * dt2 > 0)
+                {
+                    context.expression_datatype = int_to_datatype(dt1);
+                    return context.expression_datatype;
+                }
+                else
+                {
+                    context.expression_datatype = int_to_datatype(-1 * Math.Abs(dt1));
+                    return context.expression_datatype;
+                }
             }
             else
             {
-                if (dt1 * dt2 > 0) return int_to_datatype(dt2);
-                return int_to_datatype(-1 * Math.Abs(dt2));
+                if (dt1 * dt2 > 0)
+                {
+                    context.expression_datatype = int_to_datatype(dt2);
+                    return context.expression_datatype;
+                }
+                else
+                {
+                    context.expression_datatype = int_to_datatype(-1 * Math.Abs(dt2));
+                    return context.expression_datatype;
+                }
             }
 
         }
@@ -342,7 +408,9 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
         {
             throw new Exception($"logical and works only with logical operands, Ln: {context.Start.Line}");
         }
-        return "منطقي";
+
+        context.expression_datatype = "منطقي";
+        return context.expression_datatype;
     }
 
     public override string VisitLor_expr([NotNull] Lor_exprContext context)
@@ -353,7 +421,8 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
         {
             throw new Exception($"logical and works only with logical operands, Ln: {context.Start.Line}");
         }
-        return "منطقي";
+        context.expression_datatype = "منطقي";
+        return context.expression_datatype;
     }
 
     public override string VisitComparison_expr([NotNull] Comparison_exprContext context)
@@ -363,11 +432,13 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
 
         if (!is_numeric_datatype(operand_one_datatype) || !is_numeric_datatype(operand_two_datatype))
         {
-            throw new Exception($"cannot add or subtract non numeric datatypes: Ln: {context.Start.Line}");
+            throw new Exception($"cannot compare non numeric datatypes: Ln: {context.Start.Line}");
         }
+
         else
         {
-            return "منطقي";
+            context.expression_datatype = "منطقي";
+            return context.expression_datatype;
         }
     }
 
@@ -382,19 +453,31 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
         }
         else
         {
-            return "منطقي";
+            context.expression_datatype = "منطقي";
+            return context.expression_datatype;
         }
     }
 
     public override string VisitParenthesis_expr([NotNull] Parenthesis_exprContext context)
     {
-        return Visit(context.expression());
+        context.expression_datatype = Visit(context.expression());
+        return context.expression_datatype;
     }
 
     public override string VisitMinus_expr([NotNull] Minus_exprContext context)
     {
         int dt = datatype_to_int(Visit(context.expression()));
-        return (dt > 0) ? int_to_datatype(-1 * dt) : int_to_datatype(dt);
+
+        if (dt > 0)
+        {
+            context.expression_datatype = int_to_datatype(-1 * dt);
+            return context.expression_datatype;
+        }
+        else
+        {
+            context.expression_datatype = int_to_datatype(dt);
+            return context.expression_datatype;
+        }
     }
 
     public override string VisitLnot_expr([NotNull] Lnot_exprContext context)
@@ -404,14 +487,15 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
         {
             throw new Exception($"Logical Not accept only boolean datatypes, Ln: {context.Start.Line}");
         }
-        return "منطقي";
+        context.expression_datatype = "منطقي";
+        return context.expression_datatype;
     }
 
 
     public override string VisitFun_call_expr([NotNull] Fun_call_exprContext context)
     {
         var function_info = context.st.getSymbolInfo(context.ID().GetText());
-        var function_sub_info = function_info.specificInfo;
+        var function_sub_info = function_info;
 
         string[] parameter_datatypes = ((FunctionInfo)function_sub_info).parameter_datatypes;
 
@@ -431,9 +515,35 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
                 throw new Exception($"argument datatype does not match parameter datatype.{parameter_datatypes[index]}, {arg_datatype}, Ln: {context.Start.Line}");
             }
         }
-        return ((FunctionInfo)function_sub_info).return_type;
+        context.expression_datatype = ((FunctionInfo)function_sub_info).return_type;
+        return context.expression_datatype;
+    }
+    public override string VisitIf_Stat([NotNull] If_StatContext context)
+    {
+        Visit(context.ifStat().expression());
+        foreach (var statement in context.ifStat().statementList().statement())
+        {
+            Visit(statement);
+        }
+
+        return null;
+    }
+    public override string VisitWhile_Stat([NotNull] While_StatContext context)
+    {
+        Visit(context.whileStat().expression());
+        foreach (var statement in context.whileStat().statementList().statement())
+        {
+            Visit(statement);
+        }
+
+        return null;
     }
 
+    public override string VisitCommand_Stat([NotNull] Command_StatContext context)
+    {
+        Visit(context.commandStat().command().expression());
+        return null;
+    }
     // private string convert_ar_int_to_en_int(string input)
     // {
     //     StringBuilder str_builder = new StringBuilder();

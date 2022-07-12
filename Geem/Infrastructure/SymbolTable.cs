@@ -15,30 +15,25 @@ public enum SymbolTableType {
     SymbolTableOfFile,
     SymbolTableOfOperation,
 }
-public class SymbolInfo 
+public abstract class SymbolInfo 
 {
     public SymbolType type {get; set;}
-    public SymbolSpecificInfo specificInfo {get; set;}
-    public SymbolInfo(SymbolType type, SymbolSpecificInfo specificInfo)
+    public SymbolInfo(SymbolType type)
     {
         this.type = type;
-        this.specificInfo = specificInfo;
     }
 
     public override string ToString()
     {
-        return $"type: {type.ToString()}, sub_info: {specificInfo.ToString()}";
+        return $"type: {type.ToString()}";
     }
 }
-public abstract class SymbolSpecificInfo {
 
-}
-
-public class VarInfo: SymbolSpecificInfo 
+public class VarInfo: SymbolInfo 
 {
     public string datatype {get; set;}
 
-    public VarInfo(string datatype)
+    public VarInfo(string datatype, SymbolType type): base(type)
     {
         this.datatype = datatype;
         
@@ -50,12 +45,12 @@ public class VarInfo: SymbolSpecificInfo
 }
 
 
-public class FunctionInfo: SymbolSpecificInfo 
+public class FunctionInfo: SymbolInfo 
 {
     public string[] parameter_datatypes {get; set;}
     public string return_type {get; set;}
     public FunctionDeclContext node {get; set;}
-    public FunctionInfo(string return_type, string[] parameter_datatypes, FunctionDeclContext node)
+    public FunctionInfo(string return_type, string[] parameter_datatypes, FunctionDeclContext node):base(SymbolType.SymbolOfFunction)
     {
         this.parameter_datatypes = parameter_datatypes;
         this.return_type = return_type;
@@ -72,11 +67,11 @@ public class FunctionInfo: SymbolSpecificInfo
     }
 }
 
-public class OperationInfo: SymbolSpecificInfo 
+public class OperationInfo: SymbolInfo 
 {
     public string[] parameter_datatypes {get; set;}
     public OperationDeclContext node {get; set;}
-    public OperationInfo(string[] parameter_datatypes, OperationDeclContext node)
+    public OperationInfo(string[] parameter_datatypes, OperationDeclContext node):base(SymbolType.SymbolOfOperation)
     {
         this.parameter_datatypes = parameter_datatypes;
         this.node = node;
@@ -104,12 +99,18 @@ public class SymbolTable : Dictionary<string, SymbolInfo>
     }
     public Boolean SymbolExist(string symbol_identifier)
     {
-        if(this.ContainsKey(symbol_identifier)) return true;
-        return false;
+        return this.ContainsKey(symbol_identifier);
+        
     }
     public Boolean SymbolExistInParent(string symbol_identifier)
     {
-        if(this.parent is not null) if(this.parent.ContainsKey(symbol_identifier)) return true;
+        if(this.parent is not null) 
+        {
+            if(this.parent.ContainsKey(symbol_identifier)) 
+            {
+                return true;
+            }
+        }
         return false;
     }
     public SymbolInfo getSymbolInfo(string symbol_name)
