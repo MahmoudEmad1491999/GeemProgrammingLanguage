@@ -39,6 +39,7 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
         if (tree is Minus_exprContext) return VisitMinus_expr((Minus_exprContext)tree);
         if (tree is Lnot_exprContext) return VisitLnot_expr((Lnot_exprContext)tree);
         if (tree is Fun_call_exprContext) return VisitFun_call_expr((Fun_call_exprContext)tree);
+        if (tree is Boolean_literal_exprContext) return VisitBoolean_literal_expr((Boolean_literal_exprContext) tree);
 
         return null;
     }
@@ -157,48 +158,46 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
     }
     public override string VisitInt_literal_expr([NotNull] Int_literal_exprContext context)
     {
-        var temp = context.Int_literal().GetText().ToCharArray();
-        Array.Reverse(temp);
-        string int_literal = new String(temp);
+        var int_literal_ = context.Int_literal().GetText();
 
-        if (int_literal.StartsWith("١:") || int_literal.StartsWith("١+:"))
+        if (int_literal_.EndsWith(":١") || int_literal_.EndsWith(":+١"))
         {
             context.expression_datatype = "ط_١";
             return context.expression_datatype;
         }
-        else if (int_literal.StartsWith("٢:") || int_literal.StartsWith("٢+:"))
+        else if (int_literal_.EndsWith(":٢") || int_literal_.EndsWith(":+٢"))
         {
             context.expression_datatype = "ط_٢";
             return context.expression_datatype;
         }
-        else if (int_literal.StartsWith("٤:") || int_literal.StartsWith("٤+:"))
+        else if (int_literal_.EndsWith(":٤") || int_literal_.EndsWith(":+٤"))
         {
             context.expression_datatype = "ط_٤";
             return context.expression_datatype;
         }
-        else if (int_literal.StartsWith("٨:") || int_literal.StartsWith("٨+:"))
+        else if (int_literal_.EndsWith(":٨") || int_literal_.EndsWith(":+٨"))
         {
             context.expression_datatype = "ط_٨";
             return context.expression_datatype;
         }
-        else if (int_literal.StartsWith("١-:"))
+        else if (int_literal_.EndsWith(":-١"))
         {
             context.expression_datatype = "ص_١";
             return context.expression_datatype;
         }
-        else if (int_literal.StartsWith("٢-:"))
+        else if (int_literal_.EndsWith(":-٢"))
 
         {
             context.expression_datatype = "ص_٢";
             return context.expression_datatype;
         }
-        else if (int_literal.StartsWith("٤-:"))
+        else if (int_literal_.EndsWith(":-٤"))
 
         {
             context.expression_datatype = "ص_٤";
             return context.expression_datatype;
         }
-        else if (int_literal.StartsWith("٨-:"))
+        else if (int_literal_.EndsWith(":-٨"))
         {
             context.expression_datatype = "ص_٨";
             return context.expression_datatype;
@@ -208,15 +207,21 @@ public class TypeMismatchValidator : GeemBaseVisitor<string>
             context.expression_datatype = "ص_٤";
             return context.expression_datatype;
         }
-    }
 
+    }
+    
+    public override string VisitBoolean_literal_expr([NotNull] Boolean_literal_exprContext context)
+    {
+        context.expression_datatype = "منطقي";
+        return context.expression_datatype;
+    }
+    
     public override string VisitVariable_expr([NotNull] Variable_exprContext context)
     {
         var variable_info = context.st.getSymbolInfo(context.ID().GetText());
         context.expression_datatype = ((VarInfo)variable_info).datatype;
         return context.expression_datatype;
     }
-
 
     public override string VisitAdd_expr([NotNull] Add_exprContext context)
     {

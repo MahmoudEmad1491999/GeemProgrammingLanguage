@@ -22,6 +22,7 @@ public class ConstructSymbolTableVisitor : GeemBaseVisitor<Object>
         if (tree is Return_StatContext) VisitReturn_Stat((Return_StatContext) tree);
         if (tree is If_StatContext) VisitIf_Stat((If_StatContext) tree);
         if (tree is While_StatContext) VisitWhile_Stat((While_StatContext) tree);
+        if (tree is ParameterContext) VisitParameter((ParameterContext) tree);
         if (tree is Command_StatContext) VisitCommand_Stat((Command_StatContext) tree);
         
         if (tree is Int_literal_exprContext) return VisitInt_literal_expr((Int_literal_exprContext)tree);
@@ -38,6 +39,8 @@ public class ConstructSymbolTableVisitor : GeemBaseVisitor<Object>
         if (tree is Minus_exprContext) return VisitMinus_expr((Minus_exprContext)tree);
         if (tree is Lnot_exprContext) return VisitLnot_expr((Lnot_exprContext)tree);
         if (tree is Fun_call_exprContext) return VisitFun_call_expr((Fun_call_exprContext)tree);
+        if (tree is Boolean_literal_exprContext) return VisitBoolean_literal_expr((Boolean_literal_exprContext) tree);
+
 
         return null;
     }
@@ -226,6 +229,7 @@ public class ConstructSymbolTableVisitor : GeemBaseVisitor<Object>
         foreach (var argument in context.operationStat().argumentList().argument())
         {
             argument.st = context.st;
+            argument.expression().st = context.st;
             Visit(argument.expression());
         }
         return null;

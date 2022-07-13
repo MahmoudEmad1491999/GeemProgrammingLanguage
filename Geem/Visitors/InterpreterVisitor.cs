@@ -13,24 +13,28 @@ namespace Geem.Visitors
     {
         public StackMemory stackMemory = new StackMemory(100);
         public Stack<Object> function_return_values = new Stack<object>();
+        public Boolean do_break = false;
+        public Boolean do_continue = false;
+        public Boolean do_terminate = false;
         public Dictionary<string, Dictionary<string, int>> func_op_variable_indices = new Dictionary<string, Dictionary<string, int>>();
         public Dictionary<string, int> gvar_indices = new Dictionary<string, int>();
 
-        public Boolean terminate = false;
         public override object Visit(IParseTree tree)
         {
-            if (tree is ProgramContext) VisitProgram((ProgramContext)tree);
-            if (tree is FunctionDeclContext) VisitFunctionDecl((FunctionDeclContext)tree);
-            if (tree is OperationDeclContext) VisitOperationDecl((OperationDeclContext)tree);
-            if (tree is GlobalVarDeclContext) VisitGlobalVarDecl((GlobalVarDeclContext)tree);
-            if (tree is Var_Decl_StatContext) VisitVar_Decl_Stat((Var_Decl_StatContext)tree);
-            if (tree is Assignment_StatContext) VisitAssignment_Stat((Assignment_StatContext)tree);
-            if (tree is Operation_StatContext) VisitOperation_Stat((Operation_StatContext)tree);
-            if (tree is Result_StatContext) VisitResult_Stat((Result_StatContext)tree);
-            if (tree is Return_StatContext) VisitReturn_Stat((Return_StatContext)tree);
-            if (tree is If_StatContext) VisitIf_Stat((If_StatContext)tree);
-            if (tree is While_StatContext) VisitWhile_Stat((While_StatContext)tree);
-            if (tree is Command_StatContext) VisitCommand_Stat((Command_StatContext)tree);
+            if (tree is ProgramContext) return VisitProgram((ProgramContext)tree);
+            if (tree is FunctionDeclContext) return VisitFunctionDecl((FunctionDeclContext)tree);
+            if (tree is OperationDeclContext) return VisitOperationDecl((OperationDeclContext)tree);
+            if (tree is GlobalVarDeclContext) return VisitGlobalVarDecl((GlobalVarDeclContext)tree);
+            if (tree is Var_Decl_StatContext) return VisitVar_Decl_Stat((Var_Decl_StatContext)tree);
+            if (tree is Assignment_StatContext) return VisitAssignment_Stat((Assignment_StatContext)tree);
+            if (tree is Operation_StatContext) return VisitOperation_Stat((Operation_StatContext)tree);
+            if (tree is Result_StatContext) return VisitResult_Stat((Result_StatContext)tree);
+            if (tree is Return_StatContext) return VisitReturn_Stat((Return_StatContext)tree);
+            if (tree is Continue_StatContext) return VisitContinue_Stat((Continue_StatContext)tree);
+            if (tree is Break_StatContext) return VisitBreak_Stat((Break_StatContext)tree);
+            if (tree is If_StatContext) return VisitIf_Stat((If_StatContext)tree);
+            if (tree is While_StatContext) return VisitWhile_Stat((While_StatContext)tree);
+            if (tree is Command_StatContext) return VisitCommand_Stat((Command_StatContext)tree);
 
             if (tree is Int_literal_exprContext) return VisitInt_literal_expr((Int_literal_exprContext)tree);
             if (tree is Variable_exprContext) return VisitVariable_expr((Variable_exprContext)tree);
@@ -46,6 +50,8 @@ namespace Geem.Visitors
             if (tree is Minus_exprContext) return VisitMinus_expr((Minus_exprContext)tree);
             if (tree is Lnot_exprContext) return VisitLnot_expr((Lnot_exprContext)tree);
             if (tree is Fun_call_exprContext) return VisitFun_call_expr((Fun_call_exprContext)tree);
+            if (tree is ArgumentContext) return Visit(((ArgumentContext)tree).expression());
+            if (tree is Boolean_literal_exprContext) return VisitBoolean_literal_expr((Boolean_literal_exprContext)tree);
 
             return null;
         }
@@ -127,8 +133,9 @@ namespace Geem.Visitors
             {
                 // visiting statement result in a boolean value deciding whether to terminate or not.
                 Visit(statement);
-                if (terminate)
+                if (do_terminate)
                 {
+                    this.do_terminate = false;
                     // restore the old frame pointer.
                     stackMemory.frame_index = (int)stackMemory.mem[stackMemory.frame_index];
                     // decrement the stack.
@@ -155,8 +162,9 @@ namespace Geem.Visitors
             {
                 Visit(statement);
                 // visiting statement result in a boolean value deciding whether to terminate or not.
-                if (terminate)
+                if (do_terminate)
                 {
+                    this.do_terminate = false;
                     // restore the old frame pointer.
                     stackMemory.frame_index = (int)stackMemory.mem[stackMemory.frame_index];
                     // decrement the stack.
@@ -253,30 +261,33 @@ namespace Geem.Visitors
             OperationDeclContext op = Array.Find(p.operationDecl(), (OperationDeclContext op) => op.ID().GetText() == operatoin_name);
 
             Visit(op);
+            this.do_terminate = false;
             return false;
         }
 
         public override object VisitReturn_Stat([NotNull] Return_StatContext context)
         {
-            this.terminate = true;
+            this.do_terminate = true;
             return null;
         }
         public override object VisitResult_Stat([NotNull] Result_StatContext context)
         {
             function_return_values.Push(Visit(context.resultStat().expression()));
+            this.do_terminate = true;
             return null;
         }
 
         public override object VisitIf_Stat([NotNull] If_StatContext context)
         {
-            var condition = (Boolean)Visit(context.ifStat().expression());
+            Visit(context.ifStat().expression());
+            var condition = (bool)Visit(context.ifStat().expression());
             var statements = context.ifStat().statementList().statement();
             if (condition)
             {
                 for (int index = 0; index < statements.Length; index++)
                 {
                     Visit(statements[index]);
-                    if (terminate)
+                    if (do_terminate)
                     {
                         break;
                     }
@@ -284,7 +295,16 @@ namespace Geem.Visitors
             }
             return null;
         }
-
+        public override object VisitBreak_Stat([NotNull] Break_StatContext context)
+        {
+            this.do_break = true;
+            return null;
+        }
+        public override object VisitContinue_Stat([NotNull] Continue_StatContext context)
+        {
+            this.do_continue = true;
+            return null;
+        }
         public override object VisitWhile_Stat([NotNull] While_StatContext context)
         {
             var statements = context.whileStat().statementList().statement();
@@ -296,21 +316,22 @@ namespace Geem.Visitors
             {
                 foreach (var statement in statements)
                 {
-
-                    if (statement is Break_StatContext)
+                    Visit(statement);
+                    if (do_break)
                     {
+                        this.do_break = false;
                         return null;
                     }
-                    else if (statement is Continue_StatContext)
+                    if (do_continue)
                     {
+                        this.do_continue = false;
                         condition = (Boolean)Visit(condition_expression);
                         if (condition) break;
-                        else return null;
+                        return null;
                     }
-                    else
+                    if (do_terminate)
                     {
-                        Visit(statement);
-                        if (terminate) return null;
+                        return null;
                     }
 
                 }
@@ -513,7 +534,131 @@ namespace Geem.Visitors
             throw
             new Exception();
         }
+        public override object VisitEquality_expr([NotNull] Equality_exprContext context)
+        {
+            var op1 = Visit(context.expression(0));
+            int op1_dt = datatype_to_int(context.expression(0).expression_datatype);
+            var op2 = Visit(context.expression(1));
+            int op2_dt = datatype_to_int(context.expression(1).expression_datatype);
 
+            var com_op = context.equality_op().GetText();
+            BigInteger b1;
+            BigInteger b2;
+            if (op1_dt == 1)
+            {
+                Byte operand_one = (Byte)op1;
+                b1 = new BigInteger(operand_one);
+            }
+            else if (op1_dt == 2)
+            {
+                UInt16 operand_one = (UInt16)op1;
+                b1 = new BigInteger(operand_one);
+
+            }
+            else if (op1_dt == 4)
+            {
+                UInt32 operand_one = (UInt32)op1;
+                b1 = new BigInteger(operand_one);
+
+            }
+            else if (op1_dt == 8)
+            {
+                UInt64 operand_one = (UInt64)op1;
+                b1 = new BigInteger(operand_one);
+            }
+            else if (op1_dt == -1)
+            {
+                SByte operand_one = (SByte)op1;
+                b1 = new BigInteger(operand_one);
+            }
+            else if (op1_dt == -2)
+            {
+                Int16 operand_one = (Int16)op1;
+                b1 = new BigInteger(operand_one);
+            }
+            else if (op1_dt == -4)
+            {
+                Int32 operand_one = (Int32)op1;
+                b1 = new BigInteger(operand_one);
+            }
+            else if (op1_dt == -8)
+            {
+                Int64 operand_one = (Int64)op1;
+                b1 = new BigInteger(operand_one);
+            }
+            else
+            {
+                b1 = new BigInteger();
+            }
+            try
+            {
+                if (op1_dt == 1)
+                {
+                    Byte operand_two = (Byte)op2;
+                    b2 = new BigInteger(operand_two);
+                }
+                else if (op1_dt == 2)
+                {
+                    UInt16 operand_two = (UInt16)op2;
+                    b2 = new BigInteger(operand_two);
+                }
+                else if (op1_dt == 4)
+                {
+                    UInt32 operand_two = (UInt32)op2;
+                    b2 = new BigInteger(operand_two);
+                }
+                else if (op1_dt == 8)
+                {
+                    UInt64 operand_two = (UInt64)op2;
+                    b2 = new BigInteger(operand_two);
+                }
+                else if (op1_dt == -1)
+                {
+                    SByte operand_two = (SByte)op2;
+                    b2 = new BigInteger(operand_two);
+                }
+                else if (op1_dt == -2)
+                {
+                    Int16 operand_two = (Int16)op2;
+                    b2 = new BigInteger(operand_two);
+                }
+                else if (op1_dt == -4)
+                {
+                    Int32 operand_two = (Int32)op2;
+                    b2 = new BigInteger(operand_two);
+                }
+                else if (op1_dt == -8)
+                {
+                    Int64 operand_two = (Int64)op2;
+                    b2 = new BigInteger(operand_two);
+                }
+                else
+                {
+                    b2 = new BigInteger();
+                }
+
+                if (com_op == "==")
+                {
+                    return b1 == b2;
+                }
+                else if (com_op == "!=")
+                {
+                    return b1 != b2;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{e.StackTrace}, LN: {context.Start.Line}.");
+            }
+
+            throw
+            new Exception();
+        }
         public override object VisitVariable_expr([NotNull] Variable_exprContext context)
         {
             string variable_name = context.ID().GetText();
@@ -531,7 +676,8 @@ namespace Geem.Visitors
 
                 if (this.func_op_variable_indices[containing_func_name].ContainsKey(variable_name))
                 {
-                    return this.stackMemory.mem[this.stackMemory.frame_index + this.func_op_variable_indices[containing_func_name][variable_name]];
+                    int address = this.stackMemory.frame_index + this.func_op_variable_indices[containing_func_name][variable_name] + 1;
+                    return this.stackMemory.mem[address];
                 }
                 else
                 {
@@ -569,44 +715,283 @@ namespace Geem.Visitors
             var val1 = Visit(context.expression(0));
             var val2 = Visit(context.expression(1));
 
+            var dt1 = context.expression(0).expression_datatype;
+            var dt2 = context.expression(1).expression_datatype;
+
             if (context.expression_datatype == "ص_١")
             {
-                return (SByte)((SByte)val1 + (SByte)val2);
+                return (SByte)(Convert.ToSByte(val1) + Convert.ToSByte(val2));
             }
             else if (context.expression_datatype == "ص_٢")
             {
-                return (Int16)((Int16)val1 + (Int16)val2);
+                return (Int16)(Convert.ToInt16(val1) + Convert.ToInt16(val2));
             }
             else if (context.expression_datatype == "ص_٤")
             {
-                return (Int32)((Int32)val1 + (Int32)val2);
+                return (Int32)(Convert.ToInt32(val1) + Convert.ToInt32(val2));
             }
             else if (context.expression_datatype == "ص_٨")
             {
-                return (Int64)((Int64)val1 + (Int64)val2);
+                return (Int64)(Convert.ToInt64(val1) + Convert.ToInt64(val2));
             }
             else if (context.expression_datatype == "ط_١")
             {
-                return (Byte)((Byte)val1 + (Byte)val2);
+                return (Byte)(Convert.ToByte(val1) + Convert.ToByte(val2));
             }
             else if (context.expression_datatype == "ط_٢")
             {
-                return (UInt16)((UInt16)val1 + (UInt16)val2);
+                return (UInt16)(Convert.ToUInt16(val1) + Convert.ToUInt16(val2));
             }
             else if (context.expression_datatype == "ط_٤")
             {
-                return (UInt32)((UInt32)val1 + (UInt32)val2);
+                return (UInt32)(Convert.ToUInt32(val1) + Convert.ToUInt32(val2));
+
             }
             else if (context.expression_datatype == "ط_٨")
             {
-                return (UInt64)((UInt64)val1 + (UInt64)val2);
+                return (UInt64)(Convert.ToUInt64(val1) + Convert.ToUInt64(val2));
             }
             else
             {
                 throw new Exception();
             }
         }
-        
+        public override object VisitSubtraction_expr([NotNull] Subtraction_exprContext context)
+        {
+            var val1 = Visit(context.expression(0));
+            var val2 = Visit(context.expression(1));
+
+            if (context.expression_datatype == "ص_١")
+            {
+                return (SByte)(Convert.ToSByte(val1) + Convert.ToSByte(val2));
+            }
+            else if (context.expression_datatype == "ص_٢")
+            {
+                return (Int16)(Convert.ToInt16(val1) - Convert.ToInt16(val2));
+            }
+            else if (context.expression_datatype == "ص_٤")
+            {
+                return (Int32)(Convert.ToInt32(val1) - Convert.ToInt32(val2));
+            }
+            else if (context.expression_datatype == "ص_٨")
+            {
+                return (Int64)(Convert.ToInt64(val1) - Convert.ToInt64(val2));
+            }
+            else if (context.expression_datatype == "ط_١")
+            {
+                return (Byte)(Convert.ToByte(val1) - Convert.ToByte(val2));
+            }
+            else if (context.expression_datatype == "ط_٢")
+            {
+                return (UInt16)(Convert.ToUInt16(val1) - Convert.ToUInt16(val2));
+            }
+            else if (context.expression_datatype == "ط_٤")
+            {
+                return (UInt32)(Convert.ToUInt32(val1) - Convert.ToUInt32(val2));
+
+            }
+            else if (context.expression_datatype == "ط_٨")
+            {
+                return (UInt64)(Convert.ToUInt64(val1) - Convert.ToUInt64(val2));
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+
+        public override object VisitMultiply_expr([NotNull] Multiply_exprContext context)
+        {
+            var val1 = Visit(context.expression(0));
+            var val2 = Visit(context.expression(1));
+
+            if (context.expression_datatype == "ص_١")
+            {
+                return (SByte)(Convert.ToSByte(val1) + Convert.ToSByte(val2));
+            }
+            else if (context.expression_datatype == "ص_٢")
+            {
+                return (Int16)(Convert.ToInt16(val1) * Convert.ToInt16(val2));
+            }
+            else if (context.expression_datatype == "ص_٤")
+            {
+                return (Int32)(Convert.ToInt32(val1) * Convert.ToInt32(val2));
+            }
+            else if (context.expression_datatype == "ص_٨")
+            {
+                return (Int64)(Convert.ToInt64(val1) * Convert.ToInt64(val2));
+            }
+            else if (context.expression_datatype == "ط_١")
+            {
+                return (Byte)(Convert.ToByte(val1) * Convert.ToByte(val2));
+            }
+            else if (context.expression_datatype == "ط_٢")
+            {
+                return (UInt16)(Convert.ToUInt16(val1) * Convert.ToUInt16(val2));
+            }
+            else if (context.expression_datatype == "ط_٤")
+            {
+                return (UInt32)(Convert.ToUInt32(val1) * Convert.ToUInt32(val2));
+
+            }
+            else if (context.expression_datatype == "ط_٨")
+            {
+                return (UInt64)(Convert.ToUInt64(val1) * Convert.ToUInt64(val2));
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+        public override object VisitDivide_expr([NotNull] Divide_exprContext context)
+        {
+            var val1 = Visit(context.expression(0));
+            var val2 = Visit(context.expression(1));
+
+           if (context.expression_datatype == "ص_١")
+            {
+                return (SByte)(Convert.ToSByte(val1) / Convert.ToSByte(val2));
+            }
+            else if (context.expression_datatype == "ص_٢")
+            {
+                return (Int16)(Convert.ToInt16(val1) / Convert.ToInt16(val2));
+            }
+            else if (context.expression_datatype == "ص_٤")
+            {
+                return (Int32)(Convert.ToInt32(val1) / Convert.ToInt32(val2));
+            }
+            else if (context.expression_datatype == "ص_٨")
+            {
+                return (Int64)(Convert.ToInt64(val1) / Convert.ToInt64(val2));
+            }
+            else if (context.expression_datatype == "ط_١")
+            {
+                return (Byte)(Convert.ToByte(val1) / Convert.ToByte(val2));
+            }
+            else if (context.expression_datatype == "ط_٢")
+            {
+                return (UInt16)(Convert.ToUInt16(val1) / Convert.ToUInt16(val2));
+            }
+            else if (context.expression_datatype == "ط_٤")
+            {
+                return (UInt32)(Convert.ToUInt32(val1) / Convert.ToUInt32(val2));
+
+            }
+            else if (context.expression_datatype == "ط_٨")
+            {
+                return (UInt64)(Convert.ToUInt64(val1) / Convert.ToUInt64(val2));
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+
+        public override object VisitLand_expr([NotNull] Land_exprContext context)
+        {
+            var val1 = Visit(context.expression(0));
+            var val2 = Visit(context.expression(1));
+
+            return (Boolean)((Boolean)val1 && (Boolean)val2);
+        }
+
+        public override object VisitLor_expr([NotNull] Lor_exprContext context)
+        {
+            var val1 = Visit(context.expression(0));
+            var val2 = Visit(context.expression(1));
+
+            return (Boolean)((Boolean)val1 || (Boolean)val2);
+        }
+
+        public override object VisitLnot_expr([NotNull] Lnot_exprContext context)
+        {
+            var val = Visit(context.expression());
+
+
+            return (Boolean)(!(Boolean)val);
+        }
+
+        public override object VisitMinus_expr([NotNull] Minus_exprContext context)
+        {
+            var val = Visit(context);
+            string expression_datatype = context.expression_datatype;
+
+            if (expression_datatype == "ص_١")
+            {
+                return (SByte)(-1 * (SByte)(val));
+            }
+            else if (expression_datatype == "ط_١")
+            {
+                Byte value = (Byte)val;
+                return (SByte)(-1 * value);
+            }
+            else if (expression_datatype == "ص_٢")
+            {
+                return (Int16)(-1 * (Int16)val);
+            }
+            else if (expression_datatype == "ط_٢")
+            {
+                UInt16 value = (UInt16)val;
+                return (Int16)(-1 * value);
+            }
+            else if (expression_datatype == "ص_٤")
+            {
+                return (Int32)(-1 * (Int32)val);
+            }
+            else if (expression_datatype == "ط_٤")
+            {
+                UInt32 value = (UInt32)val;
+                return (Int32)(-1 * value);
+            }
+            else if (expression_datatype == "ص_٨")
+            {
+                return (Int64)(-1 * (Int64)val);
+            }
+            else if (expression_datatype == "ط_٨")
+            {
+                UInt64 value = (UInt64)val;
+                return (Int64)((Int64)(-1) * (Int64)value);
+            }
+
+            throw new Exception();
+        }
+
+        public override object VisitFun_call_expr([NotNull] Fun_call_exprContext context)
+        {
+            string function_name = context.ID().GetText();
+            List<object> arguments_values = new List<object>();
+            var args = context.argumentList().argument();
+            for (int index = 0; index < args.Length; index++)
+            {
+                // we added one because the first value is for the frame pointer.
+                stackMemory.mem[stackMemory.next_aval + index + 1] = Visit(args[index]);
+            }
+
+            var program = context.Parent;
+            while (program is not null && program is not ProgramContext)
+            {
+                program = program.Parent;
+            }
+
+            ProgramContext p = (ProgramContext)program;
+            FunctionDeclContext func = Array.Find(p.functionDecl(), (FunctionDeclContext op) => op.ID().GetText() == function_name);
+
+            Visit(func);
+            this.do_terminate = false;
+            return this.function_return_values.Pop();
+        }
+        public override object VisitBoolean_literal_expr([NotNull] Boolean_literal_exprContext context)
+        {
+            if (context.Boolean_literal().GetText() == "صواب")
+            {
+                return true;
+            }
+            else if (context.Boolean_literal().GetText() == "خطأ" || context.Boolean_literal().GetText() == "خطا")
+            {
+                return false;
+            }
+            return null;
+        }
         private Object convert_arint_to_Int(Int_literal_exprContext int_literal_expr)
         {
             string input = int_literal_expr.Int_literal().ToString();

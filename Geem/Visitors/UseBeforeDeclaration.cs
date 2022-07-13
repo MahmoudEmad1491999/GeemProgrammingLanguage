@@ -42,6 +42,7 @@ public class UsedBeforeDeclaration : GeemBaseVisitor<object>
         if(tree is Parenthesis_exprContext)         VisitParenthesis_expr((Parenthesis_exprContext)tree);
         if(tree is Minus_exprContext)               VisitMinus_expr((Minus_exprContext)tree);
         if(tree is Fun_call_exprContext)            VisitFun_call_expr((Fun_call_exprContext)tree);
+        if (tree is Boolean_literal_exprContext) return VisitBoolean_literal_expr((Boolean_literal_exprContext) tree);
 
         return null;
     }

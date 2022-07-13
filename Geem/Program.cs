@@ -14,7 +14,7 @@ using Geem.Visitors;
 public class Program {
     public static void Main(String[] args)
     {
-        string test_file_path = "/home/mahmoud/geem_files/test.geem";
+        string test_file_path = "/home/mahmoud/geem_files/test4.geem";
         string file_content = File.ReadAllText(test_file_path);
 
         ICharStream char_stream = CharStreams.fromstring(file_content);
@@ -60,7 +60,7 @@ public class Program {
         
         string dot_graph = GraphGeneratorTraverser.GenerateGraph(root);
        
-        File.WriteAllBytes("/home/mahmoud/geem_files/test.dot", UnicodeEncoding.UTF8.GetBytes(dot_graph));
+        File.WriteAllBytes("/home/mahmoud/geem_files/test4.dot", UnicodeEncoding.UTF8.GetBytes(dot_graph));
         
     }
 }

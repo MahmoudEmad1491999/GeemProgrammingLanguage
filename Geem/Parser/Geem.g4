@@ -50,9 +50,11 @@ expression locals[SymbolTable st, string expression_datatype]:
 	| expression LOR expression		# lor_expr
 	| RP expression LP				# parenthesis_expr
 	| Int_literal					# int_literal_expr
+	| Boolean_literal 				# boolean_literal_expr
 	| ID							# variable_expr;
 
 
+Boolean_literal: TRUE_KEYWORD | FALSE_KEYWORD;
 
 comparison_op: (GTE_SYM | LTE_SYM | GT_SYM | LT_SYM);
 equality_op: (EQUAL_SYM | NOTEQ_SYM);
@@ -61,14 +63,15 @@ statement locals[SymbolTable st]:
 	assignmentStat	# assignment_Stat
 	| returnStat	# return_Stat
 	| resultStat	# result_Stat
+	| breakStat 	# break_Stat
+	| continueStat 	# continue_Stat
 	| ifStat		# if_Stat
 	| whileStat		# while_Stat
 	| varDecl		# var_Decl_Stat
 	// | expressionStat #expression_Stat
 	| operationStat	# operation_Stat
 	| commandStat	# command_Stat
-	| breakStat #break_Stat
-	| continueStat #continue_Stat;
+	;
 
 statementList: statement*;
 
@@ -86,11 +89,15 @@ returnStat: RET_KEYWORD FASLA_MANQUOTA;
 
 resultStat: RES_KEYWORD expression FASLA_MANQUOTA;
 
+breakStat: BREAK_KEYWORD FASLA_MANQUOTA;
+
+continueStat: CONTINUE_KEYWORRD FASLA_MANQUOTA;
+
 varDecl locals [SymbolTable st]: datatype ID inititalization FASLA_MANQUOTA;
 
 commandStat: command FASLA_MANQUOTA;
-breakStat: BREAK_KEYWORD FASLA_MANQUOTA;
-continueStat: CONTINUE_KEYWORRD FASLA_MANQUOTA;
+
+command: (COLON ('إطبع' | 'اطبع')) expression;
 // | ENGLISH_INT_LITERAL;
 
 LP: '(';
@@ -195,7 +202,6 @@ datatype:
 	| ULONG_DATA_TYPE
 	| BOOL_DATA_TYPE;
 
-command: (COLON ('إطبع' | 'اطبع')) expression;
 Int_literal:( '+' | '-')? (
 		'٠'
 		| '١'
@@ -207,7 +213,8 @@ Int_literal:( '+' | '-')? (
 		| '٧'
 		| '٨'
 		| '٩'
-	)+ (':' ('+' | '-')? ('١'| '٢' | '٨'))?;
+	)+ (':' ('+' | '-')? ('١'| '٢'| '٤' | '٨'))?;
+
 
 // sub_expression: DIVIDE expression sub_exppression MULTIPLY expression sub_exppression MINUS
 // expression sub_exppression PLUS expression sub_exppression comparison_op expression

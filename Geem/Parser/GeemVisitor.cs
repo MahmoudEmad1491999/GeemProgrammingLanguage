@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /home/mahmoud/.projects/graduation_projects/GeemProgrammingLanguage/Geem/Parser/Geem.g4 by ANTLR 4.9.2
+// Generated from /home/mahmoud/Documents/GeemProgrammingLanguage/Geem/Parser/Geem.g4 by ANTLR 4.9.2
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -110,6 +110,13 @@ public interface IGeemVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitLand_expr([NotNull] GeemParser.Land_exprContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>boolean_literal_expr</c>
+	/// labeled alternative in <see cref="GeemParser.expression"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBoolean_literal_expr([NotNull] GeemParser.Boolean_literal_exprContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>comparison_expr</c>
 	/// labeled alternative in <see cref="GeemParser.expression"/>.
@@ -221,6 +228,20 @@ public interface IGeemVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitResult_Stat([NotNull] GeemParser.Result_StatContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>break_Stat</c>
+	/// labeled alternative in <see cref="GeemParser.statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBreak_Stat([NotNull] GeemParser.Break_StatContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>continue_Stat</c>
+	/// labeled alternative in <see cref="GeemParser.statement"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitContinue_Stat([NotNull] GeemParser.Continue_StatContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>if_Stat</c>
 	/// labeled alternative in <see cref="GeemParser.statement"/>.
 	/// </summary>
@@ -298,6 +319,18 @@ public interface IGeemVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitResultStat([NotNull] GeemParser.ResultStatContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="GeemParser.breakStat"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBreakStat([NotNull] GeemParser.BreakStatContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GeemParser.continueStat"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitContinueStat([NotNull] GeemParser.ContinueStatContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="GeemParser.varDecl"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -310,16 +343,16 @@ public interface IGeemVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitCommandStat([NotNull] GeemParser.CommandStatContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="GeemParser.datatype"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitDatatype([NotNull] GeemParser.DatatypeContext context);
-	/// <summary>
 	/// Visit a parse tree produced by <see cref="GeemParser.command"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitCommand([NotNull] GeemParser.CommandContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GeemParser.datatype"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDatatype([NotNull] GeemParser.DatatypeContext context);
 }
 } // namespace Geem.Parser

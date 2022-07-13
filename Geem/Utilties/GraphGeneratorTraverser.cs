@@ -53,6 +53,11 @@ public class GraphGeneratorTraverser
         {"DataTypeContext", 0},
         {"CommandContext", 0},
         {"DatatypeContext",0},
+        {"Continue_StatContext", 0},
+        {"Break_StatContext", 0},
+        {"ContinueStatContext", 0},
+        {"BreakStatContext", 0},
+        {"Boolean_literal_exprContext", 0},
         {"TerminalNodeImpl", 0}
         };
     private GraphGeneratorTraverser()   
