@@ -131,20 +131,7 @@ public class SymbolTable : Dictionary<string, SymbolInfo>
             throw new Exception($"Symbol Table already contain this Symbol: \"{symbol_name}\" " + getSymbolInfo(symbol_name));
         } 
         else {
-            if(SymbolExistInParent(symbol_name))
-            {
-                if(this.parent is not null ) {
-                    if(this.parent[symbol_name].type == SymbolType.SymbolOfGlobalVariable)
-                    {
-                        this[symbol_name] = symbolInfo;
-                    }
-                
-                }
-                throw new Exception($"Symbol Table already contain this Symbol: {symbol_name}");
-            }
-            else {
-                this[symbol_name] = symbolInfo;
-            }
+            this[symbol_name] = symbolInfo;
         }
         
     }

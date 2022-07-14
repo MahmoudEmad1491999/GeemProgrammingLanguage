@@ -283,8 +283,7 @@ public partial class GeemBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	/// <return>The visitor result.</return>
 	public virtual Result VisitLnot_expr([NotNull] GeemParser.Lnot_exprContext context) { return VisitChildren(context); }
 	/// <summary>
-	/// Visit a parse tree produced by the <c>equality_expr</c>
-	/// labeled alternative in <see cref="GeemParser.expression"/>.
+	/// Visit a parse tree produced by <see cref="GeemParser.boolean_literal"/>.
 	/// <para>
 	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
 	/// on <paramref name="context"/>.
@@ -292,7 +291,7 @@ public partial class GeemBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	public virtual Result VisitEquality_expr([NotNull] GeemParser.Equality_exprContext context) { return VisitChildren(context); }
+	public virtual Result VisitBoolean_literal([NotNull] GeemParser.Boolean_literalContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GeemParser.comparison_op"/>.
 	/// <para>
@@ -303,16 +302,6 @@ public partial class GeemBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitComparison_op([NotNull] GeemParser.Comparison_opContext context) { return VisitChildren(context); }
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="GeemParser.equality_op"/>.
-	/// <para>
-	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
-	/// on <paramref name="context"/>.
-	/// </para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	public virtual Result VisitEquality_op([NotNull] GeemParser.Equality_opContext context) { return VisitChildren(context); }
 	/// <summary>
 	/// Visit a parse tree produced by the <c>assignment_Stat</c>
 	/// labeled alternative in <see cref="GeemParser.statement"/>.
@@ -553,5 +542,15 @@ public partial class GeemBaseVisitor<Result> : AbstractParseTreeVisitor<Result>,
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	public virtual Result VisitDatatype([NotNull] GeemParser.DatatypeContext context) { return VisitChildren(context); }
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GeemParser.int_literal"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitInt_literal([NotNull] GeemParser.Int_literalContext context) { return VisitChildren(context); }
 }
 } // namespace Geem.Parser

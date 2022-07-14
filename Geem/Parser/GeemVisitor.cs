@@ -188,24 +188,17 @@ public interface IGeemVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitLnot_expr([NotNull] GeemParser.Lnot_exprContext context);
 	/// <summary>
-	/// Visit a parse tree produced by the <c>equality_expr</c>
-	/// labeled alternative in <see cref="GeemParser.expression"/>.
+	/// Visit a parse tree produced by <see cref="GeemParser.boolean_literal"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitEquality_expr([NotNull] GeemParser.Equality_exprContext context);
+	Result VisitBoolean_literal([NotNull] GeemParser.Boolean_literalContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="GeemParser.comparison_op"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitComparison_op([NotNull] GeemParser.Comparison_opContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="GeemParser.equality_op"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitEquality_op([NotNull] GeemParser.Equality_opContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>assignment_Stat</c>
 	/// labeled alternative in <see cref="GeemParser.statement"/>.
@@ -354,5 +347,11 @@ public interface IGeemVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitDatatype([NotNull] GeemParser.DatatypeContext context);
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="GeemParser.int_literal"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitInt_literal([NotNull] GeemParser.Int_literalContext context);
 }
 } // namespace Geem.Parser

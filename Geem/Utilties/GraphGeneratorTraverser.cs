@@ -58,6 +58,7 @@ public class GraphGeneratorTraverser
         {"ContinueStatContext", 0},
         {"BreakStatContext", 0},
         {"Boolean_literal_exprContext", 0},
+        {"ErrorNodeImpl", 0},
         {"TerminalNodeImpl", 0}
         };
     private GraphGeneratorTraverser()   

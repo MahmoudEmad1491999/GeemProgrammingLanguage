@@ -32,7 +32,7 @@ argumentList: (argument (FASLA argument)*)?;
 expression locals[SymbolTable st, string expression_datatype]:
 	ID RP argumentList LP # fun_call_expr
 	// | expression RSB expression LSB									# arr_subscrip_expr
-	| MINUS expression	# minus_expr
+	| MINUS RP expression LP	# minus_expr
 	| LNOT expression	# lnot_expr
 	// | RP dataType LP expression # casting_expr | ADDRESS_OF_OPERATOR expression # address_expr |
 	// VALUE_INSIDE_OPERATOR expression # indirection_expr | SIZE_OF expression # size_expr
@@ -43,21 +43,21 @@ expression locals[SymbolTable st, string expression_datatype]:
 	// | expression SL_SYM expression # shift_left_expr | expression SR_SYM expression #
 	// shift_right_expr
 	| expression comparison_op expression	# comparison_expr
-	| expression equality_op expression		# equality_expr
+	// | expression equality_op expression		# equality_expr
 	// | expression BAND_SYM expression # band_expr | expression (BXOR_SYM) expression # bxor_expr |
 	// expression (BOR_SYM) expression # bor_expr
 	| expression LAND expression	# land_expr
 	| expression LOR expression		# lor_expr
 	| RP expression LP				# parenthesis_expr
-	| Int_literal					# int_literal_expr
-	| Boolean_literal 				# boolean_literal_expr
+	| int_literal					# int_literal_expr
+	| boolean_literal 				# boolean_literal_expr
 	| ID							# variable_expr;
 
 
-Boolean_literal: TRUE_KEYWORD | FALSE_KEYWORD;
+boolean_literal locals[bool value]: TRUE_KEYWORD | FALSE_KEYWORD;
 
-comparison_op: (GTE_SYM | LTE_SYM | GT_SYM | LT_SYM);
-equality_op: (EQUAL_SYM | NOTEQ_SYM);
+comparison_op: (GTE_SYM | LTE_SYM | GT_SYM | LT_SYM | EQUAL_SYM | NOTEQ_SYM);
+// equality_op: (EQUAL_SYM | NOTEQ_SYM);
 
 statement locals[SymbolTable st]:
 	assignmentStat	# assignment_Stat
@@ -188,9 +188,6 @@ BOOL_DATA_TYPE: 'منطقي';
 
 WHITE_SPACE: [\u0020\u0009\u000A\u000B\u000C\u000D] -> skip;
 
-// Identifier regular expression.
-ID: [a-zA-Zء-ي] [a-zA-Zء-ي0-9٠-٩_]*;
-
 datatype:
 	INT_DATA_TYPE
 	| UINT_DATA_TYPE
@@ -202,7 +199,7 @@ datatype:
 	| ULONG_DATA_TYPE
 	| BOOL_DATA_TYPE;
 
-Int_literal:( '+' | '-')? (
+int_literal locals[Object value]: '-'? (
 		'٠'
 		| '١'
 		| '٢'
@@ -215,6 +212,9 @@ Int_literal:( '+' | '-')? (
 		| '٩'
 	)+ (':' ('+' | '-')? ('١'| '٢'| '٤' | '٨'))?;
 
+
+// Identifier regular expression.
+ID: [a-zA-Zء-ي] [a-zA-Zء-ي0-9٠-٩_]*;
 
 // sub_expression: DIVIDE expression sub_exppression MULTIPLY expression sub_exppression MINUS
 // expression sub_exppression PLUS expression sub_exppression comparison_op expression
