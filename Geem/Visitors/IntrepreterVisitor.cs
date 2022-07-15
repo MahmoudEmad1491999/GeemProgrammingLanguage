@@ -110,15 +110,15 @@ public class InterpreterVisitor : GeemBaseVisitor<Object>
                 }
             }
 
-            foreach (var statement in op_decl.statementList().statement())
-            {
-                if (statement is Var_Decl_StatContext)
-                {
-                    machine.local_variables_indices[op_name][((Var_Decl_StatContext)statement).varDecl().ID().GetText()] = index;
-                    index++;
+            // foreach (var statement in op_decl.statementList().statement())
+            // {
+            //     if (statement is Var_Decl_StatContext)
+            //     {
+            //         machine.local_variables_indices[op_name][((Var_Decl_StatContext)statement).varDecl().ID().GetText()] = index;
+            //         index++;
 
-                }
-            }
+            //     }
+            // }
             // foreach (Var_Decl_StatContext var_decl in op_decl.statementList().statement().Where((StatementContext st) => st is Var_Decl_StatContext))
             // {
 
@@ -188,7 +188,7 @@ public class InterpreterVisitor : GeemBaseVisitor<Object>
                 // restore the old frame pointer.
                 machine.frame_index = (int)machine.mem[machine.frame_index];
                 // decrement the stack.
-                machine.next_aval = machine.next_aval - function_frame_size - 1;
+                machine.next_aval = machine.next_aval - function_frame_size;
                 break;
             };
         }
@@ -539,8 +539,9 @@ public class InterpreterVisitor : GeemBaseVisitor<Object>
         var args = context.argumentList().argument();
         for (int index = 0; index < args.Length; index++)
         {
+            int address = machine.next_aval + index + 1;
             // we added one because the first value is for the frame pointer.
-            machine.mem[machine.next_aval + index + 1] = Visit(args[index].expression());
+            machine.mem[address] = Visit(args[index].expression());
         }
 
         var program = GetProgramRoot(context);

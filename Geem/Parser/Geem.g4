@@ -57,7 +57,6 @@ expression locals[SymbolTable st, string expression_datatype]:
 boolean_literal locals[bool value]: TRUE_KEYWORD | FALSE_KEYWORD;
 
 comparison_op: (GTE_SYM | LTE_SYM | GT_SYM | LT_SYM | EQUAL_SYM | NOTEQ_SYM);
-// equality_op: (EQUAL_SYM | NOTEQ_SYM);
 
 statement locals[SymbolTable st]:
 	assignmentStat	# assignment_Stat
@@ -68,14 +67,12 @@ statement locals[SymbolTable st]:
 	| ifStat		# if_Stat
 	| whileStat		# while_Stat
 	| varDecl		# var_Decl_Stat
-	// | expressionStat #expression_Stat
 	| operationStat	# operation_Stat
 	| commandStat	# command_Stat
 	;
 
 statementList: statement*;
 
-// expressionStat: expression FASLA_MANQUOTA;
 
 operationStat: ID RP argumentList LP FASLA_MANQUOTA;
 
@@ -98,7 +95,6 @@ varDecl locals [SymbolTable st]: datatype ID inititalization FASLA_MANQUOTA;
 commandStat: command FASLA_MANQUOTA;
 
 command: (COLON ('إطبع' | 'اطبع')) expression;
-// | ENGLISH_INT_LITERAL;
 
 LP: '(';
 RP: ')';
@@ -115,7 +111,6 @@ SIZE_OF: 'حجم:';
 // punctuation symbols. DOT: '.';
 FASLA: '،';
 FASLA_MANQUOTA: '؛';
-// ARROW: '->';
 COLON: ':';
 
 // mathimatical symbols.
@@ -215,40 +210,3 @@ int_literal locals[Object value]: '-'? (
 
 // Identifier regular expression.
 ID: [a-zA-Zء-ي] [a-zA-Zء-ي0-9٠-٩_]*;
-
-// sub_expression: DIVIDE expression sub_exppression MULTIPLY expression sub_exppression MINUS
-// expression sub_exppression PLUS expression sub_exppression comparison_op expression
-// sub_exppression equality_op expression sub_exppression
-
-// LAND expression sub_exppression LOR expression sub_exppression
-
-// DIVIDE expression MULTIPLY expression MINUS expression PLUS expression comparison_op expression
-// equality_op expression
-
-// LAND expression LOR expression;
-
-// expression: ID RP argumentList LP sub_exppression | MINUS expression sub_exppression | LNOT
-// expression sub_exppression | RP expression LP sub_exppression | Int_literal sub_exppression | ID
-// sub_exppression | ID RP argumentList LP | MINUS expression | LNOT expression | RP expression |
-// Int_literal | ID ; expression :
-
-// ID RP argumentList LP # fun_call_expr // | expression RSB expression LSB # arr_subscrip_expr |
-// MINUS expression # minus_expr | LNOT expression # lnot_expr // | RP dataType LP expression #
-// casting_expr // | ADDRESS_OF_OPERATOR expression # address_expr // | VALUE_INSIDE_OPERATOR
-// expression # indirection_expr // | SIZE_OF expression # size_expr | expression DIVIDE expression
-// # divide_expr | expression MULTIPLY expression # multiply_expr | expression MINUS expression #
-// subtraction_expr | expression PLUS expression # add_expr // | expression SL_SYM expression #
-// shift_left_expr // | expression SR_SYM expression # shift_right_expr | expression comparison_op
-// expression # comparison_expr | expression equality_op expression # equality_expr // | expression
-// BAND_SYM expression # band_expr // | expression (BXOR_SYM) expression # bxor_expr // | expression
-// (BOR_SYM) expression # bor_expr | expression LAND expression # land_expr | expression LOR
-// expression # lor_expr | RP expression LP # parenthesis_expr | Int_literal # int_literal_expr | ID
-// # variable_expr;
-
-// int_literal: ( '٠' | '١' | '٢' | '٣' | '٤' | '٥' | '٦' | '٧' | '٨' | '٩' )+ COLON PLUS? ('١' |
-// '٢' | '٤' | '٨');
-
-// arabicInt: IntLit arabicIntSize; arabicIntSize: COLON PLUS? NUMBER_OF_BYTES; NUMBER_OF_BYTES:
-// (ONE | TWO | FOUR | EIGHT); IntLit: '٠' .. '٩'; ONE: '١'; TWO: '٢'; FOUR: '٤'; EIGHT: '٨';
-
-// ENGLISH_INT_LITERAL: [0-9]+;
